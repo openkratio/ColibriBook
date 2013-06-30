@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ColibriBook</string>
+    <string name="action_settings">Ajustes</string>
+    <string name="action_search">Buscar</string>
+    <string name="comma">,</string>
+    <string name="contacts_content_provider_path">es.openkratio.colibri.provider</string>
+    <string name="contacts_list_empty_view">No hay datos</string>
+
+    <!-- Splashscreen -->
+    <string name="tv_init_title">ColibriBook</string>
+    <string name="tv_init_fetching_data">Obteniendo datos&#8230;</string>
+    <string name="btn_init_retry">Reintentar</string>
+    <string name="tv_init_error">Ha habido un error al recuperar los datos. Compruebe su conexión a Internet y vuelva a intentarlo</string>
+
+    <!-- Side menu -->
+    <!-- Accessibility -->
+    <string name="drawer_open">Panel lateral de búsqueda y opciones abierto</string>
+    <string name="drawer_close">Panel lateral de búsqueda y opciones cerrado</string>
+    <string name="cd_details_contact">Foto del contacto</string>
+    <string name="cd_details_division">División</string>
+    <string name="cd_details_congress_web">Web del Congreso</string>
+    <string name="cd_details_twitter">Cuenta en Twitter</string>
+    <string name="cd_details_web">Web personal</string>
+    <string name="cd_details_email">Correo electrónico personal</string>
+
+    <!-- Action Bar titles -->
+    <string name="drawer_title_open">Búsqueda</string>
+    <string name="drawer_title_closed"></string>
+    <string name="ab_title_prefs">Ajustes</string>
+    <string name="ab_title_about">Acerca de</string>
+
+    <!-- Details fragment -->
+    <string name="details_header">Detalles</string>
+    <string name="details_congress_web">Ver en Congreso.es</string>
+    <string name="details_intent_activity_not_found">Lo siento, algo no va bien :(</string>
+
+    <!-- Search by spinner -->
+    <string name="searchby_name">Nombre</string>
+    <string name="searchby_division">Circunscripción</string>
+
+    <!-- Preference keys (duplicate from constants) -->
+    <string name="prefs_key_my_division">mydivision</string>
+    <string name="prefs_key_load_images">loadavatars</string>
+    <string name="prefs_key_about">about</string>
+
+    <!-- Preference strings -->
+    <string name="prefs_title_my_division">Elegir mi provincia</string>
+    <string name="prefs_title_load_images">Cargar imágenes</string>
+    <string name="prefs_summary_load_images">Desactivar para reducir el consumo de datos</string>
+    <string name="prefs_title_about">Acerca de&#8230;</string>
+
+</resources>

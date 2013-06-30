@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <ListPreference
+        android:entries="@array/provincias"
+        android:entryValues="@array/provincias"
+        android:key="@string/prefs_key_my_division"
+        android:title="@string/prefs_title_my_division" />
+
+    <CheckBoxPreference
+        android:key="@string/prefs_key_load_images"
+        android:summary="@string/prefs_summary_load_images"
+        android:title="@string/prefs_title_load_images" />
+
+    <Preference
+        android:key="@string/prefs_key_about"
+        android:title="@string/prefs_title_about" />
+
+</PreferenceScreen>

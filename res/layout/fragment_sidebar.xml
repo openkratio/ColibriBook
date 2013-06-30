@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#DDD"
+    android:orientation="vertical"
+    android:padding="12dp" >
+
+    <TextView
+        android:id="@+id/tv_sidebar_searchby"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="Buscar por"
+        android:textColor="#BBB"
+        android:textSize="20sp" />
+
+    <Spinner
+        android:id="@+id/spinner_sidebar_searchby"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/spinner_sidebar_searchby"
+        android:layout_toRightOf="@+id/tv_sidebar_searchby"
+        android:entries="@array/searchby" />
+
+    <EditText
+        android:id="@+id/et_sidebar_query"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="30dp"
+        android:inputType="text"
+        android:lines="1" />
+
+    <Button
+        android:id="@+id/btn_sidebar_dosearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinner_sidebar_searchby"
+        android:layout_marginTop="40dp"
+        android:text="Búsqueda" />
+
+    <Button
+        android:id="@+id/btn_sidebar_reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_sidebar_dosearch"
+        android:layout_marginTop="20dp"
+        android:text="Restablecer búsqueda" />
+
+    <Button
+        android:id="@+id/btn_sidebar_mydivision"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_sidebar_reset"
+        android:layout_marginTop="20dp"
+        android:text="Mi provincia" />
+
+</RelativeLayout>

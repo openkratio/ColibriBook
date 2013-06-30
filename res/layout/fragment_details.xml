@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal" >
+
+            <FrameLayout
+                android:layout_width="73dp"
+                android:layout_height="92dp" >
+
+                <ImageView
+                    android:id="@+id/iv_details_avatar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/cd_details_contact"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_contact" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/shape_rectangle" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/tv_details_second_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/tv_details_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:textSize="22sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Division - MANDATORY -->
+
+        <FrameLayout
+            android:id="@+id/fl_details_division"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/details_division"
+            android:clickable="true"
+            android:padding="10dp" >
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/cd_details_division"
+                android:src="@drawable/ic_division" />
+
+            <TextView
+                android:id="@+id/tv_details_division"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="48dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+        </FrameLayout>
+
+        <View
+            android:id="@+id/details_shadow_division"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:background="@drawable/shape_gradient_shadow" />
+
+        <!-- Congress web - MANDATORY -->
+
+        <FrameLayout
+            android:id="@+id/fl_details_congress_web"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/details_congress_web"
+            android:clickable="true"
+            android:padding="10dp" >
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/cd_details_congress_web"
+                android:src="@drawable/ic_congress" />
+
+            <TextView
+                android:id="@+id/tv_details_congress_web"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="48dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+        </FrameLayout>
+
+        <View
+            android:id="@+id/details_shadow_congress_web"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:background="@drawable/shape_gradient_shadow" />
+
+        <!-- Twitter details - OPTIONAL -->
+
+        <FrameLayout
+            android:id="@+id/fl_details_twitter"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/details_twitter"
+            android:clickable="true"
+            android:padding="10dp" >
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/cd_details_twitter"
+                android:src="@drawable/ic_twitter" />
+
+            <TextView
+                android:id="@+id/tv_details_twitter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="48dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+        </FrameLayout>
+
+        <View
+            android:id="@+id/details_shadow_twitter"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:background="@drawable/shape_gradient_shadow" />
+
+        <!-- Personal webpage - OPTIONAL -->
+
+        <FrameLayout
+            android:id="@+id/fl_details_web"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/details_web"
+            android:clickable="true"
+            android:padding="10dp" >
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/cd_details_web"
+                android:src="@drawable/ic_web" />
+
+            <TextView
+                android:id="@+id/tv_details_web"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="48dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+        </FrameLayout>
+
+        <View
+            android:id="@+id/details_shadow_web"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:background="@drawable/shape_gradient_shadow" />
+
+        <!-- Personal email - OPTIONAL -->
+
+        <FrameLayout
+            android:id="@+id/fl_details_email"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/details_email"
+            android:clickable="true"
+            android:padding="10dp" >
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/cd_details_email"
+                android:src="@drawable/ic_email" />
+
+            <TextView
+                android:id="@+id/tv_details_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="48dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+        </FrameLayout>
+
+        <View
+            android:id="@+id/details_shadow_email"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:background="@drawable/shape_gradient_shadow" />
+    </LinearLayout>
+
+</ScrollView>
