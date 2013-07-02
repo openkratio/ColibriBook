@@ -24,6 +24,7 @@
     <string name="cd_details_twitter">Cuenta en Twitter</string>
     <string name="cd_details_web">Web personal</string>
     <string name="cd_details_email">Correo electrónico personal</string>
+    <string name="cd_splash_icon">Pantalla de carga</string>
 
     <!-- Action Bar titles -->
     <string name="drawer_title_open">Búsqueda</string>

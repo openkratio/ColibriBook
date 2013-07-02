@@ -7,5 +7,6 @@
     <color name="details_congress_web">#AAEDAC00</color>
     <color name="details_web">#AAAC00ED</color>
     <color name="details_email">#AAEE2A00</color>
+    <color name="bg_splashscreen">#F8F8F8</color>
 
 </resources>
