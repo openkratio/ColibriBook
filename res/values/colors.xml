@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    
+    <!-- New palette -->
+    <color name="details_1">#49e75c</color>
+    <color name="details_2">#41cc51</color>
+    <color name="details_3">#39b347</color>
+    <color name="details_4">#31993d</color>
+    <color name="details_5">#297F39</color>
+    <color name="details_main_text">#121212</color>
 
+    <!-- Old palette -->
+    <color name="details_twitter_old">#AA00ACED</color>
+    <color name="details_division_old">#AAACED00</color>
+    <color name="details_congress_web_old">#AAEDAC00</color>
+    <color name="details_web_old">#AAAC00ED</color>
+    <color name="details_email_old">#AAEE2A00</color>
+    
+    <!-- Generic colors -->
     <color name="white">#FFFFFFFF</color>
-    <color name="details_twitter">#AA00ACED</color>
-    <color name="details_division">#AAACED00</color>
-    <color name="details_congress_web">#AAEDAC00</color>
-    <color name="details_web">#AAAC00ED</color>
-    <color name="details_email">#AAEE2A00</color>
+    
+    <!-- Misc -->
     <color name="bg_splashscreen">#F8F8F8</color>
+    <color name="list_name">#50cf5e</color>
+    <color name="list_separator">#e5e5e5</color>
 
 </resources>

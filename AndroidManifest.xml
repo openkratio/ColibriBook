@@ -25,13 +25,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" >
+        <activity
+            android:name=".MainActivity"
+            android:icon="@drawable/ic_ab_icon" >
         </activity>
-        <activity android:name=".ContactDetailsActivity" >
+        <activity
+            android:name=".ContactDetailsActivity"
+            android:icon="@drawable/ic_ab_icon" >
         </activity>
-        <activity android:name=".Preferences" >
+        <activity
+            android:name=".Preferences"
+            android:icon="@drawable/ic_ab_icon" >
         </activity>
-        <activity android:name=".AboutActivity" >
+        <activity
+            android:name=".AboutActivity"
+            android:icon="@drawable/ic_ab_icon" >
         </activity>
 
         <provider

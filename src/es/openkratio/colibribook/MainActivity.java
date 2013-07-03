@@ -47,7 +47,7 @@ public class MainActivity extends FragmentActivity implements IActivityCallback 
 
 				// Called when a drawer has settled in a completely open state
 				public void onDrawerOpened(View drawerView) {
-					getActionBar().setTitle(getString(R.string.drawer_title_open));
+					getActionBar().setTitle(getString(R.string.app_name));
 					// creates call to onPrepareOptionsMenu()
 					invalidateOptionsMenu();
 				}

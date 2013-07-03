@@ -14,11 +14,12 @@
             android:layout_marginLeft="6dp"
             android:layout_marginRight="6dp"
             android:layout_marginTop="6dp"
-            android:orientation="horizontal" >
+            android:orientation="vertical" >
 
             <FrameLayout
                 android:layout_width="73dp"
-                android:layout_height="92dp" >
+                android:layout_height="92dp"
+                android:layout_gravity="center_horizontal" >
 
                 <ImageView
                     android:id="@+id/iv_details_avatar"
@@ -44,17 +45,21 @@
                     android:id="@+id/tv_details_second_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:ellipsize="end"
                     android:lines="1"
-                    android:textSize="22sp" />
+                    android:textColor="@color/details_main_text"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tv_details_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:ellipsize="end"
                     android:lines="1"
-                    android:textSize="22sp" />
+                    android:textSize="18sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -63,9 +68,9 @@
         <FrameLayout
             android:id="@+id/fl_details_division"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/details_division"
+            android:layout_height="@dimen/details_item_height"
+            android:layout_marginTop="@dimen/details_item_marginTop"
+            android:background="@color/details_1"
             android:clickable="true"
             android:padding="10dp" >
 
@@ -99,9 +104,9 @@
         <FrameLayout
             android:id="@+id/fl_details_congress_web"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/details_congress_web"
+            android:layout_height="@dimen/details_item_height"
+            android:layout_marginTop="@dimen/details_item_marginTop"
+            android:background="@color/details_2"
             android:clickable="true"
             android:padding="10dp" >
 
@@ -135,9 +140,9 @@
         <FrameLayout
             android:id="@+id/fl_details_twitter"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/details_twitter"
+            android:layout_height="@dimen/details_item_height"
+            android:layout_marginTop="@dimen/details_item_marginTop"
+            android:background="@color/details_3"
             android:clickable="true"
             android:padding="10dp" >
 
@@ -171,9 +176,9 @@
         <FrameLayout
             android:id="@+id/fl_details_web"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/details_web"
+            android:layout_height="@dimen/details_item_height"
+            android:layout_marginTop="@dimen/details_item_marginTop"
+            android:background="@color/details_4"
             android:clickable="true"
             android:padding="10dp" >
 
@@ -207,9 +212,9 @@
         <FrameLayout
             android:id="@+id/fl_details_email"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/details_email"
+            android:layout_height="@dimen/details_item_height"
+            android:layout_marginTop="@dimen/details_item_marginTop"
+            android:background="@color/details_5"
             android:clickable="true"
             android:padding="10dp" >
 

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
@@ -38,6 +39,7 @@ public class ContactsListFragment extends ListFragment implements
 		super.onActivityCreated(savedInstanceState);
 
 		setEmptyText(getActivity().getString(R.string.contacts_list_empty_view));
+		getListView().setDivider(new ColorDrawable(0xE5E5E5));
 
 		mAdapter = new MyAdapter(getActivity(), null, false);
 		setListAdapter(mAdapter);
@@ -47,30 +49,34 @@ public class ContactsListFragment extends ListFragment implements
 
 		Bundle b = getArguments();
 		if (b != null) {
-			boolean fromSearch = b.getBoolean(Constants.BUNDLE_COMING_FROM_SEARCH, false);
+			boolean fromSearch = b.getBoolean(
+					Constants.BUNDLE_COMING_FROM_SEARCH, false);
 
 			if (fromSearch) {
 				Bundle b1 = b.getBundle(Constants.BUNDLE_BUNDLE_FOR_LOADER);
-				getActivity().getSupportLoaderManager().destroyLoader(Constants.LOADER_CONTACTS);
-				getActivity().getSupportLoaderManager().initLoader(Constants.LOADER_CONTACTS, b1,
-						this);
+				getActivity().getSupportLoaderManager().destroyLoader(
+						Constants.LOADER_CONTACTS);
+				getActivity().getSupportLoaderManager().initLoader(
+						Constants.LOADER_CONTACTS, b1, this);
 			}
 		} else {
 			// Prepare the loader. Either re-connect with an existing one,
 			// or start a new one.
 			// getLoaderManager().initLoader(0, null, this);
-			getActivity().getSupportLoaderManager().initLoader(Constants.LOADER_CONTACTS, null,
-					this);
+			getActivity().getSupportLoaderManager().initLoader(
+					Constants.LOADER_CONTACTS, null, this);
 		}
 
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(getActivity());
 		loadImages = prefs.getBoolean(Constants.PREFS_LOAD_IMAGES, true);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(getActivity());
 		loadImages = prefs.getBoolean(Constants.PREFS_LOAD_IMAGES, true);
 		int index = prefs.getInt(Constants.PREFS_KEY_INDEX, 0);
 		getListView().setSelectionFromTop(index, 0);
@@ -80,8 +86,8 @@ public class ContactsListFragment extends ListFragment implements
 	public void onPause() {
 		super.onPause();
 		int index = getListView().getFirstVisiblePosition();
-		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(
-				getActivity()).edit();
+		SharedPreferences.Editor editor = PreferenceManager
+				.getDefaultSharedPreferences(getActivity()).edit();
 		editor.putInt(Constants.PREFS_KEY_INDEX, index);
 		editor.commit();
 	}
@@ -91,7 +97,8 @@ public class ContactsListFragment extends ListFragment implements
 		// Insert desired behavior here.
 		Log.i("FragmentComplexList", "Item clicked: " + id);
 		Intent intent = new Intent(getActivity(), ContactDetailsActivity.class);
-		intent.putExtra(Constants.INTENT_CONTACT_ID, mAdapter.getItemId(position));
+		intent.putExtra(Constants.INTENT_CONTACT_ID,
+				mAdapter.getItemId(position));
 		startActivity(intent);
 	}
 
@@ -108,7 +115,8 @@ public class ContactsListFragment extends ListFragment implements
 		Activity a = getActivity();
 		a.getAssets();
 		CursorLoader cursorLoader = new CursorLoader(getActivity(),
-				ContactsContentProvider.CONTENT_URI_MEMBER, projection, selection, null, null);
+				ContactsContentProvider.CONTENT_URI_MEMBER, projection,
+				selection, null, null);
 		return cursorLoader;
 	}
 
@@ -139,14 +147,18 @@ public class ContactsListFragment extends ListFragment implements
 
 		@Override
 		public View newView(Context context, Cursor cursor, ViewGroup parent) {
-			View rowView = LayoutInflater.from(context)
-					.inflate(R.layout.row_contact, parent, false);
+			View rowView = LayoutInflater.from(context).inflate(
+					R.layout.row_contact, parent, false);
 
 			ViewHolder holder = new ViewHolder();
-			holder.fName = (TextView) rowView.findViewById(R.id.row_contact_name);
-			holder.lName = (TextView) rowView.findViewById(R.id.row_contact_second_name);
-			holder.division = (TextView) rowView.findViewById(R.id.row_contact_division);
-			holder.avatar = (ImageView) rowView.findViewById(R.id.row_contact_avatar);
+			holder.fName = (TextView) rowView
+					.findViewById(R.id.row_contact_name);
+			holder.lName = (TextView) rowView
+					.findViewById(R.id.row_contact_second_name);
+			holder.division = (TextView) rowView
+					.findViewById(R.id.row_contact_division);
+			holder.avatar = (ImageView) rowView
+					.findViewById(R.id.row_contact_avatar);
 			rowView.setTag(holder);
 			return rowView;
 		}
@@ -154,15 +166,19 @@ public class ContactsListFragment extends ListFragment implements
 		@Override
 		public void bindView(View view, Context context, Cursor cursor) {
 			ViewHolder holder = (ViewHolder) view.getTag();
-			holder.fName.setText(cursor.getString(cursor.getColumnIndex(MemberTable.COLUMN_NAME)));
+			holder.fName.setText(cursor.getString(cursor
+					.getColumnIndex(MemberTable.COLUMN_NAME)));
 			holder.lName.setText(cursor.getString(cursor
 					.getColumnIndex(MemberTable.COLUMN_SECONDNAME)));
 			holder.division.setText(cursor.getString(cursor
 					.getColumnIndex(MemberTable.COLUMN_DIVISION)));
 			if (loadImages) {
-				UrlImageViewHelper.setUrlDrawable(holder.avatar,
-						cursor.getString(cursor.getColumnIndex(MemberTable.COLUMN_AVATAR_URL)),
-						R.drawable.ic_contact);
+				UrlImageViewHelper
+						.setUrlDrawable(
+								holder.avatar,
+								cursor.getString(cursor
+										.getColumnIndex(MemberTable.COLUMN_AVATAR_URL)),
+								R.drawable.ic_contact);
 			} else {
 				holder.avatar.setImageResource(R.drawable.ic_contact);
 			}

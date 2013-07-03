@@ -4,4 +4,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <!-- Details view -->
+    <dimen name="details_item_height">54dp</dimen>
+    <dimen name="details_item_marginTop">10dp</dimen>
+
 </resources>
