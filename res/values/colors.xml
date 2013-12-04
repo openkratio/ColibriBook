@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+
     <!-- New palette -->
     <color name="details_1">#49e75c</color>
     <color name="details_2">#41cc51</color>
@@ -9,16 +9,23 @@
     <color name="details_5">#297F39</color>
     <color name="details_main_text">#121212</color>
 
+    <!-- New Palette - Pressed -->
+    <color name="details_1_pressed">#59f76c</color>
+    <color name="details_2_pressed">#51dc61</color>
+    <color name="details_3_pressed">#49c357</color>
+    <color name="details_4_pressed">#41A94d</color>
+    <color name="details_5_pressed">#398F49</color>
+
     <!-- Old palette -->
     <color name="details_twitter_old">#AA00ACED</color>
     <color name="details_division_old">#AAACED00</color>
     <color name="details_congress_web_old">#AAEDAC00</color>
     <color name="details_web_old">#AAAC00ED</color>
     <color name="details_email_old">#AAEE2A00</color>
-    
+
     <!-- Generic colors -->
     <color name="white">#FFFFFFFF</color>
-    
+
     <!-- Misc -->
     <color name="bg_splashscreen">#F8F8F8</color>
     <color name="list_name">#50cf5e</color>
