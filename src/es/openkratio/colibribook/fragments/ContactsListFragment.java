@@ -170,8 +170,8 @@ public class ContactsListFragment extends ListFragment implements
 					.findViewById(R.id.row_contact_name);
 			holder.lName = (TextView) rowView
 					.findViewById(R.id.row_contact_second_name);
-			holder.division = (TextView) rowView
-					.findViewById(R.id.row_contact_division);
+//			holder.division = (TextView) rowView
+//					.findViewById(R.id.row_contact_division);
 			holder.avatar = (ImageView) rowView
 					.findViewById(R.id.row_contact_avatar);
 			rowView.setTag(holder);
@@ -185,8 +185,8 @@ public class ContactsListFragment extends ListFragment implements
 					.getColumnIndex(MemberTable.COLUMN_NAME)));
 			holder.lName.setText(cursor.getString(cursor
 					.getColumnIndex(MemberTable.COLUMN_SECONDNAME)));
-			holder.division.setText(cursor.getString(cursor
-					.getColumnIndex(MemberTable.COLUMN_DIVISION)));
+//			holder.division.setText(cursor.getString(cursor
+//					.getColumnIndex(MemberTable.COLUMN_DIVISION)));
 			if (loadImages) {
 				Picasso.with(context)
 						.load(cursor.getString(cursor
@@ -198,7 +198,7 @@ public class ContactsListFragment extends ListFragment implements
 		}
 
 		class ViewHolder {
-			TextView fName, lName, division;
+			TextView fName, lName;//, division;
 			ImageView avatar;
 		}
 
