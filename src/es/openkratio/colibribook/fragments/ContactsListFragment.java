@@ -24,7 +24,7 @@ import android.widget.ListView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
-import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
+import com.squareup.picasso.Picasso;
 
 import es.openkratio.colibribook.ContactDetailsActivity;
 import es.openkratio.colibribook.R;
@@ -188,12 +188,10 @@ public class ContactsListFragment extends ListFragment implements
 			holder.division.setText(cursor.getString(cursor
 					.getColumnIndex(MemberTable.COLUMN_DIVISION)));
 			if (loadImages) {
-				UrlImageViewHelper
-						.setUrlDrawable(
-								holder.avatar,
-								cursor.getString(cursor
-										.getColumnIndex(MemberTable.COLUMN_AVATAR_URL)),
-								R.drawable.ic_contact);
+				Picasso.with(context)
+						.load(cursor.getString(cursor
+								.getColumnIndex(MemberTable.COLUMN_AVATAR_URL)))
+						.placeholder(R.drawable.ic_contact).into(holder.avatar);
 			} else {
 				holder.avatar.setImageResource(R.drawable.ic_contact);
 			}
@@ -230,7 +228,7 @@ public class ContactsListFragment extends ListFragment implements
 		private void initializeIndexer(Cursor c) {
 			alphaIndexer = new AlphabetIndexer(c,
 					c.getColumnIndex(MemberTable.COLUMN_SECONDNAME),
-					"ABCDEFGHIJLMNOPQRSTUVXYZ");
+					"ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 		}
 	}
 }

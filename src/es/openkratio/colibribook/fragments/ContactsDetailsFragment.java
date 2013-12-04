@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
+import com.squareup.picasso.Picasso;
 
 import es.openkratio.colibribook.R;
 import es.openkratio.colibribook.bean.Member;
@@ -88,10 +88,11 @@ public class ContactsDetailsFragment extends Fragment implements
 				false);
 
 		if (item != null) {
-
-			UrlImageViewHelper.setUrlDrawable(
-					(ImageView) rootView.findViewById(R.id.iv_details_avatar),
-					item.getAvatarUrl());
+			Picasso.with(getActivity())
+					.load(item.getAvatarUrl())
+					.placeholder(R.drawable.ic_contact)
+					.into((ImageView) rootView
+							.findViewById(R.id.iv_details_avatar));
 			((TextView) rootView.findViewById(R.id.tv_details_second_name))
 					.setText(item.getSecondName());
 			((TextView) rootView.findViewById(R.id.tv_details_name))
