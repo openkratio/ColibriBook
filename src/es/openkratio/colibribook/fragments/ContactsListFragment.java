@@ -1,13 +1,13 @@
 package es.openkratio.colibribook.fragments;
 
-import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
@@ -15,13 +15,17 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AlphabetIndexer;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SectionIndexer;
 import android.widget.TextView;
+
+import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
+
 import es.openkratio.colibribook.ContactDetailsActivity;
 import es.openkratio.colibribook.R;
 import es.openkratio.colibribook.misc.Constants;
@@ -33,13 +37,23 @@ public class ContactsListFragment extends ListFragment implements
 
 	private MyAdapter mAdapter;
 	private boolean loadImages;
+	public AlphabetIndexer alphaIndexer;
 
+	// Lint warnings due to setFastScrollAlwaysVisible
+	@SuppressLint("NewApi")
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
 		setEmptyText(getActivity().getString(R.string.contacts_list_empty_view));
+
+		// Setup listview
 		getListView().setDivider(new ColorDrawable(0xE5E5E5));
+		getListView().setFastScrollEnabled(true);
+		// Method not supported in API versions prior to 11
+		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB) {
+			getListView().setFastScrollAlwaysVisible(true);
+		}
 
 		mAdapter = new MyAdapter(getActivity(), null, false);
 		setListAdapter(mAdapter);
@@ -94,8 +108,7 @@ public class ContactsListFragment extends ListFragment implements
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		// Insert desired behavior here.
-		Log.i("FragmentComplexList", "Item clicked: " + id);
+		// Log.i("FragmentComplexList", "Item clicked: " + id);
 		Intent intent = new Intent(getActivity(), ContactDetailsActivity.class);
 		intent.putExtra(Constants.INTENT_CONTACT_ID,
 				mAdapter.getItemId(position));
@@ -116,7 +129,7 @@ public class ContactsListFragment extends ListFragment implements
 		a.getAssets();
 		CursorLoader cursorLoader = new CursorLoader(getActivity(),
 				ContactsContentProvider.CONTENT_URI_MEMBER, projection,
-				selection, null, null);
+				selection, null, MemberTable.COLUMN_SECONDNAME);
 		return cursorLoader;
 	}
 
@@ -138,11 +151,13 @@ public class ContactsListFragment extends ListFragment implements
 		mAdapter.swapCursor(null);
 	}
 
-	private class MyAdapter extends CursorAdapter {
+	private class MyAdapter extends CursorAdapter implements SectionIndexer {
 
 		public MyAdapter(Context context, Cursor c, boolean autoRequery) {
-			super(context, c, autoRequery);
-			// TODO Auto-generated constructor stub
+			super(context, c, false);
+			if (c != null) {
+				initializeIndexer(c);
+			}
 		}
 
 		@Override
@@ -189,6 +204,33 @@ public class ContactsListFragment extends ListFragment implements
 			ImageView avatar;
 		}
 
-	}
+		@Override
+		public int getPositionForSection(int section) {
+			return alphaIndexer.getPositionForSection(section);
+		}
 
+		@Override
+		public int getSectionForPosition(int position) {
+			return alphaIndexer.getSectionForPosition(position);
+		}
+
+		@Override
+		public Object[] getSections() {
+			return alphaIndexer.getSections();
+		}
+
+		@Override
+		public Cursor swapCursor(Cursor newCursor) {
+			if (alphaIndexer == null) {
+				initializeIndexer(newCursor);
+			}
+			return super.swapCursor(newCursor);
+		}
+
+		private void initializeIndexer(Cursor c) {
+			alphaIndexer = new AlphabetIndexer(c,
+					c.getColumnIndex(MemberTable.COLUMN_SECONDNAME),
+					"ABCDEFGHIJLMNOPQRSTUVXYZ");
+		}
+	}
 }
