@@ -1,14 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_about_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
+    android:background="@color/bg_main"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/activity_horizontal_padding"
+    android:paddingRight="@dimen/activity_horizontal_padding" >
+
+    <ImageView
+        android:id="@+id/iv_about_logo"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_gravity="center"
+        android:layout_margin="12dp"
+        android:contentDescription="@string/cd_about_title"
+        android:src="@drawable/ic_launcher_512" />
 
     <TextView
+        android:id="@+id/tv_about_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:lines="2"
-        android:text="pul...blablabla...github...blablabla...openkratio...blablabla..." >
-    </TextView>
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:text="@string/app_name"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="italic" />
+
+    <TextView
+        android:id="@+id/tv_about_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp"
+        android:text="@string/about_subtitle"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/tv_about_license"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:text="@string/about_license"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp" >
+
+        <!-- This linearlayout has two useless views to center the icons -->
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/iv_about_okio"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:contentDescription="@string/cd_about_web_openkratio"
+            android:longClickable="false"
+            android:src="@drawable/ic_okio" />
+
+        <ImageView
+            android:id="@+id/iv_about_github"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:contentDescription="@string/cd_about_web_github"
+            android:longClickable="false"
+            android:src="@drawable/ic_github" />
+
+        <ImageView
+            android:id="@+id/iv_about_mail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:contentDescription="@string/cd_about_mail"
+            android:longClickable="false"
+            android:src="@drawable/ic_mail" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </LinearLayout>
 
 </LinearLayout>
