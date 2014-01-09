@@ -2,18 +2,18 @@
 <resources>
 
     <!-- New palette -->
-    <color name="details_1">#49e75c</color>
-    <color name="details_2">#41cc51</color>
-    <color name="details_3">#39b347</color>
-    <color name="details_4">#31993d</color>
+    <color name="details_1">#49E75C</color>
+    <color name="details_2">#41CC51</color>
+    <color name="details_3">#39B347</color>
+    <color name="details_4">#31993D</color>
     <color name="details_5">#297F39</color>
     <color name="details_main_text">#121212</color>
 
     <!-- New Palette - Pressed -->
-    <color name="details_1_pressed">#59f76c</color>
-    <color name="details_2_pressed">#51dc61</color>
-    <color name="details_3_pressed">#49c357</color>
-    <color name="details_4_pressed">#41A94d</color>
+    <color name="details_1_pressed">#59F76C</color>
+    <color name="details_2_pressed">#51DC61</color>
+    <color name="details_3_pressed">#49C357</color>
+    <color name="details_4_pressed">#41A94D</color>
     <color name="details_5_pressed">#398F49</color>
 
     <!-- Old palette -->
@@ -24,11 +24,13 @@
     <color name="details_email_old">#AAEE2A00</color>
 
     <!-- Generic colors -->
-    <color name="white">#FFFFFFFF</color>
+    <color name="white">#FFFFFF</color>
 
     <!-- Misc -->
     <color name="bg_splashscreen">#F8F8F8</color>
-    <color name="list_name">#50cf5e</color>
-    <color name="list_separator">#e5e5e5</color>
+    <color name="bg_main">#EFEFEF</color>
+    <color name="list_name">#50CF5E</color>
+    <color name="list_separator">#E5E5E5</color>
+    <color name="back_light_grey">#E9E9E9</color>
 
 </resources>

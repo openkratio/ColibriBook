@@ -35,27 +35,52 @@ import es.openkratio.colibribook.persistence.MemberTable;
 public class ContactsListFragment extends ListFragment implements
 		LoaderManager.LoaderCallbacks<Cursor> {
 
-	private MyAdapter mAdapter;
+	private ContactsListAdapter mAdapter;
 	private boolean loadImages;
 	public AlphabetIndexer alphaIndexer;
 
-	// Lint warnings due to setFastScrollAlwaysVisible
+	// Alphabet used in the indexer
+	public static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+	// Lint warns due to setFastScrollAlwaysVisible, but is correctly managed
+	// The other warning is for using setBackgroundDrawable(...)
+	@SuppressWarnings("deprecation")
 	@SuppressLint("NewApi")
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		ListView lv = getListView();
 
 		setEmptyText(getActivity().getString(R.string.contacts_list_empty_view));
 
+		// Obtain screen width, in dpi
+		final float scale = getResources().getDisplayMetrics().density;
+		int viewWidthDp = (int) (getResources().getDisplayMetrics().widthPixels
+				* scale + 0.5f);
+
 		// Setup listview
-		getListView().setDivider(new ColorDrawable(0xE5E5E5));
-		getListView().setFastScrollEnabled(true);
+		lv.setDivider(new ColorDrawable(0xE5E5E5));
+		lv.setFastScrollEnabled(true);
+
+		// Set background according to API version and screen size
+		if (viewWidthDp > 600) {
+			if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+				lv.setBackgroundDrawable(getResources().getDrawable(
+						R.drawable.panel_bg_holo_light));
+			} else {
+				lv.setBackground(getResources().getDrawable(
+						R.drawable.panel_bg_holo_light));
+			}
+		} else {
+			lv.setBackgroundColor(getResources().getColor(R.color.bg_main));
+		}
+
 		// Method not supported in API versions prior to 11
 		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB) {
 			getListView().setFastScrollAlwaysVisible(true);
 		}
 
-		mAdapter = new MyAdapter(getActivity(), null, false);
+		mAdapter = new ContactsListAdapter(getActivity(), null, false);
 		setListAdapter(mAdapter);
 
 		// Start out with a progress indicator.
@@ -76,7 +101,6 @@ public class ContactsListFragment extends ListFragment implements
 		} else {
 			// Prepare the loader. Either re-connect with an existing one,
 			// or start a new one.
-			// getLoaderManager().initLoader(0, null, this);
 			getActivity().getSupportLoaderManager().initLoader(
 					Constants.LOADER_CONTACTS, null, this);
 		}
@@ -108,7 +132,6 @@ public class ContactsListFragment extends ListFragment implements
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		// Log.i("FragmentComplexList", "Item clicked: " + id);
 		Intent intent = new Intent(getActivity(), ContactDetailsActivity.class);
 		intent.putExtra(Constants.INTENT_CONTACT_ID,
 				mAdapter.getItemId(position));
@@ -151,9 +174,11 @@ public class ContactsListFragment extends ListFragment implements
 		mAdapter.swapCursor(null);
 	}
 
-	private class MyAdapter extends CursorAdapter implements SectionIndexer {
+	private class ContactsListAdapter extends CursorAdapter implements
+			SectionIndexer {
 
-		public MyAdapter(Context context, Cursor c, boolean autoRequery) {
+		public ContactsListAdapter(Context context, Cursor c,
+				boolean autoRequery) {
 			super(context, c, false);
 			if (c != null) {
 				initializeIndexer(c);
@@ -170,8 +195,8 @@ public class ContactsListFragment extends ListFragment implements
 					.findViewById(R.id.row_contact_name);
 			holder.lName = (TextView) rowView
 					.findViewById(R.id.row_contact_second_name);
-//			holder.division = (TextView) rowView
-//					.findViewById(R.id.row_contact_division);
+			// holder.division = (TextView) rowView
+			// .findViewById(R.id.row_contact_division);
 			holder.avatar = (ImageView) rowView
 					.findViewById(R.id.row_contact_avatar);
 			rowView.setTag(holder);
@@ -185,8 +210,8 @@ public class ContactsListFragment extends ListFragment implements
 					.getColumnIndex(MemberTable.COLUMN_NAME)));
 			holder.lName.setText(cursor.getString(cursor
 					.getColumnIndex(MemberTable.COLUMN_SECONDNAME)));
-//			holder.division.setText(cursor.getString(cursor
-//					.getColumnIndex(MemberTable.COLUMN_DIVISION)));
+			// holder.division.setText(cursor.getString(cursor
+			// .getColumnIndex(MemberTable.COLUMN_DIVISION)));
 			if (loadImages) {
 				Picasso.with(context)
 						.load(cursor.getString(cursor
@@ -198,7 +223,7 @@ public class ContactsListFragment extends ListFragment implements
 		}
 
 		class ViewHolder {
-			TextView fName, lName;//, division;
+			TextView fName, lName;// , division;
 			ImageView avatar;
 		}
 
@@ -227,8 +252,7 @@ public class ContactsListFragment extends ListFragment implements
 
 		private void initializeIndexer(Cursor c) {
 			alphaIndexer = new AlphabetIndexer(c,
-					c.getColumnIndex(MemberTable.COLUMN_SECONDNAME),
-					"ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+					c.getColumnIndex(MemberTable.COLUMN_SECONDNAME), ALPHABET);
 		}
 	}
 }
