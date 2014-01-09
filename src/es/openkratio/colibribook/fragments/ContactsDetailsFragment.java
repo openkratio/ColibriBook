@@ -1,5 +1,6 @@
 package es.openkratio.colibribook.fragments;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
@@ -25,6 +26,9 @@ import es.openkratio.colibribook.misc.Constants;
 import es.openkratio.colibribook.persistence.ContactsContentProvider;
 import es.openkratio.colibribook.persistence.MemberTable;
 
+// Lint warnings are caused for using setBackgroundDrawable(...)
+@SuppressLint("NewApi")
+@SuppressWarnings("deprecation")
 public class ContactsDetailsFragment extends Fragment implements
 		OnClickListener {
 
@@ -86,6 +90,21 @@ public class ContactsDetailsFragment extends Fragment implements
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_details, container,
 				false);
+
+		// Obtain screen width, in dpi
+		final float scale = getResources().getDisplayMetrics().density;
+		int viewWidthDp = (int) (getResources().getDisplayMetrics().widthPixels / scale);
+
+		// Set background according to API version and screen size
+		if (viewWidthDp > 600) {
+			if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+				rootView.setBackgroundDrawable(getResources().getDrawable(
+						R.drawable.panel_bg_holo_light));
+			} else {
+				rootView.setBackground(getResources().getDrawable(
+						R.drawable.panel_bg_holo_light));
+			}
+		}
 
 		if (item != null) {
 			Picasso.with(getActivity())

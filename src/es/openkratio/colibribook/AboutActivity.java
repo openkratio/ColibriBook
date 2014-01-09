@@ -48,8 +48,7 @@ public class AboutActivity extends Activity implements View.OnClickListener {
 
 		// Obtain screen width, in dpi
 		final float scale = getResources().getDisplayMetrics().density;
-		int viewWidthDp = (int) (getResources().getDisplayMetrics().widthPixels
-				* scale + 0.5f);
+		int viewWidthDp = (int) (getResources().getDisplayMetrics().widthPixels / scale);
 
 		// Set background according to API version and screen size
 		if (viewWidthDp > 600) {
@@ -102,6 +101,7 @@ public class AboutActivity extends Activity implements View.OnClickListener {
 
 	private class GetAppVersion extends AsyncTask<Void, Integer, Integer> {
 		private String apkVersion;
+
 		// private int apkVersionCode;
 
 		@Override
