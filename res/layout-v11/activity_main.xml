@@ -17,8 +17,7 @@
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:paddingLeft="@dimen/activity_horizontal_padding"
         android:paddingRight="@dimen/activity_horizontal_padding"
-        tools:context=".MainActivity"
-        tools:layout="@android:layout/list_content" />
+        tools:context=".MainActivity" />
 
     <!-- The navigation drawer -->
 

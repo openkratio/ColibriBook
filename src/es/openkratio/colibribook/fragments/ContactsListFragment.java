@@ -1,13 +1,10 @@
 package es.openkratio.colibribook.fragments;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
@@ -18,6 +15,7 @@ import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.AlphabetIndexer;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -27,6 +25,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import es.openkratio.colibribook.ContactDetailsActivity;
+import es.openkratio.colibribook.MainActivity;
 import es.openkratio.colibribook.R;
 import es.openkratio.colibribook.misc.Constants;
 import es.openkratio.colibribook.persistence.ContactsContentProvider;
@@ -38,48 +37,39 @@ public class ContactsListFragment extends ListFragment implements
 	private ContactsListAdapter mAdapter;
 	private boolean loadImages;
 	public AlphabetIndexer alphaIndexer;
+	public ListView mList;
+	boolean mListShown;
+	View mProgressContainer;
+	View mListContainer;
+	View mEmptyView;
 
 	// Alphabet used in the indexer
 	public static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-	// Lint warns due to setFastScrollAlwaysVisible, but is correctly managed
-	// The other warning is for using setBackgroundDrawable(...)
-	@SuppressWarnings("deprecation")
+	// Lint warnings are caused for using setBackgroundDrawable(...)
 	@SuppressLint("NewApi")
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		ListView lv = getListView();
-
-		setEmptyText(getActivity().getString(R.string.contacts_list_empty_view));
 
 		// Obtain screen width, in dpi
 		final float scale = getResources().getDisplayMetrics().density;
 		int viewWidthDp = (int) (getResources().getDisplayMetrics().widthPixels
 				* scale + 0.5f);
 
-		// Setup listview
-		lv.setDivider(new ColorDrawable(0xE5E5E5));
-		lv.setFastScrollEnabled(true);
-
 		// Set background according to API version and screen size
 		if (viewWidthDp > 600) {
 			if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-				lv.setBackgroundDrawable(getResources().getDrawable(
+				mList.setBackgroundDrawable(getResources().getDrawable(
 						R.drawable.panel_bg_holo_light));
 			} else {
-				lv.setBackground(getResources().getDrawable(
+				mList.setBackground(getResources().getDrawable(
 						R.drawable.panel_bg_holo_light));
 			}
-		} else {
-			lv.setBackgroundColor(getResources().getColor(R.color.bg_main));
 		}
 
-		// Method not supported in API versions prior to 11
-		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB) {
-			getListView().setFastScrollAlwaysVisible(true);
-		}
-
+		// Bind data to list
 		mAdapter = new ContactsListAdapter(getActivity(), null, false);
 		setListAdapter(mAdapter);
 
@@ -108,6 +98,28 @@ public class ContactsListFragment extends ListFragment implements
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(getActivity());
 		loadImages = prefs.getBoolean(Constants.PREFS_LOAD_IMAGES, true);
+
+		mEmptyView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				((MainActivity) getActivity()).updateLoader(null);
+			}
+		});
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		int INTERNAL_EMPTY_ID = 0x00ff0001;
+		View root = inflater.inflate(R.layout.list_contacts, null, false);
+		(root.findViewById(R.id.internalEmpty)).setId(INTERNAL_EMPTY_ID);
+		mList = (ListView) root.findViewById(android.R.id.list);
+		mListContainer = root.findViewById(R.id.listContainer);
+		mProgressContainer = root.findViewById(R.id.progressContainer);
+		mEmptyView = root.findViewById(INTERNAL_EMPTY_ID);
+		mList.setEmptyView(mEmptyView);
+		mListShown = true;
+		return root;
 	}
 
 	@Override
@@ -117,13 +129,13 @@ public class ContactsListFragment extends ListFragment implements
 				.getDefaultSharedPreferences(getActivity());
 		loadImages = prefs.getBoolean(Constants.PREFS_LOAD_IMAGES, true);
 		int index = prefs.getInt(Constants.PREFS_KEY_INDEX, 0);
-		getListView().setSelectionFromTop(index, 0);
+		mList.setSelectionFromTop(index, 0);
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-		int index = getListView().getFirstVisiblePosition();
+		int index = mList.getFirstVisiblePosition();
 		SharedPreferences.Editor editor = PreferenceManager
 				.getDefaultSharedPreferences(getActivity()).edit();
 		editor.putInt(Constants.PREFS_KEY_INDEX, index);
@@ -148,8 +160,6 @@ public class ContactsListFragment extends ListFragment implements
 		if (args != null) {
 			selection = args.getString(Constants.LOADER_BUNDLE_ARGS_SELECTION);
 		}
-		Activity a = getActivity();
-		a.getAssets();
 		CursorLoader cursorLoader = new CursorLoader(getActivity(),
 				ContactsContentProvider.CONTENT_URI_MEMBER, projection,
 				selection, null, MemberTable.COLUMN_SECONDNAME);
@@ -166,6 +176,8 @@ public class ContactsListFragment extends ListFragment implements
 		} else {
 			setListShownNoAnimation(true);
 		}
+
+		data.moveToPosition(-1);
 	}
 
 	@Override
@@ -246,6 +258,8 @@ public class ContactsListFragment extends ListFragment implements
 		public Cursor swapCursor(Cursor newCursor) {
 			if (alphaIndexer == null) {
 				initializeIndexer(newCursor);
+			} else {
+				alphaIndexer.setCursor(newCursor);
 			}
 			return super.swapCursor(newCursor);
 		}
@@ -254,5 +268,41 @@ public class ContactsListFragment extends ListFragment implements
 			alphaIndexer = new AlphabetIndexer(c,
 					c.getColumnIndex(MemberTable.COLUMN_SECONDNAME), ALPHABET);
 		}
+	}
+
+	// Utility methods for showing a progress bar when loading
+
+	public void setListShown(boolean shown, boolean animate) {
+		if (mListShown == shown) {
+			return;
+		}
+		mListShown = shown;
+		if (shown) {
+			if (animate) {
+				mProgressContainer.startAnimation(AnimationUtils.loadAnimation(
+						getActivity(), android.R.anim.fade_out));
+				mListContainer.startAnimation(AnimationUtils.loadAnimation(
+						getActivity(), android.R.anim.fade_in));
+			}
+			mProgressContainer.setVisibility(View.GONE);
+			mListContainer.setVisibility(View.VISIBLE);
+		} else {
+			if (animate) {
+				mProgressContainer.startAnimation(AnimationUtils.loadAnimation(
+						getActivity(), android.R.anim.fade_in));
+				mListContainer.startAnimation(AnimationUtils.loadAnimation(
+						getActivity(), android.R.anim.fade_out));
+			}
+			mProgressContainer.setVisibility(View.VISIBLE);
+			mListContainer.setVisibility(View.INVISIBLE);
+		}
+	}
+
+	public void setListShown(boolean shown) {
+		setListShown(shown, true);
+	}
+
+	public void setListShownNoAnimation(boolean shown) {
+		setListShown(shown, false);
 	}
 }

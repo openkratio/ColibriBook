@@ -137,7 +137,5 @@ public class MainActivity extends FragmentActivity implements IActivityCallback 
 			FragmentTransaction fTransaction = fManager.beginTransaction();
 			fTransaction.replace(R.id.fl_main_fragment_container, f).commit();
 		}
-
 	}
-
 }

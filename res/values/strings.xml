@@ -6,7 +6,7 @@
     <string name="action_search">Buscar</string>
     <string name="comma">,</string>
     <string name="contacts_content_provider_path">es.openkratio.colibri.provider</string>
-    <string name="contacts_list_empty_view">No hay datos</string>
+    <string name="contacts_list_empty_view_button">Sin resultados. Pulse para restablecer lista</string>
 
     <!-- Splashscreen -->
     <string name="tv_init_title">ColibriBook</string>

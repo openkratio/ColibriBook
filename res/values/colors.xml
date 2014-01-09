@@ -32,5 +32,6 @@
     <color name="list_name">#50CF5E</color>
     <color name="list_separator">#E5E5E5</color>
     <color name="back_light_grey">#E9E9E9</color>
+    <color name="list_empty_text_color">#CCC</color>
 
 </resources>
