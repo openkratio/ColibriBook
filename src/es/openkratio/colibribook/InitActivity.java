@@ -181,12 +181,7 @@ public class InitActivity extends Activity {
 						cv.put(MemberTable.COLUMN_NAME, m.getName());
 						cv.put(MemberTable.COLUMN_RESOURCE_URI,
 								m.getResourceURI());
-						if (m.getSecondName().startsWith("Á"))
-							cv.put(MemberTable.COLUMN_SECONDNAME, m
-									.getSecondName().replace("Á", "A"));
-						else
-							cv.put(MemberTable.COLUMN_SECONDNAME,
-									m.getSecondName());
+						cv.put(MemberTable.COLUMN_SECONDNAME, m.getSecondName());
 						cv.put(MemberTable.COLUMN_TWITTER_USER,
 								m.getTwitterUser());
 						cv.put(MemberTable.COLUMN_VALIDATE, m.isValidateInt());
@@ -244,7 +239,8 @@ public class InitActivity extends Activity {
 		this.finish();
 		Intent intent = new Intent(InitActivity.this, MainActivity.class);
 		startActivity(intent);
-		this.overridePendingTransition(0, 0);// Removes the transition between activities
+		this.overridePendingTransition(0, 0);// Removes the transition between
+												// activities
 	}
 
 	void setPreferences() {

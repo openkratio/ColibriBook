@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.widget.AlphabetIndexer;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SectionIndexer;
@@ -28,6 +27,7 @@ import es.openkratio.colibribook.ContactDetailsActivity;
 import es.openkratio.colibribook.MainActivity;
 import es.openkratio.colibribook.R;
 import es.openkratio.colibribook.misc.Constants;
+import es.openkratio.colibribook.misc.CustomAlphabetIndexer;
 import es.openkratio.colibribook.persistence.ContactsContentProvider;
 import es.openkratio.colibribook.persistence.MemberTable;
 
@@ -36,7 +36,7 @@ public class ContactsListFragment extends ListFragment implements
 
 	private ContactsListAdapter mAdapter;
 	private boolean loadImages;
-	public AlphabetIndexer alphaIndexer;
+	public CustomAlphabetIndexer alphaIndexer;
 	public ListView mList;
 	boolean mListShown;
 	View mProgressContainer;
@@ -161,7 +161,8 @@ public class ContactsListFragment extends ListFragment implements
 		}
 		CursorLoader cursorLoader = new CursorLoader(getActivity(),
 				ContactsContentProvider.CONTENT_URI_MEMBER, projection,
-				selection, null, MemberTable.COLUMN_SECONDNAME);
+				selection, null, MemberTable.COLUMN_SECONDNAME
+						+ " COLLATE LOCALIZED ASC");
 		return cursorLoader;
 	}
 
@@ -264,7 +265,7 @@ public class ContactsListFragment extends ListFragment implements
 		}
 
 		private void initializeIndexer(Cursor c) {
-			alphaIndexer = new AlphabetIndexer(c,
+			alphaIndexer = new CustomAlphabetIndexer(c,
 					c.getColumnIndex(MemberTable.COLUMN_SECONDNAME), ALPHABET);
 		}
 	}
