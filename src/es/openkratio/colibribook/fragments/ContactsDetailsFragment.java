@@ -209,7 +209,7 @@ public class ContactsDetailsFragment extends Fragment implements
 						Uri.fromParts("mailto", item.getEmail(), null));
 				// emailIntent.putExtra(Intent.EXTRA_SUBJECT, "...");
 				startActivity(Intent.createChooser(emailIntent,
-						"Envía un correo"));
+						"Envï¿½a un correo"));
 				break;
 			case R.id.fl_details_web:
 				Uri uriWeb = Uri.parse(item.getWebpage());
@@ -219,7 +219,7 @@ public class ContactsDetailsFragment extends Fragment implements
 				startActivity(intentWeb);
 				break;
 			case R.id.fl_details_twitter:
-				Uri uriT = Uri.parse("https://twitter.com/intent/tweet?text="
+				Uri uriT = Uri.parse("https://twitter.com/intent/tweet?text=@"
 						+ item.getTwitterUrl() + "&via=colibribook");
 				Intent intentT = new Intent();
 				intentT.setAction(Intent.ACTION_VIEW);
