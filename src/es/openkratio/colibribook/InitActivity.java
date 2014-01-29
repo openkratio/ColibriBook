@@ -58,7 +58,8 @@ public class InitActivity extends Activity {
 
 		thisActivityScopePreferences = getPreferences(Context.MODE_PRIVATE);
 
-		long lastFetchData = thisActivityScopePreferences.getLong(Constants.PREFS_LAST_FETCH, 1L);
+		long lastFetchData = thisActivityScopePreferences.getLong(
+				Constants.PREFS_LAST_FETCH, 1L);
 		if ((System.currentTimeMillis() - lastFetchData) > Constants.MILLIS_IN_MONTH) {
 			new PopulateContactsTask().execute();
 		} else {
@@ -66,7 +67,8 @@ public class InitActivity extends Activity {
 		}
 	}
 
-	class PopulateContactsTask extends AsyncTask<Void, Void, Collection<Member>> {
+	class PopulateContactsTask extends
+			AsyncTask<Void, Void, Collection<Member>> {
 
 		@Override
 		protected void onPreExecute() {
@@ -99,7 +101,8 @@ public class InitActivity extends Activity {
 				// Let's send some useful debug information so we can
 				// monitor things in LogCat
 				if (BuildConfig.DEBUG) {
-					Log.d(Constants.TAG, "Executing request: " + uriMembers.toString());
+					Log.d(Constants.TAG,
+							"Executing request: " + uriMembers.toString());
 					// Log.d(Constants.TAG,
 					// "Executing request: " + uriParties.toString());
 				}
@@ -112,7 +115,8 @@ public class InitActivity extends Activity {
 				// client.execute(requestParties);
 
 				HttpEntity responseEntityMembers = responseMembers.getEntity();
-				StatusLine responseStatusMembers = responseMembers.getStatusLine();
+				StatusLine responseStatusMembers = responseMembers
+						.getStatusLine();
 				int statusCodeMembers = responseStatusMembers != null ? responseStatusMembers
 						.getStatusCode() : 0;
 				// HttpEntity responseEntityParties =
@@ -123,8 +127,9 @@ public class InitActivity extends Activity {
 				// responseStatusParties
 				// .getStatusCode() : 0;
 				if (BuildConfig.DEBUG) {
-					Log.i(Constants.TAG, "Members request, HTTP response status code: "
-							+ statusCodeMembers);
+					Log.i(Constants.TAG,
+							"Members request, HTTP response status code: "
+									+ statusCodeMembers);
 					// Log.i(Constants.TAG,
 					// "Parties request, HTTP response status code: "
 					// + statusCodeMembers);
@@ -140,8 +145,9 @@ public class InitActivity extends Activity {
 				// if (restResponseMembers != null && restResponseParties !=
 				// null) {
 				if (restResponseMembers != null) {
-					String jsonMembers = ((JSONObject) new JSONTokener(restResponseMembers)
-							.nextValue()).getJSONArray("objects").toString();
+					String jsonMembers = ((JSONObject) new JSONTokener(
+							restResponseMembers).nextValue()).getJSONArray(
+							"objects").toString();
 					// String jsonParties = ((JSONObject) new JSONTokener(
 					// restResponseParties).nextValue()).getJSONArray("objects")
 					// .toString();
@@ -150,14 +156,16 @@ public class InitActivity extends Activity {
 					Gson gson = new Gson();
 					Type collectionTypeMembers = new TypeToken<Collection<Member>>() {
 					}.getType();
-					Collection<Member> members = gson.fromJson(jsonMembers, collectionTypeMembers);
+					Collection<Member> members = gson.fromJson(jsonMembers,
+							collectionTypeMembers);
 					// Type collectionTypeParties = new
 					// TypeToken<Collection<Party>>() {
 					// }.getType();
 					// Collection<Party> parties = gson.fromJson(jsonParties,
 					// collectionTypeParties);
 
-					ContentValues[] valuesMembers = new ContentValues[members.size()];
+					ContentValues[] valuesMembers = new ContentValues[members
+							.size()];
 					// ContentValues[] valuesParties = new
 					// ContentValues[parties.size()];
 					int i = 0;
@@ -165,22 +173,27 @@ public class InitActivity extends Activity {
 					for (Member m : members) {
 						ContentValues cv = new ContentValues();
 						cv.put(MemberTable.COLUMN_AVATAR_URL, m.getAvatarUrl());
-						cv.put(MemberTable.COLUMN_CONGRESS_WEB, m.getCongressWeb());
+						cv.put(MemberTable.COLUMN_CONGRESS_WEB,
+								m.getCongressWeb());
 						cv.put(MemberTable.COLUMN_DIVISION, m.getDivision());
 						cv.put(MemberTable.COLUMN_EMAIL, m.getEmail());
 						cv.put(MemberTable.COLUMN_ID_API, m.getId());
 						cv.put(MemberTable.COLUMN_NAME, m.getName());
-						cv.put(MemberTable.COLUMN_RESOURCE_URI, m.getResourceURI());
+						cv.put(MemberTable.COLUMN_RESOURCE_URI,
+								m.getResourceURI());
 						cv.put(MemberTable.COLUMN_SECONDNAME, m.getSecondName());
-						cv.put(MemberTable.COLUMN_TWITTER_USER, m.getTwitterUser());
+						cv.put(MemberTable.COLUMN_TWITTER_USER,
+								m.getTwitterUser());
 						cv.put(MemberTable.COLUMN_VALIDATE, m.isValidateInt());
 						cv.put(MemberTable.COLUMN_WEBPAGE, m.getWebpage());
 						valuesMembers[i] = cv;
 						i++;
 					}
 					ContentResolver cr = getContentResolver();
-					cr.delete(ContactsContentProvider.CONTENT_URI_MEMBER, null, null);
-					cr.bulkInsert(ContactsContentProvider.CONTENT_URI_MEMBER, valuesMembers);
+					cr.delete(ContactsContentProvider.CONTENT_URI_MEMBER, null,
+							null);
+					cr.bulkInsert(ContactsContentProvider.CONTENT_URI_MEMBER,
+							valuesMembers);
 
 					return members;
 				} else {
@@ -203,8 +216,10 @@ public class InitActivity extends Activity {
 
 			if (result != null) {
 				// Set last fetch timestamp in preferences
-				SharedPreferences.Editor editor = thisActivityScopePreferences.edit();
-				editor.putLong(Constants.PREFS_LAST_FETCH, System.currentTimeMillis());
+				SharedPreferences.Editor editor = thisActivityScopePreferences
+						.edit();
+				editor.putLong(Constants.PREFS_LAST_FETCH,
+						System.currentTimeMillis());
 				editor.commit();
 
 				nextActivityAndFinish();
@@ -215,7 +230,8 @@ public class InitActivity extends Activity {
 	}
 
 	public void toggleBottomLayoutVisibility(boolean visible) {
-		findViewById(R.id.ll_init_bottom).setVisibility(visible ? View.VISIBLE : View.GONE);
+		findViewById(R.id.ll_init_bottom).setVisibility(
+				visible ? View.VISIBLE : View.GONE);
 	}
 
 	public void nextActivityAndFinish() {
@@ -223,12 +239,15 @@ public class InitActivity extends Activity {
 		this.finish();
 		Intent intent = new Intent(InitActivity.this, MainActivity.class);
 		startActivity(intent);
+		this.overridePendingTransition(0, 0);// Removes the transition between
+												// activities
 	}
 
 	void setPreferences() {
 		// By now, hardcode preferences
 		// TODO prompt for user division at splashcreen
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(InitActivity.this);
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(InitActivity.this);
 		SharedPreferences.Editor prefsEditor = prefs.edit();
 		prefsEditor.putString(Constants.PREFS_MY_DIVISION, "Madrid");// Second
 																		// parameter
@@ -241,8 +260,10 @@ public class InitActivity extends Activity {
 	}
 
 	void toggleRetryViewVisibility(boolean show) {
-		findViewById(R.id.ll_init_error).setVisibility(show ? View.VISIBLE : View.GONE);
-		findViewById(R.id.tv_init_title).setVisibility(!show ? View.VISIBLE : View.GONE);
+		findViewById(R.id.ll_init_error).setVisibility(
+				show ? View.VISIBLE : View.GONE);
+		findViewById(R.id.tv_init_title).setVisibility(
+				!show ? View.VISIBLE : View.GONE);
 	}
 
 	public void retry(View v) {

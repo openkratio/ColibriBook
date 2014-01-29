@@ -1,13 +1,10 @@
 package es.openkratio.colibribook.fragments;
 
-import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
-
-import android.app.Activity;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
@@ -15,33 +12,64 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SectionIndexer;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
 import es.openkratio.colibribook.ContactDetailsActivity;
+import es.openkratio.colibribook.MainActivity;
 import es.openkratio.colibribook.R;
 import es.openkratio.colibribook.misc.Constants;
+import es.openkratio.colibribook.misc.CustomAlphabetIndexer;
 import es.openkratio.colibribook.persistence.ContactsContentProvider;
 import es.openkratio.colibribook.persistence.MemberTable;
 
 public class ContactsListFragment extends ListFragment implements
 		LoaderManager.LoaderCallbacks<Cursor> {
 
-	private MyAdapter mAdapter;
+	private ContactsListAdapter mAdapter;
 	private boolean loadImages;
+	public CustomAlphabetIndexer alphaIndexer;
+	public ListView mList;
+	boolean mListShown;
+	View mProgressContainer;
+	View mListContainer;
+	View mEmptyView;
 
+	// Alphabet used in the indexer
+	public static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+	// Lint warnings are caused for using setBackgroundDrawable(...)
+	@SuppressLint("NewApi")
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		setEmptyText(getActivity().getString(R.string.contacts_list_empty_view));
-		getListView().setDivider(new ColorDrawable(0xE5E5E5));
+		// Obtain screen width, in dpi
+		final float scale = getResources().getDisplayMetrics().density;
+		int viewWidthDp = (int) (getResources().getDisplayMetrics().widthPixels / scale);
 
-		mAdapter = new MyAdapter(getActivity(), null, false);
+		// Set background according to API version and screen size
+		if (viewWidthDp > 600) {
+			if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+				mList.setBackgroundDrawable(getResources().getDrawable(
+						R.drawable.panel_bg_holo_light));
+			} else {
+				mList.setBackground(getResources().getDrawable(
+						R.drawable.panel_bg_holo_light));
+			}
+		}
+
+		// Bind data to list
+		mAdapter = new ContactsListAdapter(getActivity(), null, false);
 		setListAdapter(mAdapter);
 
 		// Start out with a progress indicator.
@@ -62,7 +90,6 @@ public class ContactsListFragment extends ListFragment implements
 		} else {
 			// Prepare the loader. Either re-connect with an existing one,
 			// or start a new one.
-			// getLoaderManager().initLoader(0, null, this);
 			getActivity().getSupportLoaderManager().initLoader(
 					Constants.LOADER_CONTACTS, null, this);
 		}
@@ -70,6 +97,28 @@ public class ContactsListFragment extends ListFragment implements
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(getActivity());
 		loadImages = prefs.getBoolean(Constants.PREFS_LOAD_IMAGES, true);
+
+		mEmptyView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				((MainActivity) getActivity()).updateLoader(null);
+			}
+		});
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		int INTERNAL_EMPTY_ID = 0x00ff0001;
+		View root = inflater.inflate(R.layout.list_contacts, null, false);
+		(root.findViewById(R.id.internalEmpty)).setId(INTERNAL_EMPTY_ID);
+		mList = (ListView) root.findViewById(android.R.id.list);
+		mListContainer = root.findViewById(R.id.listContainer);
+		mProgressContainer = root.findViewById(R.id.progressContainer);
+		mEmptyView = root.findViewById(INTERNAL_EMPTY_ID);
+		mList.setEmptyView(mEmptyView);
+		mListShown = true;
+		return root;
 	}
 
 	@Override
@@ -79,13 +128,13 @@ public class ContactsListFragment extends ListFragment implements
 				.getDefaultSharedPreferences(getActivity());
 		loadImages = prefs.getBoolean(Constants.PREFS_LOAD_IMAGES, true);
 		int index = prefs.getInt(Constants.PREFS_KEY_INDEX, 0);
-		getListView().setSelectionFromTop(index, 0);
+		mList.setSelectionFromTop(index, 0);
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-		int index = getListView().getFirstVisiblePosition();
+		int index = mList.getFirstVisiblePosition();
 		SharedPreferences.Editor editor = PreferenceManager
 				.getDefaultSharedPreferences(getActivity()).edit();
 		editor.putInt(Constants.PREFS_KEY_INDEX, index);
@@ -94,8 +143,6 @@ public class ContactsListFragment extends ListFragment implements
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		// Insert desired behavior here.
-		Log.i("FragmentComplexList", "Item clicked: " + id);
 		Intent intent = new Intent(getActivity(), ContactDetailsActivity.class);
 		intent.putExtra(Constants.INTENT_CONTACT_ID,
 				mAdapter.getItemId(position));
@@ -112,11 +159,10 @@ public class ContactsListFragment extends ListFragment implements
 		if (args != null) {
 			selection = args.getString(Constants.LOADER_BUNDLE_ARGS_SELECTION);
 		}
-		Activity a = getActivity();
-		a.getAssets();
 		CursorLoader cursorLoader = new CursorLoader(getActivity(),
 				ContactsContentProvider.CONTENT_URI_MEMBER, projection,
-				selection, null, null);
+				selection, null, MemberTable.COLUMN_SECONDNAME
+						+ " COLLATE LOCALIZED ASC");
 		return cursorLoader;
 	}
 
@@ -130,6 +176,8 @@ public class ContactsListFragment extends ListFragment implements
 		} else {
 			setListShownNoAnimation(true);
 		}
+
+		data.moveToPosition(-1);
 	}
 
 	@Override
@@ -138,11 +186,15 @@ public class ContactsListFragment extends ListFragment implements
 		mAdapter.swapCursor(null);
 	}
 
-	private class MyAdapter extends CursorAdapter {
+	private class ContactsListAdapter extends CursorAdapter implements
+			SectionIndexer {
 
-		public MyAdapter(Context context, Cursor c, boolean autoRequery) {
-			super(context, c, autoRequery);
-			// TODO Auto-generated constructor stub
+		public ContactsListAdapter(Context context, Cursor c,
+				boolean autoRequery) {
+			super(context, c, false);
+			if (c != null) {
+				initializeIndexer(c);
+			}
 		}
 
 		@Override
@@ -155,8 +207,8 @@ public class ContactsListFragment extends ListFragment implements
 					.findViewById(R.id.row_contact_name);
 			holder.lName = (TextView) rowView
 					.findViewById(R.id.row_contact_second_name);
-			holder.division = (TextView) rowView
-					.findViewById(R.id.row_contact_division);
+			// holder.division = (TextView) rowView
+			// .findViewById(R.id.row_contact_division);
 			holder.avatar = (ImageView) rowView
 					.findViewById(R.id.row_contact_avatar);
 			rowView.setTag(holder);
@@ -170,25 +222,87 @@ public class ContactsListFragment extends ListFragment implements
 					.getColumnIndex(MemberTable.COLUMN_NAME)));
 			holder.lName.setText(cursor.getString(cursor
 					.getColumnIndex(MemberTable.COLUMN_SECONDNAME)));
-			holder.division.setText(cursor.getString(cursor
-					.getColumnIndex(MemberTable.COLUMN_DIVISION)));
+			// holder.division.setText(cursor.getString(cursor
+			// .getColumnIndex(MemberTable.COLUMN_DIVISION)));
 			if (loadImages) {
-				UrlImageViewHelper
-						.setUrlDrawable(
-								holder.avatar,
-								cursor.getString(cursor
-										.getColumnIndex(MemberTable.COLUMN_AVATAR_URL)),
-								R.drawable.ic_contact);
+				Picasso.with(context)
+						.load(cursor.getString(cursor
+								.getColumnIndex(MemberTable.COLUMN_AVATAR_URL)))
+						.placeholder(R.drawable.ic_contact).into(holder.avatar);
 			} else {
 				holder.avatar.setImageResource(R.drawable.ic_contact);
 			}
 		}
 
 		class ViewHolder {
-			TextView fName, lName, division;
+			TextView fName, lName;// , division;
 			ImageView avatar;
 		}
 
+		@Override
+		public int getPositionForSection(int section) {
+			return alphaIndexer.getPositionForSection(section);
+		}
+
+		@Override
+		public int getSectionForPosition(int position) {
+			return alphaIndexer.getSectionForPosition(position);
+		}
+
+		@Override
+		public Object[] getSections() {
+			return alphaIndexer.getSections();
+		}
+
+		@Override
+		public Cursor swapCursor(Cursor newCursor) {
+			if (alphaIndexer == null) {
+				initializeIndexer(newCursor);
+			} else {
+				alphaIndexer.setCursor(newCursor);
+			}
+			return super.swapCursor(newCursor);
+		}
+
+		private void initializeIndexer(Cursor c) {
+			alphaIndexer = new CustomAlphabetIndexer(c,
+					c.getColumnIndex(MemberTable.COLUMN_SECONDNAME), ALPHABET);
+		}
 	}
 
+	// Utility methods for showing a progress bar when loading
+
+	public void setListShown(boolean shown, boolean animate) {
+		if (mListShown == shown) {
+			return;
+		}
+		mListShown = shown;
+		if (shown) {
+			if (animate) {
+				mProgressContainer.startAnimation(AnimationUtils.loadAnimation(
+						getActivity(), android.R.anim.fade_out));
+				mListContainer.startAnimation(AnimationUtils.loadAnimation(
+						getActivity(), android.R.anim.fade_in));
+			}
+			mProgressContainer.setVisibility(View.GONE);
+			mListContainer.setVisibility(View.VISIBLE);
+		} else {
+			if (animate) {
+				mProgressContainer.startAnimation(AnimationUtils.loadAnimation(
+						getActivity(), android.R.anim.fade_in));
+				mListContainer.startAnimation(AnimationUtils.loadAnimation(
+						getActivity(), android.R.anim.fade_out));
+			}
+			mProgressContainer.setVisibility(View.VISIBLE);
+			mListContainer.setVisibility(View.INVISIBLE);
+		}
+	}
+
+	public void setListShown(boolean shown) {
+		setListShown(shown, true);
+	}
+
+	public void setListShownNoAnimation(boolean shown) {
+		setListShown(shown, false);
+	}
 }

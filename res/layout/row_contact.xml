@@ -1,63 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="6dp"
-    android:layout_marginTop="6dp" >
+    android:layout_marginTop="6dp"
+    android:paddingRight="26dp" >
 
-    <ImageView
-        android:id="@+id/row_contact_avatar"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="8dp"
-        android:contentDescription="@string/cd_details_contact"
-        android:src="@drawable/ic_contact" >
-    </ImageView>
+    <FrameLayout
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:padding="2dp" >
+
+        <ImageView
+            android:id="@+id/row_contact_avatar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/cd_details_contact"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_contact" >
+        </ImageView>
+    </FrameLayout>
 
     <TextView
         android:id="@+id/row_contact_second_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/row_contact_avatar"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="6dp"
         android:lines="1"
-        android:textColor="@color/list_name"
-        android:textSize="20sp" >
+        android:textSize="18sp" >
     </TextView>
 
     <TextView
         android:id="@+id/row_contact_comma"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:layout_marginRight="2dp"
-        android:layout_toRightOf="@id/row_contact_second_name"
         android:lines="1"
         android:text="@string/comma"
-        android:textColor="@color/list_name"
-        android:textSize="20sp" >
+        android:textSize="18sp" >
     </TextView>
 
     <TextView
         android:id="@+id/row_contact_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/row_contact_comma"
+        android:layout_gravity="center_vertical"
+        android:ellipsize="end"
         android:lines="1"
-        android:textColor="@color/list_name"
-        android:textSize="20sp" >
+        android:textSize="18sp" >
     </TextView>
 
-    <TextView
-        android:id="@+id/row_contact_division"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="2dp"
-        android:layout_toRightOf="@id/row_contact_avatar"
-        android:lines="1"
-        android:textColor="#333"
-        android:textSize="14sp" >
-    </TextView>
-
-</RelativeLayout>
+</LinearLayout>

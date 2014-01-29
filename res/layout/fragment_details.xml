@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
+    android:background="@color/bg_main"
+    android:paddingLeft="@dimen/activity_horizontal_padding"
+    android:paddingRight="@dimen/activity_horizontal_padding" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,8 +22,8 @@
             android:orientation="vertical" >
 
             <FrameLayout
-                android:layout_width="73dp"
-                android:layout_height="92dp"
+                android:layout_width="@dimen/details_image_width"
+                android:layout_height="@dimen/details_image_height"
                 android:layout_gravity="center_horizontal" >
 
                 <ImageView
@@ -70,7 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/details_item_height"
             android:layout_marginTop="@dimen/details_item_marginTop"
-            android:background="@color/details_1"
+            android:background="@drawable/states_member_details_1"
             android:clickable="true"
             android:padding="10dp" >
 
@@ -106,7 +111,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/details_item_height"
             android:layout_marginTop="@dimen/details_item_marginTop"
-            android:background="@color/details_2"
+            android:background="@drawable/states_member_details_2"
             android:clickable="true"
             android:padding="10dp" >
 
@@ -142,7 +147,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/details_item_height"
             android:layout_marginTop="@dimen/details_item_marginTop"
-            android:background="@color/details_3"
+            android:background="@drawable/states_member_details_3"
             android:clickable="true"
             android:padding="10dp" >
 
@@ -178,7 +183,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/details_item_height"
             android:layout_marginTop="@dimen/details_item_marginTop"
-            android:background="@color/details_4"
+            android:background="@drawable/states_member_details_4"
             android:clickable="true"
             android:padding="10dp" >
 
@@ -214,7 +219,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/details_item_height"
             android:layout_marginTop="@dimen/details_item_marginTop"
-            android:background="@color/details_5"
+            android:background="@drawable/states_member_details_5"
             android:clickable="true"
             android:padding="10dp" >
 

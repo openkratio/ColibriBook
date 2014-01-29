@@ -1,5 +1,6 @@
 package es.openkratio.colibribook.fragments;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
@@ -17,7 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
+import com.squareup.picasso.Picasso;
 
 import es.openkratio.colibribook.R;
 import es.openkratio.colibribook.bean.Member;
@@ -25,6 +26,9 @@ import es.openkratio.colibribook.misc.Constants;
 import es.openkratio.colibribook.persistence.ContactsContentProvider;
 import es.openkratio.colibribook.persistence.MemberTable;
 
+// Lint warnings are caused for using setBackgroundDrawable(...)
+@SuppressLint("NewApi")
+@SuppressWarnings("deprecation")
 public class ContactsDetailsFragment extends Fragment implements
 		OnClickListener {
 
@@ -87,11 +91,27 @@ public class ContactsDetailsFragment extends Fragment implements
 		View rootView = inflater.inflate(R.layout.fragment_details, container,
 				false);
 
-		if (item != null) {
+		// Obtain screen width, in dpi
+		final float scale = getResources().getDisplayMetrics().density;
+		int viewWidthDp = (int) (getResources().getDisplayMetrics().widthPixels / scale);
 
-			UrlImageViewHelper.setUrlDrawable(
-					(ImageView) rootView.findViewById(R.id.iv_details_avatar),
-					item.getAvatarUrl());
+		// Set background according to API version and screen size
+		if (viewWidthDp > 600) {
+			if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+				rootView.setBackgroundDrawable(getResources().getDrawable(
+						R.drawable.panel_bg_holo_light));
+			} else {
+				rootView.setBackground(getResources().getDrawable(
+						R.drawable.panel_bg_holo_light));
+			}
+		}
+
+		if (item != null) {
+			Picasso.with(getActivity())
+					.load(item.getAvatarUrl())
+					.placeholder(R.drawable.ic_contact)
+					.into((ImageView) rootView
+							.findViewById(R.id.iv_details_avatar));
 			((TextView) rootView.findViewById(R.id.tv_details_second_name))
 					.setText(item.getSecondName());
 			((TextView) rootView.findViewById(R.id.tv_details_name))

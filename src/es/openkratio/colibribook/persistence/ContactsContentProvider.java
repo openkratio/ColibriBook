@@ -2,6 +2,7 @@ package es.openkratio.colibribook.persistence;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Locale;
 
 import android.content.ContentProvider;
 import android.content.ContentResolver;
@@ -61,6 +62,7 @@ public class ContactsContentProvider extends ContentProvider {
 	public Uri insert(Uri uri, ContentValues values) {
 		int uriType = sURIMatcher.match(uri);
 		SQLiteDatabase sqlDB = dbHelper.getWritableDatabase();
+		sqlDB.setLocale(new Locale("es", "es"));
 		long id = 0;
 		Uri toReturn;
 		switch (uriType) {
@@ -105,6 +107,7 @@ public class ContactsContentProvider extends ContentProvider {
 		}
 
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		db.setLocale(new Locale("es", "es"));
 		Cursor cursor = queryBuilder.query(db, projection, selection,
 				selectionArgs, null, null, sortOrder);
 		// Make sure that potential listeners are getting notified
@@ -125,6 +128,7 @@ public class ContactsContentProvider extends ContentProvider {
 		}
 
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		db.setLocale(new Locale("es", "es"));
 
 		count = db.update(MemberTable.TABLE_MEMBER, values, where,
 				selectionArgs);
@@ -143,6 +147,7 @@ public class ContactsContentProvider extends ContentProvider {
 		}
 
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		db.setLocale(new Locale("es", "es"));
 
 		count = db.delete(MemberTable.TABLE_MEMBER, where, selectionArgs);
 
