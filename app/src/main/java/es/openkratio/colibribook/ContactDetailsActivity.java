@@ -17,7 +17,6 @@ import es.openkratio.colibribook.misc.Constants;
 
 public class ContactDetailsActivity extends FragmentActivity {
 
-	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

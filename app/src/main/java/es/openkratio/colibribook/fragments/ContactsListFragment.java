@@ -21,7 +21,8 @@ import android.widget.ListView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+
+import com.koushikdutta.ion.Ion;
 
 import es.openkratio.colibribook.ContactDetailsActivity;
 import es.openkratio.colibribook.MainActivity;
@@ -225,10 +226,8 @@ public class ContactsListFragment extends ListFragment implements
 			// holder.division.setText(cursor.getString(cursor
 			// .getColumnIndex(MemberTable.COLUMN_DIVISION)));
 			if (loadImages) {
-				Picasso.with(context)
-						.load(cursor.getString(cursor
-								.getColumnIndex(MemberTable.COLUMN_AVATAR_URL)))
-						.placeholder(R.drawable.ic_contact).into(holder.avatar);
+                Ion.with(holder.avatar).placeholder(R.drawable.ic_contact).load(cursor.getString(cursor
+                        .getColumnIndex(MemberTable.COLUMN_AVATAR_URL)));
 			} else {
 				holder.avatar.setImageResource(R.drawable.ic_contact);
 			}

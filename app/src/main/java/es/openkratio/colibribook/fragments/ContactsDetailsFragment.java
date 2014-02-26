@@ -18,7 +18,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
+
+import com.koushikdutta.ion.Ion;
 
 import es.openkratio.colibribook.R;
 import es.openkratio.colibribook.bean.Member;
@@ -107,11 +108,11 @@ public class ContactsDetailsFragment extends Fragment implements
 		}
 
 		if (item != null) {
-			Picasso.with(getActivity())
-					.load(item.getAvatarUrl())
-					.placeholder(R.drawable.ic_contact)
-					.into((ImageView) rootView
-							.findViewById(R.id.iv_details_avatar));
+			Ion.with((ImageView) rootView
+                    .findViewById(R.id.iv_details_avatar))
+                    .placeholder(R.drawable.ic_contact)
+					.load(item.getAvatarUrl());
+
 			((TextView) rootView.findViewById(R.id.tv_details_second_name))
 					.setText(item.getSecondName());
 			((TextView) rootView.findViewById(R.id.tv_details_name))
