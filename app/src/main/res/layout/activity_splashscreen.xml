@@ -21,25 +21,29 @@
 
     <LinearLayout
         android:id="@+id/ll_init_bottom"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="32dp"
+        android:orientation="vertical"
         android:visibility="gone" >
-
-        <ProgressBar
-            android:id="@+id/pb_init"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/tv_init_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
             android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <ProgressBar
+            android:id="@+id/pb_init"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            style="@style/CustomProgressBar" />
     </LinearLayout>
 
     <LinearLayout
@@ -66,5 +70,6 @@
             android:onClick="retry"
             android:text="@string/btn_init_retry" />
     </LinearLayout>
+
 
 </RelativeLayout>

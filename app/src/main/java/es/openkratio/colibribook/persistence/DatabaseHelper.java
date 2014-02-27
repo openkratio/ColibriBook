@@ -28,5 +28,4 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		PartyTable.onUpgrade(database, oldVersion, newVersion);
 		MemberTable.onUpgrade(database, oldVersion, newVersion);
 	}
-
 }
