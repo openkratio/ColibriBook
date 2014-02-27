@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/bg_main"
-            android:divider="@color/list_separator"
+            android:dividerHeight="0px"
             android:drawSelectorOnTop="false"
             android:fastScrollAlwaysVisible="true"
             android:fastScrollEnabled="true" />

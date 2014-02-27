@@ -31,6 +31,7 @@ import es.openkratio.colibribook.misc.Constants;
 import es.openkratio.colibribook.misc.CustomAlphabetIndexer;
 import es.openkratio.colibribook.persistence.ContactsContentProvider;
 import es.openkratio.colibribook.persistence.MemberTable;
+import es.openkratio.colibribook.persistence.PartyTable;
 
 public class ContactsListFragment extends ListFragment implements
 		LoaderManager.LoaderCallbacks<Cursor> {
@@ -153,16 +154,20 @@ public class ContactsListFragment extends ListFragment implements
 	// Creates a new loader after the initLoader () call
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		String[] projection = { MemberTable.COLUMN_ID, MemberTable.COLUMN_NAME,
-				MemberTable.COLUMN_SECONDNAME, MemberTable.COLUMN_DIVISION,
-				MemberTable.COLUMN_AVATAR_URL };
+		String[] projection = { MemberTable.TABLE_MEMBER + "." + MemberTable.COLUMN_ID,
+                MemberTable.TABLE_MEMBER + "." + MemberTable.COLUMN_ID_API,
+                MemberTable.TABLE_MEMBER + "." + MemberTable.COLUMN_NAME,
+				MemberTable.TABLE_MEMBER + "." + MemberTable.COLUMN_SECONDNAME,
+                MemberTable.TABLE_MEMBER + "." + MemberTable.COLUMN_DIVISION,
+				MemberTable.TABLE_MEMBER + "." + MemberTable.COLUMN_AVATAR_URL,
+                PartyTable.TABLE_PARTY + "." + PartyTable.COLUMN_LOGO_URL };
 		String selection = null;
 		if (args != null) {
 			selection = args.getString(Constants.LOADER_BUNDLE_ARGS_SELECTION);
 		}
 		CursorLoader cursorLoader = new CursorLoader(getActivity(),
-				ContactsContentProvider.CONTENT_URI_MEMBER, projection,
-				selection, null, MemberTable.COLUMN_SECONDNAME
+				ContactsContentProvider.CONTENT_URI_MEMBERANDPARTY, projection,
+				selection, null, MemberTable.TABLE_MEMBER + "." + MemberTable.COLUMN_SECONDNAME
 						+ " COLLATE LOCALIZED ASC");
 		return cursorLoader;
 	}
@@ -202,16 +207,11 @@ public class ContactsListFragment extends ListFragment implements
 		public View newView(Context context, Cursor cursor, ViewGroup parent) {
 			View rowView = LayoutInflater.from(context).inflate(
 					R.layout.row_contact, parent, false);
-
 			ViewHolder holder = new ViewHolder();
-			holder.fName = (TextView) rowView
-					.findViewById(R.id.row_contact_name);
-			holder.lName = (TextView) rowView
-					.findViewById(R.id.row_contact_second_name);
-			// holder.division = (TextView) rowView
-			// .findViewById(R.id.row_contact_division);
-			holder.avatar = (ImageView) rowView
-					.findViewById(R.id.row_contact_avatar);
+			holder.fName = (TextView) rowView.findViewById(R.id.row_contact_name);
+			holder.lName = (TextView) rowView.findViewById(R.id.row_contact_second_name);
+			holder.avatar = (ImageView) rowView.findViewById(R.id.row_contact_avatar);
+            holder.party= (ImageView) rowView.findViewById(R.id.row_contact_party);
 			rowView.setTag(holder);
 			return rowView;
 		}
@@ -223,19 +223,21 @@ public class ContactsListFragment extends ListFragment implements
 					.getColumnIndex(MemberTable.COLUMN_NAME)));
 			holder.lName.setText(cursor.getString(cursor
 					.getColumnIndex(MemberTable.COLUMN_SECONDNAME)));
-			// holder.division.setText(cursor.getString(cursor
-			// .getColumnIndex(MemberTable.COLUMN_DIVISION)));
 			if (loadImages) {
                 Ion.with(holder.avatar).placeholder(R.drawable.ic_contact).load(cursor.getString(cursor
                         .getColumnIndex(MemberTable.COLUMN_AVATAR_URL)));
+                String partyLogo = Constants.URL_CONGRESO + cursor.getString(
+                        cursor.getColumnIndex(PartyTable.COLUMN_LOGO_URL));
+                Ion.with(holder.party).load(partyLogo);
 			} else {
 				holder.avatar.setImageResource(R.drawable.ic_contact);
 			}
+            view.setBackgroundResource(cursor.getPosition() % 2 == 0 ? R.color.list_bg_1 : R.color.list_bg_2);
 		}
 
 		class ViewHolder {
 			TextView fName, lName;// , division;
-			ImageView avatar;
+			ImageView avatar, party;
 		}
 
 		@Override
@@ -270,7 +272,6 @@ public class ContactsListFragment extends ListFragment implements
 	}
 
 	// Utility methods for showing a progress bar when loading
-
 	public void setListShown(boolean shown, boolean animate) {
 		if (mListShown == shown) {
 			return;

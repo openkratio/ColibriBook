@@ -32,7 +32,7 @@ public class MemberTable {
 			+ " text, " + COLUMN_TWITTER_USER + " text, " + COLUMN_VALIDATE
 			+ " integer, " + COLUMN_WEBPAGE + " text, " + COLUMN_PARTY_FK
 			+ " integer, FOREIGN KEY(" + COLUMN_PARTY_FK + ") REFERENCES "
-			+ MemberTable.TABLE_MEMBER + "(" + MemberTable.COLUMN_ID_API
+			+ PartyTable.TABLE_PARTY + "(" + PartyTable.COLUMN_ID_API
 			+ ") ON DELETE CASCADE);";
 
 	public static void onCreate(SQLiteDatabase database) {

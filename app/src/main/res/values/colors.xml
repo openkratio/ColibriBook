@@ -35,5 +35,7 @@
     <color name="list_empty_text_color">#CCC</color>
     <color name="progressbar_bg">#45DF5B</color>
     <color name="progressbar_main">#2D913B</color>
+    <color name="list_bg_1">#2260F76C</color>
+    <color name="list_bg_2">#F4F4F4</color>
 
 </resources>
