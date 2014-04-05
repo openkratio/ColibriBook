@@ -68,13 +68,13 @@ public class SideFragment extends Fragment implements OnClickListener {
 		if (positionSelected == 0) {
 			// Search by name or surname
 			b.putString(Constants.LOADER_BUNDLE_ARGS_SELECTION,
-					MemberTable.COLUMN_NAME + " LIKE '%" + query + "%' OR "
-							+ MemberTable.COLUMN_SECONDNAME + " LIKE '%"
+                    MemberTable.TABLE_MEMBER + "." + MemberTable.COLUMN_NAME + " LIKE '%"  + query + "%' OR "
+							+  MemberTable.TABLE_MEMBER + "." + MemberTable.COLUMN_SECONDNAME + " LIKE '%"
 							+ query + "%'");
 		} else if (positionSelected == 1) {
 			// Search by division
 			b.putString(Constants.LOADER_BUNDLE_ARGS_SELECTION,
-					MemberTable.COLUMN_DIVISION + " LIKE '%" + query + "%'");
+                    MemberTable.TABLE_MEMBER + "." + MemberTable.COLUMN_DIVISION + " LIKE '%" + query + "%'");
 		}
 		mCallback.updateLoader(b);
 	}
