@@ -5,6 +5,7 @@
     <string name="action_settings">Ajustes</string>
     <string name="action_search">Buscar</string>
     <string name="comma">,</string>
+    <string name="empty"></string>
     <string name="contacts_content_provider_path">es.openkratio.colibri.provider</string>
     <string name="contacts_list_empty_view_button">Sin resultados. Pulse para restablecer lista</string>
 
@@ -32,8 +33,8 @@
     <string name="cd_about_mail">Ponte en contacto con nosotros</string>
 
     <!-- Action Bar titles -->
-    <string name="drawer_title_open">Búsqueda y filtrado</string>
-    <string name="drawer_title_closed">@string/app_name</string>
+    <string name="drawer_title_open">Filtrar</string>
+    <string name="drawer_title_closed">@string/empty</string>
     <string name="ab_title_prefs">Ajustes</string>
     <string name="ab_title_about">Acerca de</string>
 

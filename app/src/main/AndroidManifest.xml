@@ -28,7 +28,8 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:icon="@drawable/ic_ab_icon" >
+            android:logo="@drawable/ic_logo_64"
+            android:label="">
         </activity>
         <activity
             android:name=".ContactDetailsActivity"

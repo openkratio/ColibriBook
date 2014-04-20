@@ -32,17 +32,16 @@
 
     </FrameLayout>
 
-    <TextView
+    <es.openkratio.colibribook.misc.GothamBookTextView
         android:id="@+id/row_contact_second_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="6dp"
         android:lines="1"
-        android:textSize="18sp" >
-    </TextView>
+        android:textSize="18sp" />
 
-    <TextView
+    <es.openkratio.colibribook.misc.GothamBookTextView
         android:id="@+id/row_contact_comma"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -50,17 +49,15 @@
         android:layout_marginRight="2dp"
         android:lines="1"
         android:text="@string/comma"
-        android:textSize="18sp" >
-    </TextView>
+        android:textSize="18sp" />
 
-    <TextView
+    <es.openkratio.colibribook.misc.GothamBookTextView
         android:id="@+id/row_contact_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:ellipsize="end"
         android:lines="1"
-        android:textSize="18sp" >
-    </TextView>
+        android:textSize="18sp" />
 
 </LinearLayout>
