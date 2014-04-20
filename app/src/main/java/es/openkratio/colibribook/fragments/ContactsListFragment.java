@@ -232,7 +232,7 @@ public class ContactsListFragment extends ListFragment implements
 			} else {
 				holder.avatar.setImageResource(R.drawable.ic_contact);
 			}
-            view.setBackgroundResource(cursor.getPosition() % 2 == 0 ? R.color.list_bg_1 : R.color.list_bg_2);
+            //view.setBackgroundResource(cursor.getPosition() % 2 == 0 ? R.color.list_bg_1 : R.color.list_bg_2);
 		}
 
 		class ViewHolder {
