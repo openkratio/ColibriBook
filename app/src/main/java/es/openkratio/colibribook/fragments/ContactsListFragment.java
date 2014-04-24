@@ -231,6 +231,7 @@ public class ContactsListFragment extends ListFragment implements
                 Ion.with(holder.party).load(partyLogo);
 			} else {
 				holder.avatar.setImageResource(R.drawable.ic_contact);
+                holder.party.setImageResource(R.drawable.ic_ab_icon);
 			}
             //view.setBackgroundResource(cursor.getPosition() % 2 == 0 ? R.color.list_bg_1 : R.color.list_bg_2);
 		}

@@ -5,10 +5,12 @@ import android.annotation.TargetApi;
 import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +28,7 @@ import es.openkratio.colibribook.bean.Member;
 import es.openkratio.colibribook.misc.Constants;
 import es.openkratio.colibribook.persistence.ContactsContentProvider;
 import es.openkratio.colibribook.persistence.MemberTable;
+import es.openkratio.colibribook.persistence.PartyTable;
 
 // Lint warnings are caused for using setBackgroundDrawable(...)
 @SuppressLint("NewApi")
@@ -34,24 +37,30 @@ public class ContactsDetailsFragment extends Fragment implements
 		OnClickListener {
 
 	Member item;
+    private boolean loadImages;
+    private Cursor c;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+        SharedPreferences prefs = PreferenceManager
+                .getDefaultSharedPreferences(getActivity());
+        loadImages = prefs.getBoolean(Constants.PREFS_LOAD_IMAGES, true);
+
 		if (getArguments().containsKey(Constants.INTENT_CONTACT_ID)) {
 
 			Uri singleUri = ContentUris.withAppendedId(
-					ContactsContentProvider.CONTENT_URI_MEMBER, getArguments()
+					ContactsContentProvider.CONTENT_URI_MEMBERANDPARTY, getArguments()
 							.getLong(Constants.INTENT_CONTACT_ID));
 
-			String[] projection = { MemberTable.COLUMN_DIVISION,
-					MemberTable.COLUMN_NAME, MemberTable.COLUMN_CONGRESS_WEB,
-					MemberTable.COLUMN_EMAIL, MemberTable.COLUMN_SECONDNAME,
-					MemberTable.COLUMN_TWITTER_USER,
-					MemberTable.COLUMN_WEBPAGE, MemberTable.COLUMN_AVATAR_URL };
+			String[] projection = { MemberTable.TABLE_MEMBER + "." + MemberTable.COLUMN_DIVISION,
+                    MemberTable.TABLE_MEMBER + "." + MemberTable.COLUMN_NAME, MemberTable.TABLE_MEMBER + "." + MemberTable.COLUMN_CONGRESS_WEB,
+                    MemberTable.TABLE_MEMBER + "." + MemberTable.COLUMN_EMAIL, MemberTable.TABLE_MEMBER + "." + MemberTable.COLUMN_SECONDNAME,
+                    MemberTable.TABLE_MEMBER + "." + MemberTable.COLUMN_TWITTER_USER, MemberTable.TABLE_MEMBER + "." + MemberTable.COLUMN_WEBPAGE,
+                    MemberTable.TABLE_MEMBER + "." + MemberTable.COLUMN_AVATAR_URL, PartyTable.TABLE_PARTY + "." + PartyTable.COLUMN_LOGO_URL};
 
-			Cursor c = getActivity().getContentResolver().query(singleUri,
+			c = getActivity().getContentResolver().query(singleUri,
 					projection, null, null, null);
 			if (c.moveToFirst()) {
 				item = new Member();
@@ -108,10 +117,26 @@ public class ContactsDetailsFragment extends Fragment implements
 		}
 
 		if (item != null) {
-			Ion.with((ImageView) rootView
+            ImageView avatar, party;
+            avatar = (ImageView) rootView.findViewById(R.id.detail_contact_avatar);
+            party= (ImageView) rootView.findViewById(R.id.detail_contact_party);
+            if (loadImages && c.moveToFirst()) {
+                Ion.with(avatar).placeholder(R.drawable.ic_contact).load(c.getString(c
+                        .getColumnIndex(MemberTable.COLUMN_AVATAR_URL)));
+                String partyLogo = Constants.URL_CONGRESO + c.getString(
+                        c.getColumnIndex(PartyTable.COLUMN_LOGO_URL));
+                Ion.with(party).load(partyLogo);
+            } else {
+                avatar.setImageResource(R.drawable.ic_contact);
+                party.setImageResource(R.drawable.ic_ab_icon);
+            }
+
+
+
+			/*Ion.with((ImageView) rootView
                     .findViewById(R.id.iv_details_avatar))
                     .placeholder(R.drawable.ic_contact)
-					.load(item.getAvatarUrl());
+					.load(item.getAvatarUrl());*/
 
 			((TextView) rootView.findViewById(R.id.tv_details_second_name))
 					.setText(item.getSecondName());
