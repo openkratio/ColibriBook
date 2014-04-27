@@ -4,6 +4,7 @@
     <string-array name="searchby">
         <item>@string/searchby_name</item>
         <item>@string/searchby_division</item>
+        <item>@string/searchby_party</item>
     </string-array>
     <string-array name="provincias">
         <item>A Coruña</item>

@@ -118,6 +118,7 @@ public class ContactsContentProvider extends ContentProvider {
                 queryBuilder.setTables(MemberTable.TABLE_MEMBER + " INNER JOIN " +
                         PartyTable.TABLE_PARTY + " ON " + MemberTable.TABLE_MEMBER + "." + MemberTable.COLUMN_PARTY_FK + " = "
                         + PartyTable.TABLE_PARTY + "." + PartyTable.COLUMN_ID_API);
+                queryBuilder.setDistinct(true);
                 break;
             case MEMBERANDPARTY_ID:
                 queryBuilder.setTables(MemberTable.TABLE_MEMBER + " INNER JOIN " +
