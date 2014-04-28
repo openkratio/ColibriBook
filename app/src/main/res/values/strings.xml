@@ -46,6 +46,7 @@
     <!-- Search by spinner -->
     <string name="searchby_name">Nombre</string>
     <string name="searchby_division">Circunscripción</string>
+    <string name="searchby_party">Partido</string>
 
     <!-- Preference keys (duplicate from constants) -->
     <string name="prefs_key_my_division">mydivision</string>
