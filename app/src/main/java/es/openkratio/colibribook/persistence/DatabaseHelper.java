@@ -18,6 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase database) {
 		PartyTable.onCreate(database);
 		MemberTable.onCreate(database);
+        VotingTable.onCreate(database);
 	}
 
 	// Method is called during an upgrade of the database,
@@ -27,5 +28,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			int newVersion) {
 		PartyTable.onUpgrade(database, oldVersion, newVersion);
 		MemberTable.onUpgrade(database, oldVersion, newVersion);
+        VotingTable.onUpgrade(database,oldVersion, newVersion);
 	}
 }
