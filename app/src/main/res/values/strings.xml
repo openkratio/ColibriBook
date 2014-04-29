@@ -67,4 +67,9 @@
     <string name="about_subtitle">Realizado por OpenKratio y Javi Pulido</string>
     <string name="about_license">Publicado bajo la licencia xxx</string>
 
+    <!-- Sidebar buttons -->
+    <string name="btn_sidebar_dosearch">Búsqueda</string>
+    <string name="btn_sidebar_search_reset">Restablecer búsqueda</string>
+    <string name="btn_sidebar_mydivision">Mi provincia</string>
+
 </resources>

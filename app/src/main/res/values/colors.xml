@@ -37,5 +37,8 @@
     <color name="progressbar_main">#2D913B</color>
     <color name="list_bg_1">#2260F76C</color>
     <color name="list_bg_2">#F4F4F4</color>
+    <color name="btn_sidebar">#06AA3D</color>
+    <color name="btn_sidebar_pressed">#BBB</color>
+    <color name="bg_sidebar">#EEFFFFFF</color>
 
 </resources>

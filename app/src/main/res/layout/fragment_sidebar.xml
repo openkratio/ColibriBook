@@ -2,27 +2,34 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DDD"
+    android:background="@color/bg_sidebar"
     android:orientation="vertical"
     android:padding="12dp" >
 
-    <TextView
-        android:id="@+id/tv_sidebar_searchby"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/ll_sidebar_search"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="Buscar por"
-        android:textColor="#BBB"
-        android:textSize="20sp" />
+        android:layout_alignParentTop="true">
 
-    <Spinner
-        android:id="@+id/spinner_sidebar_searchby"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/spinner_sidebar_searchby"
-        android:layout_toRightOf="@+id/tv_sidebar_searchby"
-        android:entries="@array/searchby" />
+        <TextView
+            android:id="@+id/tv_sidebar_searchby"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Buscar por"
+            android:textColor="#999"
+            android:textSize="16sp" />
+
+        <Spinner
+            android:id="@+id/spinner_sidebar_searchby"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:entries="@array/searchby" />
+
+    </LinearLayout>
 
     <EditText
         android:id="@+id/et_sidebar_query"
@@ -44,24 +51,31 @@
         android:id="@+id/btn_sidebar_dosearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/spinner_sidebar_searchby"
+        android:layout_below="@+id/ll_sidebar_search"
         android:layout_marginTop="40dp"
-        android:text="Búsqueda" />
+        android:layout_alignParentRight="true"
+        android:background="@drawable/btn_sidebar"
+        android:textColor="@color/white"
+        android:text="@string/btn_sidebar_dosearch" />
 
     <Button
         android:id="@+id/btn_sidebar_reset"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/btn_sidebar_dosearch"
-        android:layout_marginTop="20dp"
-        android:text="Restablecer búsqueda" />
+        android:layout_marginTop="16dp"
+        android:textColor="@color/white"
+        android:background="@drawable/btn_sidebar"
+        android:text="@string/btn_sidebar_search_reset" />
 
     <Button
         android:id="@+id/btn_sidebar_mydivision"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/btn_sidebar_reset"
-        android:layout_marginTop="20dp"
-        android:text="Mi provincia" />
+        android:layout_marginTop="32dp"
+        android:textColor="@color/white"
+        android:background="@drawable/btn_sidebar"
+        android:text="@string/btn_sidebar_mydivision" />
 
 </RelativeLayout>
