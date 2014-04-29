@@ -25,6 +25,7 @@
 
     <!-- Generic colors -->
     <color name="white">#FFFFFF</color>
+    <color name="transparent">#00000000</color>
 
     <!-- Misc -->
     <color name="bg_splashscreen">#F8F8F8</color>
