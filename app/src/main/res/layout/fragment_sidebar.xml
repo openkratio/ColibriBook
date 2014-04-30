@@ -47,33 +47,40 @@
         android:layout_marginLeft="4dp"
         android:layout_marginTop="30dp" />
 
-    <Button
-        android:id="@+id/btn_sidebar_dosearch"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/ll_sidebar_search_btns"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_sidebar_search"
         android:layout_marginTop="40dp"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/btn_sidebar"
-        android:textColor="@color/white"
-        android:text="@string/btn_sidebar_dosearch" />
+        android:layout_below="@+id/ll_sidebar_search">
 
-    <Button
-        android:id="@+id/btn_sidebar_reset"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_sidebar_dosearch"
-        android:layout_marginTop="16dp"
-        android:textColor="@color/white"
-        android:background="@drawable/btn_sidebar"
-        android:text="@string/btn_sidebar_search_reset" />
+        <Button
+            android:id="@+id/btn_sidebar_reset"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:background="@drawable/btn_sidebar"
+            android:text="@string/btn_sidebar_search_reset" />
+
+        <Button
+            android:id="@+id/btn_sidebar_dosearch"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_sidebar"
+            android:textColor="@color/white"
+            android:text="@string/btn_sidebar_dosearch" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_sidebar_mydivision"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_sidebar_reset"
-        android:layout_marginTop="32dp"
+        android:layout_below="@+id/ll_sidebar_search_btns"
+        android:layout_marginTop="48dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
         android:textColor="@color/white"
         android:background="@drawable/btn_sidebar"
         android:text="@string/btn_sidebar_mydivision" />
