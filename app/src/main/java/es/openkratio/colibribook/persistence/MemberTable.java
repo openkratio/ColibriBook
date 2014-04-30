@@ -1,8 +1,9 @@
 package es.openkratio.colibribook.persistence;
 
-import es.openkratio.colibribook.misc.Constants;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+
+import es.openkratio.colibribook.misc.Constants;
 
 public class MemberTable {
 
@@ -25,7 +26,7 @@ public class MemberTable {
 	// Database creation SQLite statement
 	public static final String DATABASE_CREATE = "CREATE TABLE " + TABLE_MEMBER
 			+ "(" + COLUMN_ID + " integer primary key autoincrement, "
-			+ COLUMN_ID_API + " integer not null unique, " + COLUMN_NAME
+			+ COLUMN_ID_API + " integer not null, " + COLUMN_NAME
 			+ " text, " + COLUMN_AVATAR_URL + " text, " + COLUMN_CONGRESS_WEB
 			+ " text, " + COLUMN_DIVISION + " text, " + COLUMN_EMAIL
 			+ " text, " + COLUMN_RESOURCE_URI + " text, " + COLUMN_SECONDNAME
