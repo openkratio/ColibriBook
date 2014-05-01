@@ -28,6 +28,7 @@ public class Constants {
 	public static final String PREFS_MY_DIVISION = "mydivision";
 	public static final String PREFS_LOAD_IMAGES = "loadavatars";
 	public static final String PREFS_KEY_INDEX = "listindex";
+    public static final String PREF_CURRENT_SELECTION = "selection";
 
 	// Intent tags
 	public static final String INTENT_CONTACT_ID = "contact_id";
