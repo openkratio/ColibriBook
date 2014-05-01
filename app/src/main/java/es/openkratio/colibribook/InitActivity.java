@@ -171,6 +171,7 @@ public class InitActivity extends Activity {
         // default
         // value
         prefsEditor.putBoolean(Constants.PREFS_LOAD_IMAGES, true);
+        prefsEditor.putString(Constants.PREF_CURRENT_SELECTION, "");
         prefsEditor.commit();
     }
 

@@ -44,6 +44,8 @@ public class ContactsListFragment extends ListFragment implements
 	View mProgressContainer;
 	View mListContainer;
 	View mEmptyView;
+    private String mArgsSelection;
+    private  SharedPreferences prefs;
 
 	// Alphabet used in the indexer
 	public static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -77,6 +79,11 @@ public class ContactsListFragment extends ListFragment implements
 		// Start out with a progress indicator.
 		setListShown(false);
 
+        prefs = PreferenceManager
+                .getDefaultSharedPreferences(getActivity());
+        loadImages = prefs.getBoolean(Constants.PREFS_LOAD_IMAGES, true);
+        mArgsSelection = prefs.getString(Constants.PREF_CURRENT_SELECTION, "");
+
 		Bundle b = getArguments();
 		if (b != null) {
 			boolean fromSearch = b.getBoolean(
@@ -95,10 +102,6 @@ public class ContactsListFragment extends ListFragment implements
 			getActivity().getSupportLoaderManager().initLoader(
 					Constants.LOADER_CONTACTS, null, this);
 		}
-
-		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(getActivity());
-		loadImages = prefs.getBoolean(Constants.PREFS_LOAD_IMAGES, true);
 
 		mEmptyView.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -126,9 +129,8 @@ public class ContactsListFragment extends ListFragment implements
 	@Override
 	public void onResume() {
 		super.onResume();
-		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(getActivity());
 		loadImages = prefs.getBoolean(Constants.PREFS_LOAD_IMAGES, true);
+        mArgsSelection = prefs.getString(Constants.PREF_CURRENT_SELECTION, "");
 		int index = prefs.getInt(Constants.PREFS_KEY_INDEX, 0);
 		mList.setSelectionFromTop(index, 0);
 	}
@@ -140,6 +142,7 @@ public class ContactsListFragment extends ListFragment implements
 		SharedPreferences.Editor editor = PreferenceManager
 				.getDefaultSharedPreferences(getActivity()).edit();
 		editor.putInt(Constants.PREFS_KEY_INDEX, index);
+        editor.putString(Constants.PREF_CURRENT_SELECTION, mArgsSelection);
 		editor.commit();
 	}
 
@@ -154,6 +157,9 @@ public class ContactsListFragment extends ListFragment implements
 	// Creates a new loader after the initLoader () call
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+
+        mArgsSelection = prefs.getString(Constants.PREF_CURRENT_SELECTION, "");
+
 		String[] projection = { MemberTable.TABLE_MEMBER + "." + MemberTable.COLUMN_ID,
                 MemberTable.TABLE_MEMBER + "." + MemberTable.COLUMN_ID_API,
                 MemberTable.TABLE_MEMBER + "." + MemberTable.COLUMN_NAME,
@@ -162,9 +168,12 @@ public class ContactsListFragment extends ListFragment implements
 				MemberTable.TABLE_MEMBER + "." + MemberTable.COLUMN_AVATAR_URL,
                 PartyTable.TABLE_PARTY + "." + PartyTable.COLUMN_LOGO_URL };
 		String selection = null;
-		if (args != null) {
-			selection = args.getString(Constants.LOADER_BUNDLE_ARGS_SELECTION);
-		}
+        if (mArgsSelection!= null && !mArgsSelection.equals("")) {
+            selection = mArgsSelection;
+        } else if (args != null) {
+            selection = args.getString(Constants.LOADER_BUNDLE_ARGS_SELECTION);
+            mArgsSelection = selection;
+        }
 		CursorLoader cursorLoader = new CursorLoader(getActivity(),
 				ContactsContentProvider.CONTENT_URI_MEMBERANDPARTY, projection,
 				selection, null, MemberTable.TABLE_MEMBER + "." + MemberTable.COLUMN_SECONDNAME

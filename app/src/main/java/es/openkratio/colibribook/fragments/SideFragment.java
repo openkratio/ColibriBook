@@ -104,6 +104,12 @@ public class SideFragment extends Fragment implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
+        // Reset the search preference
+        SharedPreferences.Editor prefsEdit = PreferenceManager
+                .getDefaultSharedPreferences(getActivity()).edit();
+        prefsEdit.putString(Constants.PREF_CURRENT_SELECTION, "");
+        prefsEdit.commit();
+
 		switch (v.getId()) {
             case R.id.btn_sidebar_dosearch:
                 if (spSearchby.getSelectedItemId() == 2) {
