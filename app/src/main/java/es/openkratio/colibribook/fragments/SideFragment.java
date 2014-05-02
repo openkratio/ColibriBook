@@ -22,10 +22,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
+import android.widget.ArrayAdapter;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
+import java.util.List;
 
 import es.openkratio.colibribook.R;
+import es.openkratio.colibribook.bean.Member;
 import es.openkratio.colibribook.misc.Constants;
 import es.openkratio.colibribook.persistence.ContactsContentProvider;
 import es.openkratio.colibribook.persistence.MemberTable;
@@ -38,6 +42,8 @@ public class SideFragment extends Fragment implements OnClickListener {
 	private Spinner spSearchby;
     private Spinner spParties;
     private Cursor partyCursor;
+    private Spinner spDivisions;
+    private Cursor divisionCursor;
 
 
 	public interface IActivityCallback {
@@ -60,7 +66,7 @@ public class SideFragment extends Fragment implements OnClickListener {
 
         // Init spParties:  - Create a cursor to populate with a SimpleCursorAdapter the spinner with parties with member
         //                  - Add a listener on spSearchBy to show / hide spParties according with the selected item
-        initSpinnerPartySearch();
+        initSpinnersSearch();
 
 
     }
@@ -114,15 +120,23 @@ public class SideFragment extends Fragment implements OnClickListener {
             case R.id.btn_sidebar_dosearch:
                 if (spSearchby.getSelectedItemId() == 2) {
                     //  Searching by party, get cursor from spinner selected item
-                    Cursor c = (Cursor)spParties.getItemAtPosition(spParties.getSelectedItemPosition());
+                    Cursor c = (Cursor) spParties.getItemAtPosition(spParties.getSelectedItemPosition());
                     dosearch(c.getString(c.getColumnIndex("name")),
                             spSearchby.getSelectedItemPosition());
+
+                } else if (spSearchby.getSelectedItemId() == 1) {
+                    //  Searching by division, get selected value from spinner spDivisions
+                    dosearch(spDivisions.getSelectedItem().toString(),
+                            spSearchby.getSelectedItemPosition());
+
                 } else {
                     dosearch(etSearchQuery.getText().toString(),
                             spSearchby.getSelectedItemPosition());
                 }
 			    break;
             case R.id.btn_sidebar_reset:
+                etSearchQuery.setText("");
+                spSearchby.setSelection(0);
                 mCallback.updateLoader(null);
                 break;
             case R.id.btn_sidebar_mydivision:
@@ -146,6 +160,8 @@ public class SideFragment extends Fragment implements OnClickListener {
 				R.id.spinner_sidebar_searchby);
         spParties = (Spinner) getActivity().findViewById(
                 R.id.spinner_sidebar_parties);
+        spDivisions = (Spinner) getActivity().findViewById(
+                R.id.spinner_sidebar_divisions);
 
 		// Set OnClickListeners...
 		((Button) getActivity().findViewById(R.id.btn_sidebar_dosearch))
@@ -227,49 +243,76 @@ public class SideFragment extends Fragment implements OnClickListener {
 		});
 	}
 
-/* Init spParties:  - Create a cursor to populate with a SimpleCursorAdapter the spinner with parties with member
-                    - Add a listener on spSearchBy to show / hide spParties according with the selected item
- */
-private void initSpinnerPartySearch() {
+    /* Init spParties:  - Create a cursor to populate with a SimpleCursorAdapter the spinner with parties with member
+                        - Add a listener on spSearchBy to show / hide spParties according with the selected item
+     */
+    private void initSpinnersSearch() {
 
-    // Creating a cursor to populate with a SimpleCursorAdapter the spinner with parties with member
-    String[] projection = { PartyTable.TABLE_PARTY + "." + PartyTable.COLUMN_ID,
-            PartyTable.TABLE_PARTY + "." + PartyTable.COLUMN_NAME};
-    partyCursor = getActivity().getContentResolver().query(ContactsContentProvider.CONTENT_URI_MEMBERANDPARTY,
-            projection, null, null, PartyTable.TABLE_PARTY + "." + PartyTable.COLUMN_NAME
-            + " COLLATE LOCALIZED ASC");
+               // Creating a cursor to populate with a SimpleCursorAdapter the spinner with parties
+        String[] projection = { PartyTable.TABLE_PARTY + "." + PartyTable.COLUMN_ID,
+                PartyTable.TABLE_PARTY + "." + PartyTable.COLUMN_NAME};
+        partyCursor = getActivity().getContentResolver().query(ContactsContentProvider.CONTENT_URI_MEMBERANDPARTY,
+                projection, null, null, PartyTable.TABLE_PARTY + "." + PartyTable.COLUMN_NAME
+                        + " COLLATE LOCALIZED ASC");
 
-    if (partyCursor.moveToFirst()) {
-        SimpleCursorAdapter adapterParty = new SimpleCursorAdapter(getActivity(),
-                android.R.layout.simple_spinner_item, partyCursor,
-                new String[] {PartyTable.COLUMN_NAME}, new int[] {android.R.id.text1});
+        if (partyCursor.moveToFirst()) {
+            SimpleCursorAdapter adapterParty = new SimpleCursorAdapter(getActivity(),
+                    android.R.layout.simple_spinner_item, partyCursor,
+                    new String[] {PartyTable.COLUMN_NAME}, new int[] {android.R.id.text1});
 
-        adapterParty.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spParties.setAdapter(adapterParty);
-    }
+            adapterParty.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spParties.setAdapter(adapterParty);
+        }
 
-    // Adding a listener on spSearchBy to show / hide spParties according with the selected item
-    spSearchby.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        // Creating a cursor to populate with a SimpleCursorAdapter the spinner with divisions
+        String[] projectionDivision = { MemberTable.TABLE_MEMBER + "." + MemberTable.COLUMN_DIVISION};
+        divisionCursor = getActivity().getContentResolver().query(ContactsContentProvider.CONTENT_URI_MEMBERANDPARTY,
+                projectionDivision, null, null, MemberTable.TABLE_MEMBER + "." + MemberTable.COLUMN_DIVISION
+                        + " COLLATE LOCALIZED ASC");
 
-        public void onItemSelected(AdapterView<?> parentView, View selectedItemView,
-                int position, long id) {
-            if (parentView.getItemAtPosition(position).toString().equals(getString(R.string.searchby_party))) {
-                // hide EditText and show spinner spParties
+        if (divisionCursor.moveToFirst()) {
+            List<String> spArray = new ArrayList<String>();
+
+            do {
+                spArray.add(divisionCursor.getString(divisionCursor
+                        .getColumnIndex(MemberTable.COLUMN_DIVISION)));
+            } while (divisionCursor.moveToNext());
+
+            ArrayAdapter<String> adapterDivision = new ArrayAdapter<String>(getActivity(),
+                    android.R.layout.simple_spinner_item, spArray);
+            adapterDivision.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spDivisions.setAdapter(adapterDivision);
+        }
+
+
+        // Adding a listener on spSearchBy to show / hide spParties according with the selected item
+        spSearchby.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView,
+                                       int position, long id) {
+
+                String selected = parentView.getItemAtPosition(position).toString();
+
+                // hide EditText and show apropiate spinner
                 etSearchQuery.setVisibility(View.INVISIBLE);
-                spParties.setVisibility(View.VISIBLE);
-            } else {
-                etSearchQuery.setVisibility(View.VISIBLE);
                 spParties.setVisibility(View.INVISIBLE);
+                spDivisions.setVisibility(View.INVISIBLE);
+                if (selected.equals(getString(R.string.searchby_party))) {
+                    spParties.setVisibility(View.VISIBLE);
+                } else if (selected.equals(getString(R.string.searchby_division))) {
+                    spDivisions.setVisibility(View.VISIBLE);
+                } else {
+                    etSearchQuery.setVisibility(View.VISIBLE);
+                }
+
             }
 
-        }
+            public void onNothingSelected(AdapterView<?> parentView) {
 
-        public void onNothingSelected(AdapterView<?> parentView) {
+            }
+        });
 
-        }
-    });
-
-}
+    }
 
 
 }

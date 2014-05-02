@@ -45,7 +45,7 @@
 
     <!-- Search by spinner -->
     <string name="searchby_name">Nombre</string>
-    <string name="searchby_division">Circunscripción</string>
+    <string name="searchby_division">Provincia</string>
     <string name="searchby_party">Partido</string>
 
     <!-- Preference keys (duplicate from constants) -->
