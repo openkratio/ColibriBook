@@ -2,6 +2,7 @@ package es.openkratio.colibribook.fragments;
 
 import android.app.Activity;
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -150,7 +152,15 @@ public class SideFragment extends Fragment implements OnClickListener {
             default:
                 break;
         }
-	}
+
+        // Always hide the keyboard after the press button
+        InputMethodManager inputManager;
+        inputManager = (InputMethodManager) getActivity().
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(
+                getActivity().getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
+    }
 
 	void bindViewsAndSetOnClickListeners() {
 		// Gives value to fields
