@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,7 +47,7 @@ public class AboutActivity extends Activity implements View.OnClickListener {
 		// Change activity background if big screen
 		View aboutView = findViewById(R.id.ll_about_main);
 
-		// Obtain screen width, in dpi
+		// Obtain screen width, in dpi@
 		final float scale = getResources().getDisplayMetrics().density;
 		int viewWidthDp = (int) (getResources().getDisplayMetrics().widthPixels / scale);
 
@@ -66,6 +67,15 @@ public class AboutActivity extends Activity implements View.OnClickListener {
 				.setOnClickListener(this);
 		((ImageView) findViewById(R.id.iv_about_okio)).setOnClickListener(this);
 		((ImageView) findViewById(R.id.iv_about_mail)).setOnClickListener(this);
+
+        final TextView code = (TextView) findViewById(R.id.tv_about_code);
+        code.setMovementMethod(LinkMovementMethod.getInstance());
+        final TextView license = (TextView) findViewById(R.id.tv_about_license);
+        license.setMovementMethod(LinkMovementMethod.getInstance());
+        final TextView collaborate = (TextView) findViewById(R.id.tv_about_collaborate);
+        collaborate.setMovementMethod(LinkMovementMethod.getInstance());
+        final TextView design = (TextView) findViewById(R.id.tv_about_design);
+        design.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 
 	@Override

@@ -29,23 +29,56 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textStyle="italic" />
 
-    <TextView
-        android:id="@+id/tv_about_subtitle"
-        android:layout_width="wrap_content"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ll_about_credits"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="42dp"
-        android:text="@string/about_subtitle"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:background="@color/bg_main"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_about_projectBy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="32dp"
+            android:text="@string/about_projectBy"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TextView
+            android:id="@+id/tv_about_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="22dp"
+            android:text="@string/about_code"
+            android:textColorLink="@color/btn_sidebar"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        <TextView
+            android:id="@+id/tv_about_design"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/about_design"
+            android:textColorLink="@color/btn_sidebar"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        <TextView
+            android:id="@+id/tv_about_collaborate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/about_collaborate"
+            android:textColorLink="@color/btn_sidebar"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        <TextView
+            android:id="@+id/tv_about_license"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:text="@string/about_license"
+            android:textColorLink="@color/btn_sidebar"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_about_license"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="8dp"
-        android:text="@string/about_license"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <LinearLayout
         android:layout_width="match_parent"

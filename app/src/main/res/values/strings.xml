@@ -62,10 +62,14 @@
     <!-- About activity -->
     <string name="about_web_github">https://github.com/openkratio/ColibriBook</string>
     <string name="about_web_openkratio">http://openkratio.org/</string>
-    <string name="about_mail">colibribook@gmail.com</string>
+    <string name="about_mail">edipotrebol@gmail.com, pulimento@gmail.com, migueljesus.jimenez@gmail.com</string>
     <string name="about_mail_subject">Colibribook Android</string>
     <string name="about_subtitle">Realizado por OpenKratio y Javi Pulido</string>
-    <string name="about_license">Publicado bajo la licencia xxx</string>
+    <string name="about_code"><b>Desarrollo: </b><a href="mailto:pulimento@gmail.com">Javi Pulido</a> y <a href="http://twitter.com/mjim79">Miguel J. Jiménez</a></string>
+    <string name="about_design"><b>Diseño: </b><a href ="http://lopezbesteiro.es/">Ale López Besteiro</a></string>
+    <string name="about_collaborate"><b>Colabora: </b><a href="http://edipotrebol.es">Pablo Martín</a></string>
+    <string name="about_projectBy">Un proyecto de OpenKratio</string>
+    <string name="about_license">Publicado bajo la licencia <a href="http://www.gnu.org/licenses/gpl-3.0.txt">GNU GPL v3</a></string>
 
     <!-- Sidebar buttons -->
     <string name="btn_sidebar_dosearch">Buscar</string>
