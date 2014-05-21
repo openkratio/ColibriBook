@@ -67,6 +67,9 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textSize="16sp"
             android:background="@drawable/btn_sidebar"
             android:text="@string/btn_sidebar_search_reset" />
 
@@ -77,6 +80,9 @@
             android:layout_height="wrap_content"
             android:background="@drawable/btn_sidebar"
             android:textColor="@color/white"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textSize="16sp"
             android:text="@string/btn_sidebar_dosearch" />
     </LinearLayout>
 
@@ -89,6 +95,9 @@
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
         android:textColor="@color/white"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textSize="16sp"
         android:background="@drawable/btn_sidebar"
         android:text="@string/btn_sidebar_mydivision" />
 
