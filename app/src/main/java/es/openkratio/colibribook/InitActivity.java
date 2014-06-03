@@ -75,74 +75,83 @@ public class InitActivity extends Activity {
                 }).setCallback(new FutureCallback<PartyResponse>() {
             @Override
             public void onCompleted(Exception e, PartyResponse result) {
-                pbLoading.setProgress(40);
-                if (!result.getObjects().isEmpty()) {
-                    valuesParties = new ContentValues[result.getObjects().size()];
-                    for (int i = 0; i < result.getObjects().size(); i++) {
-                        Party p = result.getObjects().get(i);
-                        ContentValues cv = new ContentValues();
-                        cv.put(PartyTable.COLUMN_ID_API, p.getId());
-                        try{
-                            cv.put(PartyTable.COLUMN_LOGO_URL, URLDecoder.decode(p.getLogoURL(), "UTF-8"));
-                        } catch (UnsupportedEncodingException uee){
-                            uee.printStackTrace();
+                if(e == null){
+                    pbLoading.setProgress(40);
+                    if (result != null && !result.getObjects().isEmpty()) {
+                        valuesParties = new ContentValues[result.getObjects().size()];
+                        for (int i = 0; i < result.getObjects().size(); i++) {
+                            Party p = result.getObjects().get(i);
+                            ContentValues cv = new ContentValues();
+                            cv.put(PartyTable.COLUMN_ID_API, p.getId());
+                            try {
+                                cv.put(PartyTable.COLUMN_LOGO_URL, URLDecoder.decode(p.getLogoURL(), "UTF-8"));
+                            } catch (UnsupportedEncodingException uee) {
+                                uee.printStackTrace();
+                            }
+                            cv.put(PartyTable.COLUMN_NAME, p.getName());
+                            cv.put(PartyTable.COLUMN_WEBPAGE, p.getWebURL());
+                            valuesParties[i] = cv;
                         }
-                        cv.put(PartyTable.COLUMN_NAME, p.getName());
-                        cv.put(PartyTable.COLUMN_WEBPAGE, p.getWebURL());
-                        valuesParties[i] = cv;
-                    }
-                    ContentResolver cr = getContentResolver();
-                    cr.delete(ContactsContentProvider.CONTENT_URI_PARTY, null, null);
-                    cr.bulkInsert(ContactsContentProvider.CONTENT_URI_PARTY, valuesParties);
+                        ContentResolver cr = getContentResolver();
+                        cr.delete(ContactsContentProvider.CONTENT_URI_PARTY, null, null);
+                        cr.bulkInsert(ContactsContentProvider.CONTENT_URI_PARTY, valuesParties);
 
-                    pbLoading.setProgress(45);
+                        pbLoading.setProgress(45);
 
-                    Ion.with(InitActivity.this, Constants.URL_REST_GROUP_MEMBER)
-                            .setHeader("Accept", "application/json")
-                            .as(new TypeToken<MemberResponse>() {
-                            })
-                            .setCallback(new FutureCallback<MemberResponse>() {
-                                @Override
-                                public void onCompleted(Exception e, MemberResponse result) {
-                                    pbLoading.setProgress(98);
-                                    valuesMembers = new ContentValues[result.count()];
-                                    for (int i = 0; i < result.count(); i++) {
-                                        Member m = result.getMember(i);
-                                        ContentValues cv = new ContentValues();
-                                        cv.put(MemberTable.COLUMN_AVATAR_URL, m.getAvatarUrl());
-                                        cv.put(MemberTable.COLUMN_CONGRESS_WEB, m.getCongressWeb());
-                                        cv.put(MemberTable.COLUMN_DIVISION, m.getDivision());
-                                        cv.put(MemberTable.COLUMN_EMAIL, m.getEmail());
-                                        cv.put(MemberTable.COLUMN_ID_API, m.getId());
-                                        cv.put(MemberTable.COLUMN_NAME, m.getName());
-                                        cv.put(MemberTable.COLUMN_RESOURCE_URI, m.getResourceURI());
-                                        cv.put(MemberTable.COLUMN_SECONDNAME, m.getSecondName());
-                                        cv.put(MemberTable.COLUMN_TWITTER_USER, m.getTwitterUser());
-                                        cv.put(MemberTable.COLUMN_VALIDATE, m.isValidateInt());
-                                        cv.put(MemberTable.COLUMN_WEBPAGE, m.getWebpage());
-                                        cv.put(MemberTable.COLUMN_PARTY_FK, result.getPartyId(i));
+                        Ion.with(InitActivity.this, Constants.URL_REST_GROUP_MEMBER)
+                                .setHeader("Accept", "application/json")
+                                .as(new TypeToken<MemberResponse>() {
+                                })
+                                .setCallback(new FutureCallback<MemberResponse>() {
+                                    @Override
+                                    public void onCompleted(Exception e, MemberResponse result) {
+                                        if(e == null && result != null) {
+                                            pbLoading.setProgress(95);
+                                            valuesMembers = new ContentValues[result.count()];
+                                            for (int i = 0; i < result.count(); i++) {
+                                                Member m = result.getMember(i);
+                                                ContentValues cv = new ContentValues();
+                                                cv.put(MemberTable.COLUMN_AVATAR_URL, m.getAvatarUrl());
+                                                cv.put(MemberTable.COLUMN_CONGRESS_WEB, m.getCongressWeb());
+                                                cv.put(MemberTable.COLUMN_DIVISION, m.getDivision());
+                                                cv.put(MemberTable.COLUMN_EMAIL, m.getEmail());
+                                                cv.put(MemberTable.COLUMN_ID_API, m.getId());
+                                                cv.put(MemberTable.COLUMN_NAME, m.getName());
+                                                cv.put(MemberTable.COLUMN_RESOURCE_URI, m.getResourceURI());
+                                                cv.put(MemberTable.COLUMN_SECONDNAME, m.getSecondName());
+                                                cv.put(MemberTable.COLUMN_TWITTER_USER, m.getTwitterUser());
+                                                cv.put(MemberTable.COLUMN_VALIDATE, m.isValidateInt());
+                                                cv.put(MemberTable.COLUMN_WEBPAGE, m.getWebpage());
+                                                cv.put(MemberTable.COLUMN_PARTY_FK, result.getPartyId(i));
 
-                                        valuesMembers[i] = cv;
+                                                valuesMembers[i] = cv;
+                                            }
+                                            ContentResolver cr = getContentResolver();
+                                            cr.delete(ContactsContentProvider.CONTENT_URI_MEMBER, null, null);
+                                            cr.bulkInsert(ContactsContentProvider.CONTENT_URI_MEMBER, valuesMembers);
+
+                                            SharedPreferences.Editor editor = thisActivityScopePreferences.edit();
+                                            editor.putLong(Constants.PREFS_LAST_FETCH, System.currentTimeMillis());
+                                            editor.commit();
+
+                                            pbLoading.setProgress(100);
+                                            nextActivityAndFinish();
+                                        } else {
+                                            toggleRetryViewVisibility(true);
+                                        }
                                     }
-                                    ContentResolver cr = getContentResolver();
-                                    cr.delete(ContactsContentProvider.CONTENT_URI_MEMBER, null, null);
-                                    cr.bulkInsert(ContactsContentProvider.CONTENT_URI_MEMBER, valuesMembers);
-
-                                    SharedPreferences.Editor editor = thisActivityScopePreferences.edit();
-                                    editor.putLong(Constants.PREFS_LAST_FETCH, System.currentTimeMillis());
-                                    editor.commit();
-
-                                    pbLoading.setProgress(100);
-                                    nextActivityAndFinish();
-                                }
-                            });
+                                });
+                    } else {
+                        toggleRetryViewVisibility(true);
+                    }
                 } else {
+                    // Exception on first petition
+                    e.printStackTrace();
                     toggleRetryViewVisibility(true);
                 }
             }
         });
     }
-
 
     public void toggleBottomLayoutVisibility(boolean visible) {
         findViewById(R.id.ll_init_bottom).setVisibility(
@@ -160,16 +169,12 @@ public class InitActivity extends Activity {
 
     void setPreferences() {
         // By now, hardcode preferences
-        // TODO prompt for user division at splashcreen
+        // TODO prompt for user division at splashcreen, or use reverse geocoding to do it
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(InitActivity.this);
         SharedPreferences.Editor prefsEditor = prefs.edit();
-        prefsEditor.putString(Constants.PREFS_MY_DIVISION, "Madrid");// Second
-        // parameter
-        // is
-        // the
-        // default
-        // value
+        // Second parameter is the default value
+        prefsEditor.putString(Constants.PREFS_MY_DIVISION, "Madrid");
         prefsEditor.putBoolean(Constants.PREFS_LOAD_IMAGES, true);
         prefsEditor.putString(Constants.PREF_CURRENT_SELECTION, "");
         prefsEditor.commit();
@@ -180,7 +185,7 @@ public class InitActivity extends Activity {
         findViewById(R.id.tv_init_title).setVisibility(!show ? View.VISIBLE : View.GONE);
     }
 
-    public void retry() {
+    public void retry(View v) {
         fetchData();
         toggleRetryViewVisibility(false);
     }

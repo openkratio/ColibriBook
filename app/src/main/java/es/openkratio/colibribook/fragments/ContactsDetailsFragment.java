@@ -273,7 +273,7 @@ public class ContactsDetailsFragment extends Fragment implements
 						Uri.fromParts("mailto", item.getEmail(), null));
 				// emailIntent.putExtra(Intent.EXTRA_SUBJECT, "...");
 				startActivity(Intent.createChooser(emailIntent,
-						"Env�a un correo"));
+						"Enviar correo"));
 				break;
 			case R.id.fl_details_web:
 				Uri uriWeb = Uri.parse(item.getWebpage());
