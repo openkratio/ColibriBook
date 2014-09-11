@@ -5,6 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapShader;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.Shader;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
@@ -23,12 +29,14 @@ import android.widget.TextView;
 
 
 import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.bitmap.Transform;
 
 import es.openkratio.colibribook.ContactDetailsActivity;
 import es.openkratio.colibribook.MainActivity;
 import es.openkratio.colibribook.R;
 import es.openkratio.colibribook.misc.Constants;
 import es.openkratio.colibribook.misc.CustomAlphabetIndexer;
+import es.openkratio.colibribook.misc.RoundedDrawable;
 import es.openkratio.colibribook.persistence.ContactsContentProvider;
 import es.openkratio.colibribook.persistence.MemberTable;
 import es.openkratio.colibribook.persistence.PartyTable;
@@ -109,6 +117,8 @@ public class ContactsListFragment extends ListFragment implements
 				((MainActivity) getActivity()).updateLoader(null);
 			}
 		});
+
+
 	}
 
 	@Override
@@ -204,12 +214,34 @@ public class ContactsListFragment extends ListFragment implements
 	private class ContactsListAdapter extends CursorAdapter implements
 			SectionIndexer {
 
+        private Transform roundedTransform;
+
 		public ContactsListAdapter(Context context, Cursor c,
 				boolean autoRequery) {
 			super(context, c, false);
 			if (c != null) {
 				initializeIndexer(c);
 			}
+
+            // Round imageView transform
+            roundedTransform  = new Transform() {
+                int cornerRadius = 120;
+                boolean isOval = false;
+                @Override
+                public Bitmap transform(Bitmap bitmap) {
+                    Bitmap scaled = Bitmap.createScaledBitmap(bitmap, cornerRadius, cornerRadius, false);
+                    Bitmap transformed = RoundedDrawable.fromBitmap(scaled).setScaleType(ImageView.ScaleType.CENTER_CROP).setCornerRadius(cornerRadius).setOval(isOval).toBitmap();
+                    if (!bitmap.equals(scaled)) bitmap.recycle();
+                    if (!scaled.equals(transformed)) bitmap.recycle();
+
+                    return transformed;
+                }
+
+                @Override
+                public String key() {
+                    return "rounded_radius_" + cornerRadius + "_oval_" + isOval;
+                }
+            };
 		}
 
 		@Override
@@ -220,7 +252,7 @@ public class ContactsListFragment extends ListFragment implements
 			holder.fName = (TextView) rowView.findViewById(R.id.row_contact_name);
 			holder.lName = (TextView) rowView.findViewById(R.id.row_contact_second_name);
 			holder.avatar = (ImageView) rowView.findViewById(R.id.row_contact_avatar);
-            holder.party= (ImageView) rowView.findViewById(R.id.row_contact_party);
+            //holder.party= (ImageView) rowView.findViewById(R.id.row_contact_party);
 			rowView.setTag(holder);
 			return rowView;
 		}
@@ -233,14 +265,17 @@ public class ContactsListFragment extends ListFragment implements
 			holder.lName.setText(cursor.getString(cursor
 					.getColumnIndex(MemberTable.COLUMN_SECONDNAME)));
 			if (loadImages) {
-                Ion.with(holder.avatar).placeholder(R.drawable.ic_contact).load(cursor.getString(cursor
-                        .getColumnIndex(MemberTable.COLUMN_AVATAR_URL)));
+                Ion.with(holder.avatar)
+                        .transform(roundedTransform)
+                        .placeholder(R.drawable.ic_contact)
+                        .load(cursor.getString(cursor
+                                .getColumnIndex(MemberTable.COLUMN_AVATAR_URL)));
                 String partyLogo = Constants.URL_CONGRESO + cursor.getString(
                         cursor.getColumnIndex(PartyTable.COLUMN_LOGO_URL));
-                Ion.with(holder.party).load(partyLogo);
+                //Ion.with(holder.party).load(partyLogo);
 			} else {
 				holder.avatar.setImageResource(R.drawable.ic_contact);
-                holder.party.setImageResource(R.drawable.ic_ab_icon);
+                //holder.party.setImageResource(R.drawable.ic_ab_icon);
 			}
             //view.setBackgroundResource(cursor.getPosition() % 2 == 0 ? R.color.list_bg_1 : R.color.list_bg_2);
 		}

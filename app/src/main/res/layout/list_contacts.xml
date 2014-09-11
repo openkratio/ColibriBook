@@ -23,11 +23,14 @@
         android:layout_height="match_parent" >
 
         <ListView
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:id="@android:id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/bg_main"
+            android:background="@color/white"
             android:dividerHeight="0px"
+            android:divider="@null"
             android:drawSelectorOnTop="false"
             android:fastScrollAlwaysVisible="true"
             android:fastScrollEnabled="true" />

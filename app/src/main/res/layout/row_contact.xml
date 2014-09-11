@@ -1,47 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="56dp"
     android:layout_marginBottom="6dp"
     android:layout_marginTop="6dp"
     android:paddingRight="26dp" >
 
     <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="80dp"
-        android:background="#FFF"
-        android:padding="0dp" >
+        android:layout_width="72dp"
+        android:layout_height="56dp"
+        android:paddingLeft="16dp">
 
         <ImageView
             android:id="@+id/row_contact_avatar"
-            android:layout_width="52dp"
-            android:layout_height="64dp"
-            android:layout_marginLeft="16dp"
-            android:layout_gravity="right|bottom"
-            android:contentDescription="@string/cd_details_contact"
-            android:scaleType="centerInside" >
-        </ImageView>
-
-        <ImageView
-            android:id="@+id/row_contact_party"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:contentDescription="@string/cd_details_contact"
-            android:scaleType="centerInside" >
-        </ImageView>
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:padding="2dp"
+            android:layout_gravity="center" />
 
     </FrameLayout>
 
-    <es.openkratio.colibribook.misc.GothamBookTextView
+    <es.openkratio.colibribook.misc.RobotoRegularTextView
         android:id="@+id/row_contact_second_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="6dp"
         android:lines="1"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 
-    <es.openkratio.colibribook.misc.GothamBookTextView
+    <es.openkratio.colibribook.misc.RobotoRegularTextView
         android:id="@+id/row_contact_comma"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -49,15 +37,15 @@
         android:layout_marginRight="2dp"
         android:lines="1"
         android:text="@string/comma"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 
-    <es.openkratio.colibribook.misc.GothamBookTextView
+    <es.openkratio.colibribook.misc.RobotoRegularTextView
         android:id="@+id/row_contact_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:ellipsize="end"
         android:lines="1"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 
 </LinearLayout>
