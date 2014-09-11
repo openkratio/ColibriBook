@@ -41,5 +41,6 @@
     <color name="btn_sidebar">#06AA3D</color>
     <color name="btn_sidebar_pressed">#BBB</color>
     <color name="bg_sidebar">#EEFFFFFF</color>
+    <color name="action_bar">#45DF5B</color>
 
 </resources>
