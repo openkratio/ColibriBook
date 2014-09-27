@@ -26,6 +26,7 @@ import es.openkratio.colibribook.bean.MemberResponse;
 import es.openkratio.colibribook.bean.Party;
 import es.openkratio.colibribook.bean.PartyResponse;
 import es.openkratio.colibribook.misc.Constants;
+import es.openkratio.colibribook.misc.ProgressBarAnimation;
 import es.openkratio.colibribook.persistence.ContactsContentProvider;
 import es.openkratio.colibribook.persistence.MemberTable;
 import es.openkratio.colibribook.persistence.PartyTable;
@@ -43,6 +44,7 @@ public class InitActivity extends Activity {
     SharedPreferences thisActivityScopePreferences;
     ContentValues[] valuesMembers, valuesParties;
     ProgressBar pbLoading;
+    int mProgressPercent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +69,8 @@ public class InitActivity extends Activity {
         ((TextView) findViewById(R.id.tv_init_bottom))
                 .setText(getString(R.string.tv_init_fetching_data));
 
-        pbLoading.setProgress(5);
+        mProgressPercent = 0;
+        animateProgressBarTo(5);
 
         Ion.with(InitActivity.this, Constants.URL_REST_PARTY)
                 .setHeader("Accept", "application/json")
@@ -76,7 +79,7 @@ public class InitActivity extends Activity {
             @Override
             public void onCompleted(Exception e, PartyResponse result) {
                 if(e == null){
-                    pbLoading.setProgress(40);
+                    animateProgressBarTo(40);
                     if (result != null && !result.getObjects().isEmpty()) {
                         valuesParties = new ContentValues[result.getObjects().size()];
                         for (int i = 0; i < result.getObjects().size(); i++) {
@@ -96,7 +99,7 @@ public class InitActivity extends Activity {
                         cr.delete(ContactsContentProvider.CONTENT_URI_PARTY, null, null);
                         cr.bulkInsert(ContactsContentProvider.CONTENT_URI_PARTY, valuesParties);
 
-                        pbLoading.setProgress(45);
+                        animateProgressBarTo(45);
 
                         Ion.with(InitActivity.this, Constants.URL_REST_GROUP_MEMBER)
                                 .setHeader("Accept", "application/json")
@@ -106,7 +109,7 @@ public class InitActivity extends Activity {
                                     @Override
                                     public void onCompleted(Exception e, MemberResponse result) {
                                         if(e == null && result != null) {
-                                            pbLoading.setProgress(95);
+                                            animateProgressBarTo(95);
                                             valuesMembers = new ContentValues[result.count()];
                                             for (int i = 0; i < result.count(); i++) {
                                                 Member m = result.getMember(i);
@@ -134,7 +137,7 @@ public class InitActivity extends Activity {
                                             editor.putLong(Constants.PREFS_LAST_FETCH, System.currentTimeMillis());
                                             editor.commit();
 
-                                            pbLoading.setProgress(100);
+                                            animateProgressBarTo(100);
                                             nextActivityAndFinish();
                                         } else {
                                             toggleRetryViewVisibility(true);
@@ -188,6 +191,12 @@ public class InitActivity extends Activity {
     public void retry(View v) {
         fetchData();
         toggleRetryViewVisibility(false);
+    }
+
+    public void animateProgressBarTo(int newProgress) {
+        ProgressBarAnimation anim = new ProgressBarAnimation(pbLoading, mProgressPercent, newProgress);
+        anim.setDuration(1000);
+        pbLoading.startAnimation(anim);
     }
 
 }
