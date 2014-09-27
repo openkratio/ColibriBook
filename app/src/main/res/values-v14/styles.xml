@@ -5,10 +5,30 @@
         AppBaseTheme from BOTH res/values/styles.xml and
         res/values-v11/styles.xml on API 14+ devices.
     -->
-    <style name="AppBaseTheme" parent="android:Theme.Holo.Light.DarkActionBar">
-        <!-- API 14 theme customizations can go here. -->
-    </style>
 
     <style name="SplashscreenTheme" parent="android:Theme.Holo.Light.NoActionBar"></style>
+
+    <!-- Base application theme. -->
+    <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.Colibri</item>
+    </style>
+
+    <!-- Main activity theme. -->
+    <style name="ColibriTheme" parent="AppTheme">
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.Colibri.NoTitle</item>
+        <item name="android:fastScrollThumbDrawable">@drawable/fastscroll_thumb_green</item>
+    </style>
+
+    <!-- ActionBar styles -->
+    <style name="ActionBar.Solid.Colibri"
+        parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/action_bar</item>
+    </style>
+
+    <!-- main activity action bar styles -->
+    <style name="ActionBar.Solid.Colibri.NoTitle" parent="@style/ActionBar.Solid.Colibri">
+        <item name="android:displayOptions">useLogo|showHome</item>
+        <item name="android:logo">@drawable/ic_launcher</item>
+    </style>
 
 </resources>

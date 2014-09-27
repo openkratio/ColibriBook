@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,8 +31,8 @@ public class MainActivity extends FragmentActivity implements IActivityCallback 
 
 	DrawerLayout mDrawerLayout;
 	ActionBarDrawerToggle mDrawerToggle;
-	EditText etSearchQuery;
-	Spinner spSearchby;
+	//EditText etSearchQuery;
+	//Spinner spSearchby;
 
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	@Override
@@ -39,43 +40,46 @@ public class MainActivity extends FragmentActivity implements IActivityCallback 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+        // Colorize status bar
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             setTranslucentStatus(true);
+            SystemBarTintManager tintManager = new SystemBarTintManager(this);
+            tintManager.setStatusBarTintEnabled(true);
+            tintManager.setStatusBarTintResource(R.color.action_bar);
         }
-
-        SystemBarTintManager tintManager = new SystemBarTintManager(this);
-        tintManager.setStatusBarTintEnabled(true);
-        tintManager.setStatusBarTintResource(R.color.action_bar);
 
 		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB) {
 			mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            /*
 			mDrawerToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout,
 					R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
 
 				// Called when a drawer has settled in a completely closed state
 				public void onDrawerClosed(View view) {
-					getActionBar().setTitle(
-							getString(R.string.drawer_title_closed));
+					//getActionBar().setTitle(getString(R.string.drawer_title_closed));
 					// creates call to onPrepareOptionsMenu()
-					invalidateOptionsMenu();
+					//invalidateOptionsMenu();
 				}
 
 				// Called when a drawer has settled in a completely open state
 				public void onDrawerOpened(View drawerView) {
-					getActionBar().setTitle(getString(R.string.drawer_title_open));
+					//getActionBar().setTitle(getString(R.string.drawer_title_open));
 					// creates call to onPrepareOptionsMenu()
-					invalidateOptionsMenu();
+					//invalidateOptionsMenu();
 				}
 			};
 
 			// Set the drawer toggle as the DrawerListener
 			mDrawerLayout.setDrawerListener(mDrawerToggle);
+			*/
 
+            /*
             if(getActionBar() != null) {
                 getActionBar().setDisplayHomeAsUpEnabled(true);
-                getActionBar().setHomeButtonEnabled(true);
-                getActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_action_bar));
+                getActionBar().setHomeButtonEnabled(false);
             }
+            */
 		} else {
 			// Gingerbread or earlier
 			ContactsListFragment f = new ContactsListFragment();
@@ -85,8 +89,9 @@ public class MainActivity extends FragmentActivity implements IActivityCallback 
 		}
 	}
 
-	// ===================== Menus stuff ==========================
+	// ===================== Menus stuff ========================== //
 
+    /*
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
@@ -101,6 +106,7 @@ public class MainActivity extends FragmentActivity implements IActivityCallback 
 		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB)
 			mDrawerToggle.onConfigurationChanged(newConfig);
 	}
+	*/
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -111,8 +117,17 @@ public class MainActivity extends FragmentActivity implements IActivityCallback 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB) {
-			if (mDrawerToggle.onOptionsItemSelected(item))
-				return true;
+			//if (mDrawerToggle.onOptionsItemSelected(item))
+				//return true;
+
+            if (item != null && item.getItemId() == R.id.action_search) {
+                if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) {
+                    mDrawerLayout.closeDrawer(Gravity.RIGHT);
+                } else {
+                    mDrawerLayout.openDrawer(Gravity.RIGHT);
+                }
+                return true;
+            }
 		}
 		switch (item.getItemId()) {
 		case R.id.action_settings:
@@ -120,7 +135,7 @@ public class MainActivity extends FragmentActivity implements IActivityCallback 
 			startActivity(intent);
 			return true;
 		case R.id.action_search:
-			// show search fragment
+			// show search fragment (for android version < honeycomb)
 			SideFragment f = new SideFragment();
 			FragmentManager fManager = getSupportFragmentManager();
 			FragmentTransaction fTransaction = fManager.beginTransaction();
@@ -130,7 +145,7 @@ public class MainActivity extends FragmentActivity implements IActivityCallback 
 		return false;
 	}
 
-	// ================== Other methods ==============================
+	// ================== Other methods ============================== //
 
 	@Override
 	public void updateLoader(Bundle b) {

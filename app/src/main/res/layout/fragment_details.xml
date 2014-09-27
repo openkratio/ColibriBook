@@ -181,7 +181,7 @@
                     android:ellipsize="end"
                     android:lines="1"
                     android:textColor="@color/white"
-                    android:textSize="24sp" />
+                    android:textSize="20sp" />
             </FrameLayout>
 
             <View

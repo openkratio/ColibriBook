@@ -117,8 +117,6 @@ public class ContactsListFragment extends ListFragment implements
 				((MainActivity) getActivity()).updateLoader(null);
 			}
 		});
-
-
 	}
 
 	@Override
@@ -225,12 +223,15 @@ public class ContactsListFragment extends ListFragment implements
 
             // Round imageView transform
             roundedTransform  = new Transform() {
-                int cornerRadius = 120;
+                int imageReceivedWidth = 132;
+                int imageReceivedHeight = 165;
                 boolean isOval = false;
                 @Override
                 public Bitmap transform(Bitmap bitmap) {
-                    Bitmap scaled = Bitmap.createScaledBitmap(bitmap, cornerRadius, cornerRadius, false);
-                    Bitmap transformed = RoundedDrawable.fromBitmap(scaled).setScaleType(ImageView.ScaleType.CENTER_CROP).setCornerRadius(cornerRadius).setOval(isOval).toBitmap();
+                    Bitmap scaled = Bitmap.createScaledBitmap(bitmap, imageReceivedWidth, imageReceivedHeight, false);
+                    Bitmap transformed = RoundedDrawable.fromBitmap(scaled)
+                            .setScaleType(ImageView.ScaleType.CENTER_CROP)
+                            .setCornerRadius(imageReceivedHeight).setOval(isOval).toBitmap();
                     if (!bitmap.equals(scaled)) bitmap.recycle();
                     if (!scaled.equals(transformed)) bitmap.recycle();
 
@@ -239,7 +240,7 @@ public class ContactsListFragment extends ListFragment implements
 
                 @Override
                 public String key() {
-                    return "rounded_radius_" + cornerRadius + "_oval_" + isOval;
+                    return "rounded_radius_" + imageReceivedHeight + "_oval_" + isOval;
                 }
             };
 		}
@@ -270,14 +271,12 @@ public class ContactsListFragment extends ListFragment implements
                         .placeholder(R.drawable.ic_contact)
                         .load(cursor.getString(cursor
                                 .getColumnIndex(MemberTable.COLUMN_AVATAR_URL)));
-                String partyLogo = Constants.URL_CONGRESO + cursor.getString(
-                        cursor.getColumnIndex(PartyTable.COLUMN_LOGO_URL));
+                //String partyLogo = Constants.URL_CONGRESO + cursor.getString(
+                        //cursor.getColumnIndex(PartyTable.COLUMN_LOGO_URL));
                 //Ion.with(holder.party).load(partyLogo);
 			} else {
 				holder.avatar.setImageResource(R.drawable.ic_contact);
-                //holder.party.setImageResource(R.drawable.ic_ab_icon);
 			}
-            //view.setBackgroundResource(cursor.getPosition() % 2 == 0 ? R.color.list_bg_1 : R.color.list_bg_2);
 		}
 
 		class ViewHolder {

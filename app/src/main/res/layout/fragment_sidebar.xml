@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/bg_sidebar"
     android:orientation="vertical"
-    android:padding="12dp" >
+    android:paddingTop="160dp">
 
     <LinearLayout
         android:id="@+id/ll_sidebar_search"
@@ -35,7 +35,6 @@
         android:id="@+id/et_sidebar_query"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="4dp"
         android:layout_marginTop="30dp"
         android:inputType="text"
         android:lines="1" />

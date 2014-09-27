@@ -1,22 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- New palette -->
-    <color name="details_1">#49E75C</color>
-    <color name="details_2">#41CC51</color>
-    <color name="details_3">#39B347</color>
-    <color name="details_4">#31993D</color>
-    <color name="details_5">#297F39</color>
-    <color name="details_main_text">#121212</color>
+    <!-- Material Design Palette -->
+    <color name="action_bar">#259b24</color>
+    <color name="details_1">#2aa129</color>
+    <color name="details_2">#30a82f</color>
+    <color name="details_3">#36af35</color>
+    <color name="details_4">#3cb63b</color>
+    <color name="details_5">#42bd41</color>
 
-    <!-- New Palette - Pressed -->
-    <color name="details_1_pressed">#59F76C</color>
-    <color name="details_2_pressed">#51DC61</color>
-    <color name="details_3_pressed">#49C357</color>
-    <color name="details_4_pressed">#41A94D</color>
-    <color name="details_5_pressed">#398F49</color>
+    <!-- Material Design Palette, pressed -->
+    <color name="details_1_pressed">#3ab139</color>
+    <color name="details_2_pressed">#40b83f</color>
+    <color name="details_3_pressed">#46bf45</color>
+    <color name="details_4_pressed">#4cc64b</color>
+    <color name="details_5_pressed">#52cd51</color>
 
     <!-- Old palette -->
+    <color name="details_1_old">#49E75C</color>
+    <color name="details_2_old">#41CC51</color>
+    <color name="details_3_old">#39B347</color>
+    <color name="details_4_old">#31993D</color>
+    <color name="details_5_old">#297F39</color>
+    <color name="details_main_text">#121212</color>
+
+    <!-- Old Palette, Pressed -->
+    <color name="details_1_pressed_old">#59F76C</color>
+    <color name="details_2_pressed_old">#51DC61</color>
+    <color name="details_3_pressed_old">#49C357</color>
+    <color name="details_4_pressed_old">#41A94D</color>
+    <color name="details_5_pressed_old">#398F49</color>
+
+    <!-- Very old palette -->
     <color name="details_twitter_old">#AA00ACED</color>
     <color name="details_division_old">#AAACED00</color>
     <color name="details_congress_web_old">#AAEDAC00</color>
@@ -41,6 +56,6 @@
     <color name="btn_sidebar">#06AA3D</color>
     <color name="btn_sidebar_pressed">#BBB</color>
     <color name="bg_sidebar">#EEFFFFFF</color>
-    <color name="action_bar">#45DF5B</color>
+
 
 </resources>

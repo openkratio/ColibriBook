@@ -29,7 +29,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:logo="@drawable/ic_logo_64"
+            android:logo="@drawable/ic_logo"
             android:label="">
         </activity>
         <activity
