@@ -19,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -248,7 +249,7 @@ public class ContactsDetailsFragment extends Fragment implements
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	void setTitles() {
 		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB) {
-			getActivity().getActionBar().setTitle(R.string.details_header);
+            ((ActionBarActivity)getActivity()).getSupportActionBar().setTitle(R.string.details_header);
 		} else {
 			getActivity().setTitle(R.string.details_header);
 		}

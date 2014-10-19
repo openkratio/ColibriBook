@@ -1,6 +1,7 @@
 package es.openkratio.colibribook;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,10 +24,10 @@ public class Preferences extends PreferenceActivity {
 
 		// Customize action bar if android version > 3.0
 		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB) {
-			getActionBar().setHomeButtonEnabled(true);
-			getActionBar().setDisplayHomeAsUpEnabled(true);
-			getActionBar().setTitle(
-					getResources().getString(R.string.ab_title_prefs));
+            ActionBar ab = getActionBar();
+			ab.setHomeButtonEnabled(true);
+			ab.setDisplayHomeAsUpEnabled(true);
+			ab.setTitle(getResources().getString(R.string.ab_title_prefs));
 		} else {
 			setTitle(getResources().getString(R.string.ab_title_prefs));
 		}

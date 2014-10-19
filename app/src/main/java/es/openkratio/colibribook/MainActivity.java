@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,7 +28,7 @@ import es.openkratio.colibribook.fragments.SideFragment;
 import es.openkratio.colibribook.fragments.SideFragment.IActivityCallback;
 import es.openkratio.colibribook.misc.Constants;
 
-public class MainActivity extends FragmentActivity implements IActivityCallback {
+public class MainActivity extends ActionBarActivity implements IActivityCallback {
 
 	DrawerLayout mDrawerLayout;
 	ActionBarDrawerToggle mDrawerToggle;
@@ -41,7 +42,7 @@ public class MainActivity extends FragmentActivity implements IActivityCallback 
 		setContentView(R.layout.activity_main);
 
         // Colorize status bar
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
             setTranslucentStatus(true);
             SystemBarTintManager tintManager = new SystemBarTintManager(this);
             tintManager.setStatusBarTintEnabled(true);
@@ -168,7 +169,7 @@ public class MainActivity extends FragmentActivity implements IActivityCallback 
 			FragmentManager fManager = getSupportFragmentManager();
 			FragmentTransaction fTransaction = fManager.beginTransaction();
 			fTransaction.replace(R.id.fl_main_fragment_container, f).commit();
-		}
+            		}
 	}
 
     @TargetApi(Build.VERSION_CODES.KITKAT)

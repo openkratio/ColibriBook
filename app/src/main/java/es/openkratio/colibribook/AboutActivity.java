@@ -1,7 +1,6 @@
 package es.openkratio.colibribook;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -11,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBarActivity;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.MenuItem;
@@ -19,7 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import es.openkratio.colibribook.misc.Constants;
 
-public class AboutActivity extends Activity implements View.OnClickListener {
+public class AboutActivity extends ActionBarActivity implements View.OnClickListener {
 
 	TextView mTitle;
 

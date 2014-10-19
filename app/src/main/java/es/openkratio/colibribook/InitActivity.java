@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -39,7 +40,7 @@ import es.openkratio.colibribook.persistence.PartyTable;
  * month, and after this point will work totally locally.
  */
 
-public class InitActivity extends Activity {
+public class InitActivity extends ActionBarActivity {
 
     SharedPreferences thisActivityScopePreferences;
     ContentValues[] valuesMembers, valuesParties;

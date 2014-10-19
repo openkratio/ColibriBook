@@ -1,11 +1,10 @@
 package es.openkratio.colibribook;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import es.openkratio.colibribook.fragments.ContactsDetailsFragment;
 import es.openkratio.colibribook.misc.Constants;
@@ -15,7 +14,7 @@ import es.openkratio.colibribook.misc.Constants;
  * for the associated fragment
  */
 
-public class ContactDetailsActivity extends FragmentActivity {
+public class ContactDetailsActivity extends ActionBarActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +22,7 @@ public class ContactDetailsActivity extends FragmentActivity {
 		setContentView(R.layout.activity_detail);
 
 		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB) {
-			getActionBar().setDisplayHomeAsUpEnabled(true);
+			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 
 		// savedInstanceState is non-null when there is fragment state
