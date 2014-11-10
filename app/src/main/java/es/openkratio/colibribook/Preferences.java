@@ -22,6 +22,7 @@ public class Preferences extends PreferenceActivity {
 		// me a working replacement ;)
 		addPreferencesFromResource(R.xml.general_prefs);
 
+        /*
 		// Customize action bar if android version > 3.0
 		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB) {
             ActionBar ab = getActionBar();
@@ -31,6 +32,7 @@ public class Preferences extends PreferenceActivity {
 		} else {
 			setTitle(getResources().getString(R.string.ab_title_prefs));
 		}
+		*/
 	}
 
 	@Override

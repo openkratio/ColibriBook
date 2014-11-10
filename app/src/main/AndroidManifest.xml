@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="es.openkratio.colibribook"
-    android:versionCode="10"
-    android:versionName="1.1">
+    android:versionCode="20"
+    android:versionName="2.0">
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -26,19 +26,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:label=""
-            android:logo="@drawable/ic_logo"></activity>
-        <activity
-            android:name=".ContactDetailsActivity"
-            android:icon="@drawable/ic_ab_icon"></activity>
-        <activity
-            android:name=".Preferences"
-            android:icon="@drawable/ic_ab_icon"></activity>
-        <activity
-            android:name=".AboutActivity"
-            android:icon="@drawable/ic_ab_icon"></activity>
+        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".ContactDetailsActivity"></activity>
+        <activity android:name=".Preferences"></activity>
+        <activity android:name=".AboutActivity"></activity>
 
         <provider
             android:name=".persistence.ContactsContentProvider"

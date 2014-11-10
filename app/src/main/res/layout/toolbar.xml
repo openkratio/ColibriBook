@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/colorPrimary"
+    android:minHeight="?attr/actionBarSize"
+    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+    <es.openkratio.colibribook.misc.RobotoBlackTextView
+        android:id="@+id/toolbar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:singleLine="true"
+        android:text="@string/app_name"
+        android:textColor="@android:color/white"
+        android:textSize="26sp" />
+
+    <android.support.v7.widget.ActionMenuView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        app:divider="?attr/actionBarDivider"
+        app:dividerPadding="12dip" />
+
+</android.support.v7.widget.Toolbar>
