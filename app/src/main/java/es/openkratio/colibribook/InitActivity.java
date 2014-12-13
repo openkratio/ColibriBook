@@ -1,13 +1,14 @@
 package es.openkratio.colibribook;
 
 
-import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -19,7 +20,6 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URI;
 import java.net.URLDecoder;
 
 import es.openkratio.colibribook.bean.Member;
@@ -74,87 +74,102 @@ public class InitActivity extends ActionBarActivity {
         animateProgressBarTo(5);
 
         Ion.with(InitActivity.this, Constants.URL_REST_PARTY)
-                .setHeader("Accept", "application/json")
-                .as(new TypeToken<PartyResponse>() {
-                }).setCallback(new FutureCallback<PartyResponse>() {
-            @Override
-            public void onCompleted(Exception e, PartyResponse result) {
-                if(e == null){
-                    animateProgressBarTo(40);
-                    if (result != null && !result.getObjects().isEmpty()) {
-                        valuesParties = new ContentValues[result.getObjects().size()];
-                        for (int i = 0; i < result.getObjects().size(); i++) {
-                            Party p = result.getObjects().get(i);
-                            ContentValues cv = new ContentValues();
-                            cv.put(PartyTable.COLUMN_ID_API, p.getId());
-                            try {
-                                cv.put(PartyTable.COLUMN_LOGO_URL, URLDecoder.decode(p.getLogoURL(), "UTF-8"));
-                            } catch (UnsupportedEncodingException uee) {
-                                uee.printStackTrace();
-                            }
-                            cv.put(PartyTable.COLUMN_NAME, p.getName());
-                            cv.put(PartyTable.COLUMN_WEBPAGE, p.getWebURL());
-                            valuesParties[i] = cv;
-                        }
-                        ContentResolver cr = getContentResolver();
-                        cr.delete(ContactsContentProvider.CONTENT_URI_PARTY, null, null);
-                        cr.bulkInsert(ContactsContentProvider.CONTENT_URI_PARTY, valuesParties);
+            .setHeader("Accept", "application/json")
+            .as(new TypeToken<PartyResponse>() {
+            }).setCallback(new FutureCallback<PartyResponse>() {
+               @Override
+               public void onCompleted(Exception e, PartyResponse result) {
+                   if (e == null) {
+                       animateProgressBarTo(40);
+                       if (result != null && !result.getObjects().isEmpty()) {
+                           valuesParties = new ContentValues[result.getObjects().size()];
+                           for (int i = 0; i < result.getObjects().size(); i++) {
+                               Party p = result.getObjects().get(i);
+                               ContentValues cv = new ContentValues();
+                               cv.put(PartyTable.COLUMN_ID_API, p.getId());
+                               try {
+                                   cv.put(PartyTable.COLUMN_LOGO_URL, URLDecoder.decode(p.getLogoURL(), "UTF-8"));
+                               } catch (UnsupportedEncodingException uee) {
+                                   uee.printStackTrace();
+                               }
+                               cv.put(PartyTable.COLUMN_NAME, p.getName());
+                               cv.put(PartyTable.COLUMN_WEBPAGE, p.getWebURL());
+                               valuesParties[i] = cv;
+                           }
+                           ContentResolver cr = getContentResolver();
+                           cr.delete(ContactsContentProvider.CONTENT_URI_PARTY, null, null);
+                           cr.bulkInsert(ContactsContentProvider.CONTENT_URI_PARTY, valuesParties);
 
-                        animateProgressBarTo(45);
+                           animateProgressBarTo(45);
 
-                        Ion.with(InitActivity.this, Constants.URL_REST_GROUP_MEMBER)
-                                .setHeader("Accept", "application/json")
-                                .as(new TypeToken<MemberResponse>() {
-                                })
-                                .setCallback(new FutureCallback<MemberResponse>() {
-                                    @Override
-                                    public void onCompleted(Exception e, MemberResponse result) {
-                                        if(e == null && result != null) {
-                                            animateProgressBarTo(95);
-                                            valuesMembers = new ContentValues[result.count()];
-                                            for (int i = 0; i < result.count(); i++) {
-                                                Member m = result.getMember(i);
-                                                ContentValues cv = new ContentValues();
-                                                cv.put(MemberTable.COLUMN_AVATAR_URL, m.getAvatarUrl());
-                                                cv.put(MemberTable.COLUMN_CONGRESS_WEB, m.getCongressWeb());
-                                                cv.put(MemberTable.COLUMN_DIVISION, m.getDivision());
-                                                cv.put(MemberTable.COLUMN_EMAIL, m.getEmail());
-                                                cv.put(MemberTable.COLUMN_ID_API, m.getId());
-                                                cv.put(MemberTable.COLUMN_NAME, m.getName());
-                                                cv.put(MemberTable.COLUMN_RESOURCE_URI, m.getResourceURI());
-                                                cv.put(MemberTable.COLUMN_SECONDNAME, m.getSecondName());
-                                                cv.put(MemberTable.COLUMN_TWITTER_USER, m.getTwitterUser());
-                                                cv.put(MemberTable.COLUMN_VALIDATE, m.isValidateInt());
-                                                cv.put(MemberTable.COLUMN_WEBPAGE, m.getWebpage());
-                                                cv.put(MemberTable.COLUMN_PARTY_FK, result.getPartyId(i));
+                           Ion.with(InitActivity.this, Constants.URL_REST_GROUP_MEMBER)
+                               .setHeader("Accept", "application/json")
+                               .as(new TypeToken<MemberResponse>() {
+                               })
+                               .setCallback(new FutureCallback<MemberResponse>() {
+                                   @Override
+                                   public void onCompleted(final Exception e, final MemberResponse result) {
+                                       animateProgressBarTo(45,90);
+                                       final Handler dataHandler = new Handler() {
+                                           @Override
+                                           public void handleMessage(Message msg) {
+                                               animateProgressBarTo(100);
+                                               nextActivityAndFinish();
+                                           }
+                                       };
 
-                                                valuesMembers[i] = cv;
-                                            }
-                                            ContentResolver cr = getContentResolver();
-                                            cr.delete(ContactsContentProvider.CONTENT_URI_MEMBER, null, null);
-                                            cr.bulkInsert(ContactsContentProvider.CONTENT_URI_MEMBER, valuesMembers);
+                                       Thread dataFetcher = new Thread(new Runnable() {
+                                           public void run() {
+                                               if (e == null && result != null) {
+                                                   valuesMembers = new ContentValues[result.count()];
+                                                   for (int i = 0; i < result.count(); i++) {
+                                                       Member m = result.getMember(i);
+                                                       ContentValues cv = new ContentValues();
+                                                       cv.put(MemberTable.COLUMN_AVATAR_URL, m.getAvatarUrl());
+                                                       cv.put(MemberTable.COLUMN_CONGRESS_WEB, m.getCongressWeb());
+                                                       cv.put(MemberTable.COLUMN_DIVISION, m.getDivision());
+                                                       cv.put(MemberTable.COLUMN_EMAIL, m.getEmail());
+                                                       cv.put(MemberTable.COLUMN_ID_API, m.getId());
+                                                       cv.put(MemberTable.COLUMN_NAME, m.getName());
+                                                       cv.put(MemberTable.COLUMN_RESOURCE_URI, m.getResourceURI());
+                                                       cv.put(MemberTable.COLUMN_SECONDNAME, m.getSecondName());
+                                                       cv.put(MemberTable.COLUMN_TWITTER_USER, m.getTwitterUser());
+                                                       cv.put(MemberTable.COLUMN_VALIDATE, m.isValidateInt());
+                                                       cv.put(MemberTable.COLUMN_WEBPAGE, m.getWebpage());
+                                                       cv.put(MemberTable.COLUMN_PARTY_FK, result.getPartyId(i));
 
-                                            SharedPreferences.Editor editor = thisActivityScopePreferences.edit();
-                                            editor.putLong(Constants.PREFS_LAST_FETCH, System.currentTimeMillis());
-                                            editor.commit();
+                                                       valuesMembers[i] = cv;
+                                                   }
+                                                   ContentResolver cr = getContentResolver();
+                                                   cr.delete(ContactsContentProvider.CONTENT_URI_MEMBER, null, null);
+                                                   cr.bulkInsert(ContactsContentProvider.CONTENT_URI_MEMBER, valuesMembers);
 
-                                            animateProgressBarTo(100);
-                                            nextActivityAndFinish();
-                                        } else {
-                                            toggleRetryViewVisibility(true);
-                                        }
-                                    }
-                                });
-                    } else {
-                        toggleRetryViewVisibility(true);
-                    }
-                } else {
-                    // Exception on first petition
-                    e.printStackTrace();
-                    toggleRetryViewVisibility(true);
-                }
-            }
-        });
+                                                   SharedPreferences.Editor editor = thisActivityScopePreferences.edit();
+                                                   editor.putLong(Constants.PREFS_LAST_FETCH, System.currentTimeMillis());
+                                                   editor.commit();
+                                                   // send to our Handler
+                                                   Message msg = new Message();
+                                                   dataHandler.sendMessage(msg);
+                                               } else {
+                                                   toggleRetryViewVisibility(true);
+                                               }
+                                           }
+                                       });
+                                       dataFetcher.start();
+                                   }
+                               });
+                       } else {
+                           // Exception on second petition
+                           toggleRetryViewVisibility(true);
+                       }
+                   } else {
+                       // Exception on first petition
+                       e.printStackTrace();
+                       toggleRetryViewVisibility(true);
+                   }
+               }
+           }
+        );
     }
 
     public void toggleBottomLayoutVisibility(boolean visible) {
@@ -200,4 +215,9 @@ public class InitActivity extends ActionBarActivity {
         pbLoading.startAnimation(anim);
     }
 
+    public void animateProgressBarTo(int oldProgress, int newProgress) {
+        ProgressBarAnimation anim = new ProgressBarAnimation(pbLoading, oldProgress, newProgress);
+        anim.setDuration(1000);
+        pbLoading.startAnimation(anim);
+    }
 }
