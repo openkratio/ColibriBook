@@ -31,7 +31,9 @@ import com.koushikdutta.ion.Ion;
 
 import es.openkratio.colibribook.R;
 import es.openkratio.colibribook.bean.Member;
+import es.openkratio.colibribook.misc.ColorGenerator;
 import es.openkratio.colibribook.misc.Constants;
+import es.openkratio.colibribook.misc.TextDrawable;
 import es.openkratio.colibribook.persistence.ContactsContentProvider;
 import es.openkratio.colibribook.persistence.MemberTable;
 import es.openkratio.colibribook.persistence.PartyTable;
@@ -47,7 +49,7 @@ public class ContactsDetailsFragment extends Fragment implements
     private Cursor c;
     private int mShortAnimationDuration;
     private Animator mCurrentAnimator;
-
+    private ColorGenerator generator = ColorGenerator.DEFAULT;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -127,12 +129,28 @@ public class ContactsDetailsFragment extends Fragment implements
             }
         }
 
+
+
         if (item != null) {
             ImageView avatar, party;
             avatar = (ImageView) rootView.findViewById(R.id.contact_avatar);
             party = (ImageView) rootView.findViewById(R.id.detail_contact_party);
+
+            // Create text placeholder
+            String memberName = c.getString(c.getColumnIndex(MemberTable.COLUMN_NAME));
+            String member2ndName = c.getString(c.getColumnIndex(MemberTable.COLUMN_SECONDNAME));
+            TextDrawable ivPlaceholder;
+            if(memberName != null && member2ndName != null){
+                ivPlaceholder = TextDrawable.builder()
+                        .buildRound(memberName.substring(0,1) + "" + member2ndName.substring(0,1),
+                                generator.getColor(member2ndName));
+            } else {
+                ivPlaceholder = TextDrawable.builder()
+                        .buildRound("C", generator.getColor(member2ndName));
+            }
+
             if (loadImages && c.moveToFirst()) {
-                Ion.with(avatar).placeholder(R.drawable.ic_contact).load(c.getString(c
+                Ion.with(avatar).placeholder(ivPlaceholder).load(c.getString(c
                         .getColumnIndex(MemberTable.COLUMN_AVATAR_URL))).setCallback(new FutureCallback<ImageView>() {
                     @Override
                     public void onCompleted(Exception e, final ImageView result) {
@@ -163,7 +181,7 @@ public class ContactsDetailsFragment extends Fragment implements
                 */
 
             } else {
-                avatar.setImageResource(R.drawable.ic_contact);
+                avatar.setImageDrawable(ivPlaceholder);
                 party.setImageResource(R.drawable.ic_ab_icon);
             }
 

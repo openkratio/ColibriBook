@@ -29,7 +29,7 @@ public class MainActivity extends ActionBarActivity {
             setTranslucentStatus(true);
             SystemBarTintManager tintManager = new SystemBarTintManager(this);
             tintManager.setStatusBarTintEnabled(true);
-            tintManager.setStatusBarTintResource(R.attr.colorPrimary);
+            tintManager.setStatusBarTintResource(R.color.primaryColor);
         }
     }
 

@@ -9,11 +9,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapShader;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.RectF;
-import android.graphics.Shader;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -25,13 +20,11 @@ import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
-
 
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.bitmap.Transform;
@@ -39,9 +32,11 @@ import com.koushikdutta.ion.bitmap.Transform;
 import es.openkratio.colibribook.ContactDetailsActivity;
 import es.openkratio.colibribook.MainActivity;
 import es.openkratio.colibribook.R;
+import es.openkratio.colibribook.misc.ColorGenerator;
 import es.openkratio.colibribook.misc.Constants;
 import es.openkratio.colibribook.misc.CustomAlphabetIndexer;
 import es.openkratio.colibribook.misc.RoundedDrawable;
+import es.openkratio.colibribook.misc.TextDrawable;
 import es.openkratio.colibribook.persistence.ContactsContentProvider;
 import es.openkratio.colibribook.persistence.MemberTable;
 import es.openkratio.colibribook.persistence.PartyTable;
@@ -59,6 +54,7 @@ public class ContactsListFragment extends ListFragment implements
 	View mEmptyView;
     private String mArgsSelection;
     private  SharedPreferences prefs;
+    private ColorGenerator generator = ColorGenerator.DEFAULT;
 
 	// Alphabet used in the indexer
 	public static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -278,21 +274,32 @@ public class ContactsListFragment extends ListFragment implements
 		@Override
 		public void bindView(View view, Context context, Cursor cursor) {
 			ViewHolder holder = (ViewHolder) view.getTag();
-			holder.fName.setText(cursor.getString(cursor
-					.getColumnIndex(MemberTable.COLUMN_NAME)));
-			holder.lName.setText(cursor.getString(cursor
-					.getColumnIndex(MemberTable.COLUMN_SECONDNAME)));
+            String memberName = cursor.getString(cursor.getColumnIndex(MemberTable.COLUMN_NAME));
+            String member2ndName = cursor.getString(cursor.getColumnIndex(MemberTable.COLUMN_SECONDNAME));
+			holder.fName.setText(memberName);
+			holder.lName.setText(member2ndName);
+            // Create text placeholder
+            TextDrawable ivPlaceholder;
+            if(memberName != null && member2ndName != null){
+                ivPlaceholder = TextDrawable.builder()
+                        .buildRound(memberName.substring(0,1) + "" + member2ndName.substring(0,1),
+                                generator.getColor(member2ndName));
+            } else {
+                ivPlaceholder = TextDrawable.builder()
+                        .buildRound("C",generator.getColor(member2ndName));
+            }
+
 			if (loadImages) {
                 Ion.with(holder.avatar)
                         .transform(roundedTransform)
-                        .placeholder(R.drawable.ic_contact)
+                        .placeholder(ivPlaceholder)
                         .load(cursor.getString(cursor
                                 .getColumnIndex(MemberTable.COLUMN_AVATAR_URL)));
                 //String partyLogo = Constants.URL_CONGRESO + cursor.getString(
                         //cursor.getColumnIndex(PartyTable.COLUMN_LOGO_URL));
                 //Ion.with(holder.party).load(partyLogo);
 			} else {
-				holder.avatar.setImageResource(R.drawable.ic_contact);
+				holder.avatar.setImageDrawable(ivPlaceholder);
 			}
 		}
 
