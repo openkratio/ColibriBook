@@ -22,8 +22,6 @@
         <item name="android:windowNoTitle">false</item>
         <!-- disable window actionbar -->
         <item name="windowActionBar">false</item>
-
-        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
     </style>
 
 </resources>

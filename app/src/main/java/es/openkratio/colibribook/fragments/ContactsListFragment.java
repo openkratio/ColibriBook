@@ -159,7 +159,7 @@ public class ContactsListFragment extends ListFragment implements
 		editor.commit();
 	}
 
-	@TargetApi(Build.VERSION_CODES.L)
+	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
         Activity act = getActivity();
