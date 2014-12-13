@@ -8,7 +8,7 @@
     android:background="@color/bg_main"
     android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_padding"
-    android:paddingRight="@dimen/activity_horizontal_padding" >
+    android:paddingRight="@dimen/activity_horizontal_padding">
 
     <ImageView
         android:id="@+id/iv_about_logo"
@@ -19,7 +19,7 @@
         android:contentDescription="@string/cd_about_title"
         android:src="@drawable/ic_launcher_512" />
 
-    <TextView
+    <es.openkratio.colibribook.misc.RobotoRegularTextView
         android:id="@+id/tv_about_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,7 +35,8 @@
         android:layout_height="wrap_content"
         android:background="@color/bg_main"
         android:orientation="vertical">
-        <TextView
+
+        <es.openkratio.colibribook.misc.RobotoRegularTextView
             android:id="@+id/tv_about_projectBy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,47 +44,51 @@
             android:layout_marginTop="32dp"
             android:text="@string/about_projectBy"
             android:textAppearance="?android:attr/textAppearanceMedium" />
-        <TextView
+
+        <es.openkratio.colibribook.misc.RobotoRegularTextView
             android:id="@+id/tv_about_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="22dp"
             android:text="@string/about_code"
-            android:textColorLink="@color/btn_sidebar"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-        <TextView
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColorLink="@color/btn_sidebar" />
+
+        <es.openkratio.colibribook.misc.RobotoRegularTextView
             android:id="@+id/tv_about_design"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/about_design"
-            android:textColorLink="@color/btn_sidebar"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-        <TextView
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColorLink="@color/btn_sidebar" />
+
+        <es.openkratio.colibribook.misc.RobotoRegularTextView
             android:id="@+id/tv_about_collaborate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/about_collaborate"
-            android:textColorLink="@color/btn_sidebar"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-        <TextView
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColorLink="@color/btn_sidebar" />
+
+        <es.openkratio.colibribook.misc.RobotoRegularTextView
             android:id="@+id/tv_about_license"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
             android:text="@string/about_license"
-            android:textColorLink="@color/btn_sidebar"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColorLink="@color/btn_sidebar" />
     </LinearLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp" >
+        android:layout_marginTop="16dp">
 
         <!-- This linearlayout has two useless views to center the icons -->
 

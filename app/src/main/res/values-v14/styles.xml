@@ -7,26 +7,23 @@
     -->
 
     <!-- Base application theme. -->
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:actionBarStyle">@style/ActionBar.Solid.Colibri</item>
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light">
+
     </style>
 
     <!-- Main activity theme. -->
-    <style name="ColibriTheme" parent="AppTheme">
-        <item name="android:actionBarStyle">@style/ActionBar.Solid.Colibri.NoTitle</item>
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- This line doesn't exist in baseline style -->
         <item name="android:fastScrollThumbDrawable">@drawable/fastscroll_thumb_green</item>
-    </style>
 
-    <!-- ActionBar styles -->
-    <style name="ActionBar.Solid.Colibri"
-        parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@color/action_bar</item>
-    </style>
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryColorDark</item>
+        <!-- disable window title -->
+        <item name="android:windowNoTitle">false</item>
+        <!-- disable window actionbar -->
+        <item name="windowActionBar">false</item>
 
-    <!-- main activity action bar styles -->
-    <style name="ActionBar.Solid.Colibri.NoTitle" parent="@style/ActionBar.Solid.Colibri">
-        <item name="android:displayOptions">useLogo|showHome</item>
-        <item name="android:logo">@drawable/ic_launcher</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
     </style>
 
 </resources>

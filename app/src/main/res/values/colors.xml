@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="primaryColor">#259b24</color>
+    <color name="primaryColorDark">#ff22661b</color>
+    <color name="accent">#1b7474</color>
+
     <!-- Material Design Palette -->
-    <color name="action_bar">#259b24</color>
     <color name="details_1">#2aa129</color>
     <color name="details_2">#30a82f</color>
     <color name="details_3">#36af35</color>
@@ -41,6 +44,20 @@
     <!-- Generic colors -->
     <color name="white">#FFFFFF</color>
     <color name="transparent">#00000000</color>
+    <color name="grey11">#111111</color>
+    <color name="grey22">#222222</color>
+    <color name="grey33">#333333</color>
+    <color name="grey44">#444444</color>
+    <color name="grey55">#555555</color>
+    <color name="grey66">#666666</color>
+    <color name="grey77">#777777</color>
+    <color name="grey88">#888888</color>
+    <color name="grey99">#999999</color>
+    <color name="greyAA">#AAAAAA</color>
+    <color name="greyBB">#BBBBBB</color>
+    <color name="greyCC">#CCCCCC</color>
+    <color name="greyDD">#DDDDDD</color>
+    <color name="greyEE">#EEEEEE</color>
 
     <!-- Misc -->
     <color name="bg_splashscreen">#F8F8F8</color>

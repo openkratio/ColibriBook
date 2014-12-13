@@ -35,9 +35,7 @@ public class Constants {
 	public static final String BUNDLE_COMING_FROM_SEARCH = "fromdosearch";
 	public static final String BUNDLE_BUNDLE_FOR_LOADER = "bundleforloader";
 
-
 	// Loader
 	public static final int LOADER_CONTACTS = 0xFF1;
 	public static final String LOADER_BUNDLE_ARGS_SELECTION = "querywhereclause";
-
 }

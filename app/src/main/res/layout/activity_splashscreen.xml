@@ -29,12 +29,13 @@
         android:orientation="vertical"
         android:visibility="gone" >
 
-        <TextView
+        <es.openkratio.colibribook.misc.RobotoRegularTextView
             android:id="@+id/tv_init_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="10dp"
+            android:textColor="@color/grey33"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <ProgressBar
@@ -57,10 +58,13 @@
         android:orientation="vertical"
         android:visibility="gone" >
 
-        <TextView
+        <es.openkratio.colibribook.misc.RobotoRegularTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:textColor="@color/grey33"
+            android:textSize="18sp"
+            android:padding="16dp"
             android:text="@string/tv_init_error" />
 
         <Button
@@ -70,6 +74,5 @@
             android:onClick="retry"
             android:text="@string/btn_init_retry" />
     </LinearLayout>
-
 
 </RelativeLayout>
