@@ -132,7 +132,7 @@ public class ContactsDetailsFragment extends Fragment implements
 
 		if (item != null) {
             ImageView avatar, party;
-            avatar = (ImageView) rootView.findViewById(R.id.detail_contact_avatar);
+            avatar = (ImageView) rootView.findViewById(R.id.contact_avatar);
             party = (ImageView) rootView.findViewById(R.id.detail_contact_party);
             if (loadImages && c.moveToFirst()) {
                 Ion.with(avatar).placeholder(R.drawable.ic_contact).load(c.getString(c
@@ -159,9 +159,11 @@ public class ContactsDetailsFragment extends Fragment implements
                         });
                     }
                 });
+                /*
                 String partyLogo = Constants.URL_CONGRESO + c.getString(
                         c.getColumnIndex(PartyTable.COLUMN_LOGO_URL));
                 Ion.with(party).load(partyLogo);
+                */
 
             } else {
                 avatar.setImageResource(R.drawable.ic_contact);

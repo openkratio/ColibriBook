@@ -9,6 +9,4 @@
         <item name="android:fastScrollThumbDrawable">@drawable/fastscroll_thumb_green</item>
     </style>
 
-    <style name="SplashscreenTheme" parent="Theme.AppCompat.NoActionBar"></style>
-
 </resources>

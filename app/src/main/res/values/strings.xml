@@ -76,4 +76,7 @@
     <string name="btn_sidebar_search_reset">Restablecer</string>
     <string name="btn_sidebar_mydivision">Mi provincia</string>
 
+    <!-- Transition names -->
+    <string name="transition_master_to_detail">transitionmasterdetail</string>
+
 </resources>

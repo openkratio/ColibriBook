@@ -1,6 +1,9 @@
 package es.openkratio.colibribook.fragments;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +14,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
@@ -21,6 +25,7 @@ import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -154,12 +159,24 @@ public class ContactsListFragment extends ListFragment implements
 		editor.commit();
 	}
 
-	@Override
+	@TargetApi(Build.VERSION_CODES.L)
+    @Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		Intent intent = new Intent(getActivity(), ContactDetailsActivity.class);
-		intent.putExtra(Constants.INTENT_CONTACT_ID,
-				mAdapter.getItemId(position));
-		startActivity(intent);
+        Activity act = getActivity();
+        if(act != null) {
+            Intent intent = new Intent(act, ContactDetailsActivity.class);
+            intent.putExtra(Constants.INTENT_CONTACT_ID, mAdapter.getItemId(position));
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                startActivity(intent);
+            } else {
+                final ImageView ivContactAvatar = (ImageView) act.findViewById(R.id.contact_avatar);
+                String transitionName = act.getString(R.string.transition_master_to_detail);
+                ActivityOptions options = ActivityOptions
+                        .makeSceneTransitionAnimation(act, ivContactAvatar, transitionName);
+                act.getWindow().setAllowEnterTransitionOverlap(true);
+                act.startActivity(intent, options.toBundle());
+            }
+        }
 	}
 
 	// Creates a new loader after the initLoader () call
@@ -252,7 +269,7 @@ public class ContactsListFragment extends ListFragment implements
 			ViewHolder holder = new ViewHolder();
 			holder.fName = (TextView) rowView.findViewById(R.id.row_contact_name);
 			holder.lName = (TextView) rowView.findViewById(R.id.row_contact_second_name);
-			holder.avatar = (ImageView) rowView.findViewById(R.id.row_contact_avatar);
+			holder.avatar = (ImageView) rowView.findViewById(R.id.contact_avatar);
             //holder.party= (ImageView) rowView.findViewById(R.id.row_contact_party);
 			rowView.setTag(holder);
 			return rowView;

@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fl_main_fragment_container"
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_contacts_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="@dimen/activity_horizontal_margin"
-    android:layout_marginRight="@dimen/activity_horizontal_margin" >
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
+    android:name="es.openkratio.colibribook.fragments.ContactsListFragment"
+    tools:layout="@layout/list_contacts">
 
-</FrameLayout>
+</fragment>

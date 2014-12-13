@@ -16,7 +16,8 @@
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:padding="2dp"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:transitionName="@string/transition_master_to_detail"/>
 
     </FrameLayout>
 

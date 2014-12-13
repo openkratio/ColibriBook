@@ -1,6 +1,7 @@
 package es.openkratio.colibribook;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -36,10 +37,13 @@ public class AboutActivity extends ActionBarActivity implements View.OnClickList
 		new GetAppVersion().execute();
 
 		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB) {
-			getActionBar().setHomeButtonEnabled(true);
-			getActionBar().setDisplayHomeAsUpEnabled(true);
-			getActionBar().setTitle(
-					getResources().getString(R.string.ab_title_about));
+            ActionBar ab = getActionBar();
+            if(ab != null) {
+                getActionBar().setHomeButtonEnabled(true);
+                getActionBar().setDisplayHomeAsUpEnabled(true);
+                getActionBar().setTitle(
+                        getResources().getString(R.string.ab_title_about));
+            }
 		} else {
 			setTitle(getResources().getString(R.string.ab_title_about));
 		}

@@ -28,21 +28,20 @@
 
                 <FrameLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="80dp"
-                    android:background="@color/transparent"
+                    android:layout_height="120dp"
                     android:padding="0dp"
                     android:layout_gravity="center_horizontal" >
 
                     <ImageView
                         android:id="@+id/contact_avatar"
-                        android:layout_width="52dp"
-                        android:layout_height="64dp"
-                        android:layout_marginRight="16dp"
-                        android:layout_gravity="left|bottom"
+                        android:layout_width="104dp"
+                        android:layout_height="128dp"
                         android:contentDescription="@string/cd_details_contact"
+                        android:transitionName="@string/transition_master_to_detail"
                         android:scaleType="centerInside" >
                     </ImageView>
 
+                    <!--
                     <ImageView
                         android:id="@+id/detail_contact_party"
                         android:layout_width="32dp"
@@ -51,6 +50,7 @@
                         android:contentDescription="@string/cd_details_contact"
                         android:scaleType="centerInside" >
                     </ImageView>
+                    -->
 
                 </FrameLayout>
 

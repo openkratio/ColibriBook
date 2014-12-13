@@ -6,8 +6,6 @@
         res/values-v11/styles.xml on API 14+ devices.
     -->
 
-    <style name="SplashscreenTheme" parent="Theme.AppCompat.NoActionBar"></style>
-
     <!-- Base application theme. -->
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:actionBarStyle">@style/ActionBar.Solid.Colibri</item>
