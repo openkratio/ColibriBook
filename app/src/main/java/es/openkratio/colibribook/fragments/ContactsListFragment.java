@@ -1,6 +1,5 @@
 package es.openkratio.colibribook.fragments;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityOptions;
@@ -17,6 +16,8 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,27 +60,13 @@ public class ContactsListFragment extends ListFragment implements
 	// Alphabet used in the indexer
 	public static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-	// Lint warnings are caused for using setBackgroundDrawable(...)
-	@SuppressLint("NewApi")
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		// Obtain screen width, in dpi
-		final float scale = getResources().getDisplayMetrics().density;
-		int viewWidthDp = (int) (getResources().getDisplayMetrics().widthPixels / scale);
-
-		// Set background according to API version and screen size
-		if (viewWidthDp > 600) {
-			if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-				mList.setBackgroundDrawable(getResources().getDrawable(
-						R.drawable.panel_bg_holo_light));
-			} else {
-				mList.setBackground(getResources().getDrawable(
-						R.drawable.panel_bg_holo_light));
-			}
-		}
+        // Set-up toolbar
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        ((ActionBarActivity)getActivity()).setSupportActionBar(toolbar);
 
 		// Bind data to list
 		mAdapter = new ContactsListAdapter(getActivity(), null, false);
@@ -124,7 +111,7 @@ public class ContactsListFragment extends ListFragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		int INTERNAL_EMPTY_ID = 0x00ff0001;
-		View root = inflater.inflate(R.layout.list_contacts, null, false);
+		View root = inflater.inflate(R.layout.fragment_list_contacts, null, false);
 		(root.findViewById(R.id.internalEmpty)).setId(INTERNAL_EMPTY_ID);
 		mList = (ListView) root.findViewById(android.R.id.list);
 		mListContainer = root.findViewById(R.id.listContainer);
@@ -282,8 +269,7 @@ public class ContactsListFragment extends ListFragment implements
             TextDrawable ivPlaceholder;
             if(memberName != null && member2ndName != null){
                 ivPlaceholder = TextDrawable.builder()
-                        .buildRound(memberName.substring(0,1) + "" + member2ndName.substring(0,1),
-                                generator.getColor(member2ndName));
+                        .buildRound(memberName.substring(0,1), generator.getColor(member2ndName));
             } else {
                 ivPlaceholder = TextDrawable.builder()
                         .buildRound("C",generator.getColor(member2ndName));

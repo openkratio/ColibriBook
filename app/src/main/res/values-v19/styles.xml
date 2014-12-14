@@ -1,0 +1,8 @@
+<resources>
+
+    <style name="AppTheme" parent="AppBaseTheme">
+        <item name="android:windowNoTitle">false</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
+</resources>

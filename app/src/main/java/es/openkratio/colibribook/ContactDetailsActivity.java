@@ -5,13 +5,10 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.TextView;
 
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
@@ -25,20 +22,10 @@ import es.openkratio.colibribook.misc.Constants;
 
 public class ContactDetailsActivity extends ActionBarActivity {
 
-    private Toolbar mToolbar;
-    private TextView mToolbarTitle;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_detail);
-
-        // Initialize toolbar
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbarTitle = (TextView) findViewById(R.id.toolbar_title);
-        mToolbarTitle.setText("Detalles");
-
-        mToolbar.setNavigationIcon(R.drawable.ic_congress);
 
         // Colorize status bar
         if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
@@ -47,13 +34,6 @@ public class ContactDetailsActivity extends ActionBarActivity {
             tintManager.setStatusBarTintEnabled(true);
             tintManager.setStatusBarTintResource(R.color.primaryColorDark);
         }
-
-		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB) {
-            ActionBar ab = getSupportActionBar();
-            if(ab != null) {
-                ab.setDisplayHomeAsUpEnabled(true);
-            }
-		}
 
 		// savedInstanceState is non-null when there is fragment state
 		// saved from previous configurations of this activity
@@ -95,5 +75,4 @@ public class ContactDetailsActivity extends ActionBarActivity {
         }
         win.setAttributes(winParams);
     }
-
 }

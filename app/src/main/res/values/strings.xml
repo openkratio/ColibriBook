@@ -37,6 +37,7 @@
     <string name="drawer_title_closed">@string/empty</string>
     <string name="ab_title_prefs">Ajustes</string>
     <string name="ab_title_about">Acerca de</string>
+    <string name="ab_title_details">Detalles</string>
 
     <!-- Details fragment -->
     <string name="details_header">Detalles</string>

@@ -1,7 +1,6 @@
 package es.openkratio.colibribook;
 
-import android.annotation.SuppressLint;
-import android.app.ActionBar;
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -10,67 +9,54 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
+
+import com.readystatesoftware.systembartint.SystemBarTintManager;
+
 import es.openkratio.colibribook.misc.Constants;
 
 public class AboutActivity extends ActionBarActivity implements View.OnClickListener {
 
-	TextView mTitle;
+    TextView mTitle;
 
-	@SuppressLint("NewApi")
-	@SuppressWarnings("deprecation")
-	// Correctly managed ;)
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_about);
 
-		mTitle = (TextView) findViewById(R.id.tv_about_title);
+        // Put default title
+        mTitle = (TextView) findViewById(R.id.tv_about_title);
+        mTitle.setText(R.string.app_name);
+
 		// Get app installed version and show it
 		new GetAppVersion().execute();
 
-		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB) {
-            ActionBar ab = getActionBar();
-            if(ab != null) {
-                getActionBar().setHomeButtonEnabled(true);
-                getActionBar().setDisplayHomeAsUpEnabled(true);
-                getActionBar().setTitle(
-                        getResources().getString(R.string.ab_title_about));
-            }
-		} else {
-			setTitle(getResources().getString(R.string.ab_title_about));
-		}
+        // Colorize status bar
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+            setTranslucentStatus(true);
+            SystemBarTintManager tintManager = new SystemBarTintManager(this);
+            tintManager.setStatusBarTintEnabled(true);
+            tintManager.setStatusBarTintResource(R.color.primaryColor);
+        }
 
-		// Change activity background if big screen
-		View aboutView = findViewById(R.id.ll_about_main);
+        // Set-up toolbar
+        Toolbar toolbar =  (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        ((TextView) findViewById(R.id.toolbar_title)).setText(getString(R.string.ab_title_about));
+        setSupportActionBar(toolbar);
 
-		// Obtain screen width, in dpi@
-		final float scale = getResources().getDisplayMetrics().density;
-		int viewWidthDp = (int) (getResources().getDisplayMetrics().widthPixels / scale);
-
-		// Set background according to API version and screen size
-		if (viewWidthDp > 600) {
-			if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-				aboutView.setBackgroundDrawable(getResources().getDrawable(
-						R.drawable.panel_bg_holo_light));
-			} else {
-				aboutView.setBackground(getResources().getDrawable(
-						R.drawable.panel_bg_holo_light));
-			}
-		}
-
-		// Set clock listeners...
-		((ImageView) findViewById(R.id.iv_about_github))
-				.setOnClickListener(this);
-		((ImageView) findViewById(R.id.iv_about_okio)).setOnClickListener(this);
-		((ImageView) findViewById(R.id.iv_about_mail)).setOnClickListener(this);
+		// Set click listeners...
+		findViewById(R.id.iv_about_github).setOnClickListener(this);
+		findViewById(R.id.iv_about_okio).setOnClickListener(this);
+		findViewById(R.id.iv_about_mail).setOnClickListener(this);
 
         final TextView code = (TextView) findViewById(R.id.tv_about_code);
         code.setMovementMethod(LinkMovementMethod.getInstance());
@@ -107,34 +93,46 @@ public class AboutActivity extends ActionBarActivity implements View.OnClickList
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			NavUtils.navigateUpTo(this, new Intent(this, Preferences.class));
+			finish();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
-	private class GetAppVersion extends AsyncTask<Void, Integer, Integer> {
+	private class GetAppVersion extends AsyncTask<Void, Void, Void> {
+
 		private String apkVersion;
 
-		// private int apkVersionCode;
-
 		@Override
-		protected Integer doInBackground(Void... params) {
+		protected Void doInBackground(Void... params) {
 			try {
 				PackageInfo pInfo = getPackageManager().getPackageInfo(
 						getPackageName(), PackageManager.GET_META_DATA);
 				apkVersion = pInfo.versionName;
-				// apkVersionCode = pInfo.versionCode;
-			} catch (NameNotFoundException e) {
+            } catch (NameNotFoundException e) {
 				Log.e(Constants.TAG, "not installed?", e);
 			}
-			return 0;
-		}
+            return null;
+        }
 
-		@Override
-		protected void onPostExecute(Integer result) {
-			String newTitle = getString(R.string.app_name) + " " + apkVersion;
-			mTitle.setText(newTitle);
-		}
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            String newTitle = getString(R.string.app_name) + " " + apkVersion;
+            mTitle.setText(newTitle);
+        }
 	}
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    private void setTranslucentStatus(boolean on) {
+        Window win = getWindow();
+        WindowManager.LayoutParams winParams = win.getAttributes();
+        final int transStatus = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+        if (on) {
+            winParams.flags |= transStatus;
+        } else {
+            winParams.flags &= ~transStatus;
+        }
+        win.setAttributes(winParams);
+    }
 }

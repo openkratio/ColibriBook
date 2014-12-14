@@ -4,8 +4,6 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,7 +41,7 @@ public class MainActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
-                Intent intent = new Intent(MainActivity.this, Preferences.class);
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.action_search:
@@ -56,7 +54,7 @@ public class MainActivity extends ActionBarActivity {
     // ================== Other methods ============================== //
 
     public void updateLoader(Bundle b) {
-        ContactsListFragment f = null;
+        ContactsListFragment f;
 
         f = (ContactsListFragment) getSupportFragmentManager().findFragmentById(
                 R.id.fragment_contacts_list);

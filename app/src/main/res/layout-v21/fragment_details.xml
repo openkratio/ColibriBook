@@ -76,6 +76,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:textColor="@color/details_main_text"
                         android:ellipsize="end"
                         android:lines="1"
                         android:textSize="18sp" />

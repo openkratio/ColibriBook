@@ -4,6 +4,7 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_gravity="fill_horizontal"
     android:background="?attr/colorPrimary"
     android:minHeight="?attr/actionBarSize"
     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -16,7 +17,7 @@
         android:singleLine="true"
         android:text="@string/app_name"
         android:textColor="@android:color/white"
-        android:textSize="26sp" />
+        android:textSize="22sp" />
 
     <android.support.v7.widget.ActionMenuView
         android:layout_width="match_parent"

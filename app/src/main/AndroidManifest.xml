@@ -26,10 +26,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"></activity>
-        <activity android:name=".ContactDetailsActivity"></activity>
-        <activity android:name=".Preferences"></activity>
-        <activity android:name=".AboutActivity"></activity>
+        <activity android:name=".MainActivity" />
+        <activity android:name=".ContactDetailsActivity" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".AboutActivity" />
 
         <provider
             android:name=".persistence.ContactsContentProvider"

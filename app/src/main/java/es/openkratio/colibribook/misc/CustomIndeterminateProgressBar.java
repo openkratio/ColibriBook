@@ -30,9 +30,6 @@ public class CustomIndeterminateProgressBar extends RelativeLayout {
     protected int beforeBackground;
     protected int backgroundResId = -1;
 
-    // Indicate if user touched this view the last time
-    public boolean isLastTouch = false;
-
     public CustomIndeterminateProgressBar(Context context, AttributeSet attrs) {
         super(context, attrs);
         onInitDefaultValues();
@@ -66,14 +63,14 @@ public class CustomIndeterminateProgressBar extends RelativeLayout {
     protected int makePressColor() {
         int r = (this.backgroundColor >> 16) & 0xFF;
         int g = (this.backgroundColor >> 8) & 0xFF;
-        int b = (this.backgroundColor >> 0) & 0xFF;
+        int b = (this.backgroundColor) & 0xFF;
         return Color.argb(128, r, g, b);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if (firstAnimationOver == false)
+        if (!firstAnimationOver)
             drawFirstAnimation(canvas);
         if (cont > 0)
             drawSecondAnimation(canvas);

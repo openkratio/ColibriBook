@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
 import android.content.Intent;
@@ -17,6 +16,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,18 +39,15 @@ import es.openkratio.colibribook.persistence.ContactsContentProvider;
 import es.openkratio.colibribook.persistence.MemberTable;
 import es.openkratio.colibribook.persistence.PartyTable;
 
-// Lint warnings are caused for using setBackgroundDrawable(...)
-@SuppressLint("NewApi")
-@SuppressWarnings("deprecation")
 public class ContactsDetailsFragment extends Fragment implements
         OnClickListener {
 
     Member item;
-    private boolean loadImages;
-    private Cursor c;
-    private int mShortAnimationDuration;
-    private Animator mCurrentAnimator;
-    private ColorGenerator generator = ColorGenerator.DEFAULT;
+    boolean loadImages;
+    Cursor c;
+    int mShortAnimationDuration;
+    Animator mCurrentAnimator;
+    ColorGenerator generator = ColorGenerator.DEFAULT;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -105,6 +103,13 @@ public class ContactsDetailsFragment extends Fragment implements
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        // Set-up toolbar
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        ((TextView) getActivity().findViewById(R.id.toolbar_title)).setText(getString(R.string.ab_title_details));
+        toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        ((ActionBarActivity)getActivity()).setSupportActionBar(toolbar);
+
         setOnClickListeners();
     }
 
@@ -113,23 +118,6 @@ public class ContactsDetailsFragment extends Fragment implements
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_details, container,
                 false);
-
-        // Obtain screen width, in dpi
-        final float scale = getResources().getDisplayMetrics().density;
-        int viewWidthDp = (int) (getResources().getDisplayMetrics().widthPixels / scale);
-
-        // Set background according to API version and screen size
-        if (viewWidthDp > 600) {
-            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                rootView.setBackgroundDrawable(getResources().getDrawable(
-                        R.drawable.panel_bg_holo_light));
-            } else {
-                rootView.setBackground(getResources().getDrawable(
-                        R.drawable.panel_bg_holo_light));
-            }
-        }
-
-
 
         if (item != null) {
             ImageView avatar, party;
@@ -142,8 +130,7 @@ public class ContactsDetailsFragment extends Fragment implements
             TextDrawable ivPlaceholder;
             if(memberName != null && member2ndName != null){
                 ivPlaceholder = TextDrawable.builder()
-                        .buildRound(memberName.substring(0,1) + "" + member2ndName.substring(0,1),
-                                generator.getColor(member2ndName));
+                        .buildRound(memberName.substring(0,1), generator.getColor(member2ndName));
             } else {
                 ivPlaceholder = TextDrawable.builder()
                         .buildRound("C", generator.getColor(member2ndName));

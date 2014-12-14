@@ -1,27 +1,27 @@
 package es.openkratio.colibribook.misc;
 
+import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.BitmapShader;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.PixelFormat;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
+import android.util.Log;
+import android.widget.ImageView.ScaleType;
+
 /**
  * Created by Javi Pulido on 11/09/14.
  */
-
-        import android.content.res.ColorStateList;
-        import android.graphics.Bitmap;
-        import android.graphics.Bitmap.Config;
-        import android.graphics.BitmapShader;
-        import android.graphics.Canvas;
-        import android.graphics.Color;
-        import android.graphics.ColorFilter;
-        import android.graphics.Matrix;
-        import android.graphics.Paint;
-        import android.graphics.PixelFormat;
-        import android.graphics.Rect;
-        import android.graphics.RectF;
-        import android.graphics.Shader;
-        import android.graphics.drawable.BitmapDrawable;
-        import android.graphics.drawable.Drawable;
-        import android.graphics.drawable.LayerDrawable;
-        import android.util.Log;
-        import android.widget.ImageView.ScaleType;
 
 @SuppressWarnings("UnusedDeclaration")
 public class RoundedDrawable extends Drawable {
@@ -283,12 +283,14 @@ public class RoundedDrawable extends Drawable {
         invalidateSelf();
     }
 
-    @Override public void setDither(boolean dither) {
+    @Override
+    public void setDither(boolean dither) {
         mBitmapPaint.setDither(dither);
         invalidateSelf();
     }
 
-    @Override public void setFilterBitmap(boolean filter) {
+    @Override
+    public void setFilterBitmap(boolean filter) {
         mBitmapPaint.setFilterBitmap(filter);
         invalidateSelf();
     }
