@@ -1,16 +1,10 @@
 package es.openkratio.colibribook;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.Window;
-import android.view.WindowManager;
-
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import es.openkratio.colibribook.fragments.ContactsDetailsFragment;
 import es.openkratio.colibribook.misc.Constants;
@@ -20,20 +14,12 @@ import es.openkratio.colibribook.misc.Constants;
  * for the associated fragment
  */
 
-public class ContactDetailsActivity extends ActionBarActivity {
+public class ContactDetailsActivity extends AppCompatActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_detail);
-
-        // Colorize status bar
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
-            setTranslucentStatus(true);
-            SystemBarTintManager tintManager = new SystemBarTintManager(this);
-            tintManager.setStatusBarTintEnabled(true);
-            tintManager.setStatusBarTintResource(R.color.primaryColorDark);
-        }
 
 		// savedInstanceState is non-null when there is fragment state
 		// saved from previous configurations of this activity
@@ -63,16 +49,4 @@ public class ContactDetailsActivity extends ActionBarActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    private void setTranslucentStatus(boolean on) {
-        Window win = getWindow();
-        WindowManager.LayoutParams winParams = win.getAttributes();
-        final int transStatus = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-        if (on) {
-            winParams.flags |= transStatus;
-        } else {
-            winParams.flags &= ~transStatus;
-        }
-        win.setAttributes(winParams);
-    }
 }

@@ -9,7 +9,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -19,11 +19,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.readystatesoftware.systembartint.SystemBarTintManager;
-
 import es.openkratio.colibribook.misc.Constants;
 
-public class AboutActivity extends ActionBarActivity implements View.OnClickListener {
+public class AboutActivity extends AppCompatActivity implements View.OnClickListener {
 
     TextView mTitle;
 
@@ -38,14 +36,6 @@ public class AboutActivity extends ActionBarActivity implements View.OnClickList
 
 		// Get app installed version and show it
 		new GetAppVersion().execute();
-
-        // Colorize status bar
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
-            setTranslucentStatus(true);
-            SystemBarTintManager tintManager = new SystemBarTintManager(this);
-            tintManager.setStatusBarTintEnabled(true);
-            tintManager.setStatusBarTintResource(R.color.primaryColor);
-        }
 
         // Set-up toolbar
         Toolbar toolbar =  (Toolbar) findViewById(R.id.toolbar);
@@ -123,16 +113,4 @@ public class AboutActivity extends ActionBarActivity implements View.OnClickList
         }
 	}
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    private void setTranslucentStatus(boolean on) {
-        Window win = getWindow();
-        WindowManager.LayoutParams winParams = win.getAttributes();
-        final int transStatus = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-        if (on) {
-            winParams.flags |= transStatus;
-        } else {
-            winParams.flags &= ~transStatus;
-        }
-        win.setAttributes(winParams);
-    }
 }

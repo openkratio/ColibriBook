@@ -1,6 +1,5 @@
 package es.openkratio.colibribook;
 
-
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,7 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -40,7 +39,7 @@ import es.openkratio.colibribook.persistence.PartyTable;
  * month, and after this point will work totally locally.
  */
 
-public class InitActivity extends ActionBarActivity {
+public class InitActivity extends AppCompatActivity {
 
     SharedPreferences thisActivityScopePreferences;
     ContentValues[] valuesMembers, valuesParties;
@@ -73,7 +72,7 @@ public class InitActivity extends ActionBarActivity {
         mProgressPercent = 0;
         animateProgressBarTo(5);
 
-        Ion.with(InitActivity.this, Constants.URL_REST_PARTY)
+        Ion.with(InitActivity.this).load(Constants.URL_REST_PARTY)
             .setHeader("Accept", "application/json")
             .as(new TypeToken<PartyResponse>() {
             }).setCallback(new FutureCallback<PartyResponse>() {
@@ -102,7 +101,7 @@ public class InitActivity extends ActionBarActivity {
 
                            animateProgressBarTo(45);
 
-                           Ion.with(InitActivity.this, Constants.URL_REST_GROUP_MEMBER)
+                           Ion.with(InitActivity.this).load(Constants.URL_REST_GROUP_MEMBER)
                                .setHeader("Accept", "application/json")
                                .as(new TypeToken<MemberResponse>() {
                                })
